@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>書籍清單</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>書名</td>
+            <td>分類</td>
+            <td>作者</td>
+            <td>原價</td>
+            <td>特價</td>
+            <td>
+                <a href="/elibrary/favbooklist/">我的最愛</a>
+            </td>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.name }}</td>
+            <td>{{ book.type_name }}</td>
+            <td>{{ book.author_name }}</td>
+            <td>{{ book.price_origin }}</td>
+            <td>{{ book.price_discount }}</td>
+            <td>
+                {% if book.favthis == True %}
+                <button type="button" class="fav" value="{{ book.id }}">fav already</button>
+                {% elif book.favthis == False %}
+                <button type="button" class="fav" value="{{ book.id }}">fav this</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script src=" http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'Authorization': "JWT " + "{{ pass }}"
+            }
+        });
+        $(document).ready(function () {
+            $(".fav").click(function () {
+                var that = $(this);
+                $.post("/api/favbook/", { 'bookname': $(this).val() }, function (msg) {
+                    if (msg.isFavorite) {
+                        that.text("fav already");
+                    } else {
+                        that.text("fav this");
+                    }
+                })
+            })
+        });
+    </script>
+</body>
+
+</html>

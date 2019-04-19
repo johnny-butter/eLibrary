@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>最愛書籍</title>
+</head>
+
+<body>
+    <table>
+        <thead>{{ favbooks.username }}的最愛</thead>
+        <tr>
+            <td>書名</td>
+            <td>分類</td>
+            <td>作者</td>
+            <td>原價</td>
+            <td>特價</td>
+        </tr>
+        {% for favbook in favbooks.data %}
+        <tr>
+            <td>{{ favbook.bookinfo.name }}</td>
+            <td>{{ favbook.bookinfo.type_name }}</td>
+            <td>{{ favbook.bookinfo.author_name }}</td>
+            <td>{{ favbook.bookinfo.price_origin }}</td>
+            <td>{{ favbook.bookinfo.price_discount }}</td>
+            <!-- <td>
+                {% if book.favthis == True %}
+                <button type="button" class="fav" value="{{ book.id }}">fav already</button>
+                {% elif book.favthis == False %}
+                <button type="button" class="fav" value="{{ book.id }}">fav this</button>
+                {% endif %}
+            </td> -->
+        </tr>
+        {% endfor %}
+    </table>
+</body>
