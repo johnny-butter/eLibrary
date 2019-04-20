@@ -131,6 +131,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'eLibrary/static/css/'),
+)
+
 # Configure the authentication in Django Rest Framework to be JWT
 # http://www.django-rest-framework.org/
 REST_FRAMEWORK = {

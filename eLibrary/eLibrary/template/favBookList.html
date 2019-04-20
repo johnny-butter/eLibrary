@@ -4,18 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>最愛書籍</title>
+    {% load staticfiles %}
+    <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
 </head>
 
 <body>
-    <table>
-        <thead>{{ favbooks.username }}的最愛</thead>
-        <tr>
-            <td>書名</td>
-            <td>分類</td>
-            <td>作者</td>
-            <td>原價</td>
-            <td>特價</td>
-        </tr>
+    <table class="woodTable">
+        <thead>{{ favbooks.username }}的最愛
+            <tr>
+                <th>書名</th>
+                <th>分類</th>
+                <th>作者</th>
+                <th>原價</th>
+                <th>特價</th>
+            </tr>
+        </thead>
         {% for favbook in favbooks.data %}
         <tr>
             <td>{{ favbook.bookinfo.name }}</td>

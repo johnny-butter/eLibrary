@@ -1,0 +1,31 @@
+table.woodTable {
+  border: 2px solid #948473;
+  background-color: #FFE3C6;
+  width: 60%;
+  text-align: center;
+  margin-left:auto;
+  margin-right:auto;
+}
+table.woodTable td{
+  border: 1px solid #948473;
+  padding: 4px 4px;
+}
+/* table.woodTable tbody td {
+  font-size: 13px;
+} */
+table.woodTable thead {
+  background: #948473;
+  background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
+  background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
+  background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+}
+table.woodTable thead th {
+  font-size: 17px;
+  font-weight: bold;
+  color: #F0F0F0;
+  text-align: left;
+  border-left: 2px solid #948473;
+}
+table.woodTable thead th:first-child {
+  border-left: none;
+}

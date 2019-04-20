@@ -4,20 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>書籍清單</title>
+    {% load staticfiles %}
+    <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td>書名</td>
-            <td>分類</td>
-            <td>作者</td>
-            <td>原價</td>
-            <td>特價</td>
-            <td>
-                <a href="/elibrary/favbooklist/">我的最愛</a>
-            </td>
-        </tr>
+    <table class="woodTable">
+        <thead>
+            <tr>
+                <th>書名</th>
+                <th>分類</th>
+                <th>作者</th>
+                <th>原價</th>
+                <th>特價</th>
+                <th>
+                    <a href="/elibrary/favbooklist/">我的最愛</a>
+                </th>
+            </tr>
+        </thead>
         {% for book in books %}
         <tr>
             <td>{{ book.name }}</td>
