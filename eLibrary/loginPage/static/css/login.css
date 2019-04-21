@@ -1,6 +1,9 @@
 #tab_login {
   width:350px;
   height:200px;
+  margin-left:auto;
+  margin-right:auto;
+  padding-top:10%;
 }
 #tab_login > ul {
   display:block;

@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^user/([0-9]+)/$', views.getUserDetail, name='getUserDetail'),
     url(r'^api/getallbook/$', views.getAllBook, name='getAllBook'),
     url(r'^api/favbook/$', views.favBook, name='favBook'),
-    url(r'^api/searchbook$', views.favBook, name='favBook'),
+    # url(r'^api/searchbook$', views.favBook, name='favBook'),
     url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^api/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
@@ -39,7 +39,7 @@ urlpatterns = [
     url(r'^login/', views.api_login, name='api_login'),
     url(r'^elibrary/login/$', loginView.loginPage, name='loginPage'),
     url(r'^elibrary/register/$', loginView.registerPage, name='registerPage'),
-    url(r'^elibrary/booklist/$', elibView.bookList, name='booklist'),
+    url(r'^elibrary/booklist/', elibView.bookList, name='booklist'),
     url(r'^elibrary/favbooklist/$', elibView.favBookList, name='favbooklist'),
 ]
 

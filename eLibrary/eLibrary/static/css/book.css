@@ -27,8 +27,49 @@ table.woodTable thead th {
   text-align: left;
   border-left: 2px solid #948473;
 }
+table.woodTable thead th a {
+  text-decoration: none;
+  /* color: #948473;
+  background: #F0F0F0; */
+}
+table.woodTable thead th a:hover {
+  color: #948473;
+  background: #F0F0F0;
+  text-decoration: none;
+}
 table.woodTable thead th:first-child {
   border-left: none;
+}
+table.woodTable tfoot {
+  font-size: 16px;
+  font-weight: bold;
+  color: #F0F0F0;
+  background: #948473;
+  background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
+  background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
+  background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+}
+table.woodTable tfoot td {
+  font-size: 16px;
+}
+table.woodTable tfoot .links {
+  text-align: right;
+}
+table.woodTable tfoot .links a {
+  display: inline-block;
+  background: #FFFFFF;
+  color: #948473;
+  padding: 2px 8px;
+  border-radius: 5px;
+  text-decoration:none;
+}
+table.woodTable tfoot .links a:hover {
+  color: #FFFFFF;
+  background: none;;
+}
+table.woodTable tfoot .links a.currentPage {
+  color: #FFFFFF;
+  background: none;
 }
 h1 {
   font-size: 17px;

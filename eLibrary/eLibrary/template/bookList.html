@@ -23,9 +23,18 @@
                 <th>分類</th>
                 <th>作者</th>
                 <th>原價</th>
-                <th>特價</th>
-                <th>
-                    <a href="/elibrary/favbooklist/">我的最愛</a>
+                <th>特價
+                    <a href="{% url 'booklist' %}?page=1&order=price_discount">
+                        <input id="up" type="image" src="{% static 'up.png' %}">
+                    </a>
+                    <a href="{% url 'booklist' %}?page=1&order=-price_discount">
+                        <input id="down" type="image" src="{% static 'down.png' %}">
+                    </a>
+                </th>
+                <th>我的最愛
+                    <a href="/elibrary/favbooklist/">
+                        <input id="book_fav" type="image" src="{% static 'book_fav.png' %}">
+                    </a>
                 </th>
             </tr>
         </thead>
@@ -46,6 +55,29 @@
             </td>
         </tr>
         {% endfor %}
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <div class="links">
+                        {% if has_previous == True %}
+                        <a href="{% url 'booklist' %}?page={{ current_page|add:'-1' }}">Previous</a>
+                        {% endif %}
+
+                        {% for page in pages %}
+                        {% if page == current_page %}
+                        <a class="currentPage" href="{% url 'booklist' %}?page={{ page }}">{{ page }}</a>
+                        {% else %}
+                        <a href="{% url 'booklist' %}?page={{ page }}">{{ page }}</a>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if has_next == True %}
+                        <a href="{% url 'booklist' %}?page={{ current_page|add:'1' }}">Next</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
     <script src=" http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
     <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>

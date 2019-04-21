@@ -28,7 +28,7 @@ def loginPage(request):
         if response_login.status_code >= 200 and response_login.status_code < 400:
             response_login_dict = json.loads(response_login.content)
 
-            response = HttpResponseRedirect(reverse('booklist'))
+            response = HttpResponseRedirect(reverse('booklist') + '?page=1')
             response.set_cookie(
                 'token', response_login_dict['access'], 3600)
             response.set_cookie(

@@ -109,7 +109,10 @@ def getAllBook(request):
     if request.method == 'GET':
         # if not userVoter(request).is_logged_in():
         #     return Response({'error': "No auth"}, status=status.HTTP_400_BAD_REQUEST)
-        print(request.GET)
+        orderItem = 'pk'
+        if 'order' in request.GET:
+            orderItem = request.GET.get('order')
+
         fav = favoriteBook.objects.filter(username=request.user.id).filter(
             isFavorite=True).values_list('bookname', flat=True)
 
@@ -118,30 +121,40 @@ def getAllBook(request):
             if nowPage is not None:
                 nowPage = 1 if int(nowPage) < 1 else int(nowPage)
                 pagin = Paginator(querset, itemPerPage)
-                return pagin.page(nowPage)
-            return querset
 
-        if request.GET.get('search') is None:
-            books = Book.objects.select_related(
+                totalPage = list(pagin.page_range)
+                return pagin.page(nowPage), {'total_page': totalPage,
+                                             'current_page': nowPage,
+                                             'has_previous': pagin.page(nowPage).has_previous(),
+                                             'has_next': pagin.page(nowPage).has_next()}
+            return querset, {'total_page': [1],
+                             'current_page': 1,
+                             'has_previous': False,
+                             'has_next': False}
+
+        if 'search' not in request.GET:
+            books = Book.objects.order_by(orderItem).select_related(
                 'type').select_related('author')
 
-            books = paginF(books)
+            books, pageInfo = paginF(books)
 
             serializer = bookSerializer(books, many=True, context={
                                         'favQuery': list(fav)})
-
         else:
             # Decode url encoding
             Q = urllib.parse.unquote(request.GET.get('search'))
-            books = Book.objects.filter(name__contains=Q).select_related(
+
+            books = Book.objects.filter(name__contains=Q).order_by(orderItem).select_related(
                 'type').select_related('author')
 
-            books = paginF(books)
+            books, pageInfo = paginF(books)
 
             serializer = bookSerializer(books, many=True, context={
                                         'favQuery': list(fav)})
 
-        return Response(serializer.data)
+        pageInfo.update({'data': serializer.data})
+        print(pageInfo)
+        return Response(pageInfo)
 
 
 @api_view(['GET', 'POST'])
