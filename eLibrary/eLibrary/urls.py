@@ -25,21 +25,22 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^user/$', views.getUserList, name='getUserList'),
+    url(r'^api/user/$', views.getUserList, name='getUserList'),
     url(r'^user/([0-9]+)/$', views.getUserDetail, name='getUserDetail'),
     url(r'^api/getallbook/$', views.getAllBook, name='getAllBook'),
     url(r'^api/favbook/$', views.favBook, name='favBook'),
-    # url(r'^jwt/refresh-token/', refresh_jwt_token, name='refresh_jwt_token'),
-    # url(r'^jwt/api-token-verify/', verify_jwt_token, name='verify_jwt_token'),
-    # url(r'^jwt/api-token-auth/', obtain_jwt_token, name='obtain_jwt_token'),
+    url(r'^api/searchbook$', views.favBook, name='favBook'),
     url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^api/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
+    # url(r'^jwt/refresh-token/', refresh_jwt_token, name='refresh_jwt_token'),
+    # url(r'^jwt/api-token-verify/', verify_jwt_token, name='verify_jwt_token'),
+    # url(r'^jwt/api-token-auth/', obtain_jwt_token, name='obtain_jwt_token'),
     url(r'^login/', views.api_login, name='api_login'),
     url(r'^elibrary/login/$', loginView.loginPage, name='loginPage'),
+    url(r'^elibrary/register/$', loginView.registerPage, name='registerPage'),
     url(r'^elibrary/booklist/$', elibView.bookList, name='booklist'),
     url(r'^elibrary/favbooklist/$', elibView.favBookList, name='favbooklist'),
-
 ]
 
 if settings.DEBUG:

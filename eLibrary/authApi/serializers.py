@@ -69,27 +69,6 @@ class bookFavSerializer(serializers.ModelSerializer):
         return favorite
 
 
-class bookSerializer(serializers.ModelSerializer):
-    type_name = serializers.CharField(allow_null=True, source='type.name')
-    author_name = serializers.CharField(allow_null=True, source='author.name')
-    # favoritebook_set = bookFavSerializer(many=True)
-    favthis = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Book
-        fields = ('id', 'name', 'type_name', 'author_name',
-                  'price_origin', 'price_discount', 'favthis')
-
-    def get_favthis(self, obj):
-        favQuery = self.context.get('favQuery')
-        if favQuery:
-            if obj.id in favQuery:
-                return True
-            else:
-                return False
-        return False
-
-
 class bookFavGetSerializer(serializers.ModelSerializer):
     bookinfo = serializers.SerializerMethodField(read_only=True)
 
@@ -105,3 +84,24 @@ class bookFavGetSerializer(serializers.ModelSerializer):
                 'price_origin': obj.bookname.price_origin,
                 'price_discount': obj.bookname.price_discount}
         return dict
+
+
+class bookSerializer(serializers.ModelSerializer):
+    type_name = serializers.CharField(allow_null=True, source='type.name')
+    author_name = serializers.CharField(allow_null=True, source='author.name')
+    favthis = serializers.SerializerMethodField()
+    # favoritebook_set = bookFavSerializer(many=True)
+
+    class Meta:
+        model = Book
+        fields = ('id', 'name', 'type_name', 'author_name',
+                  'price_origin', 'price_discount', 'favthis')
+
+    def get_favthis(self, obj):
+        favQuery = self.context.get('favQuery')
+        if favQuery:
+            if obj.id in favQuery:
+                return True
+            else:
+                return False
+        return False

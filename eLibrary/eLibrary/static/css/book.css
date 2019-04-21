@@ -18,6 +18,7 @@ table.woodTable thead {
   background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
   background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
   background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+  text-align: center;
 }
 table.woodTable thead th {
   font-size: 17px;
@@ -28,4 +29,12 @@ table.woodTable thead th {
 }
 table.woodTable thead th:first-child {
   border-left: none;
+}
+h1 {
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+}
+input {
+  vertical-align:bottom;
 }

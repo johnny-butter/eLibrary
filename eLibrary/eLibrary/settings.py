@@ -134,7 +134,12 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 
 STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'eLibrary/static/js/'),
     os.path.join(BASE_DIR, 'eLibrary/static/css/'),
+    os.path.join(BASE_DIR, 'eLibrary/static/img/'),
+    os.path.join(BASE_DIR, 'loginPage/static/js/'),
+    os.path.join(BASE_DIR, 'loginPage/static/css/'),
+    os.path.join(BASE_DIR, 'loginPage/static/img/'),
 )
 
 # Configure the authentication in Django Rest Framework to be JWT

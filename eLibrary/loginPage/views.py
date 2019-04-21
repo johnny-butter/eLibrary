@@ -38,3 +38,26 @@ def loginPage(request):
         else:
             return HttpResponseBadRequest(response_login.content)
             # return render(request, 'loginPage.html')
+
+
+def registerPage(request):
+    if request.method == 'GET':
+        return render(request, 'registerPage.html')
+
+    if request.method == 'POST':
+
+        data = request.POST
+        register_response = requests.post(request.build_absolute_uri(reverse('getUserList')),
+                                          json={'username': data.get('username'),
+                                                'password': data.get('password'),
+                                                'email': data.get('email')})
+
+    if register_response.status_code >= 200 and register_response.status_code < 400:
+        # register_response_dict = json.loads(register_response.content)
+
+        response = HttpResponseRedirect(reverse('loginPage'))
+
+        return response
+
+    else:
+        return HttpResponseBadRequest(register_response.content)

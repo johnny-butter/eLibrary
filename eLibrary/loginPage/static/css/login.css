@@ -1,0 +1,37 @@
+#tab_login {
+  width:350px;
+  height:200px;
+}
+#tab_login > ul {
+  display:block;
+  margin:0;list-style:none;
+}
+.tab_login_title {
+  list-style:none;
+}
+#tab_login > ul > li {
+  display:inline-block;
+  margin:0 -1px -1px 0 ;
+  border:1px solid #BCBCBC;
+  height:25px; line-height:25px;
+  background:#cdcdcd;
+  padding:0 15px;
+  list-style:none;
+  box-sizing:border-box;
+}
+#tab_login >  ul > li a {
+  color:#000;
+  text-decoration:none;
+}
+#tab_login > ul > li.active {
+  border-bottom:1px solid #fff;
+  background:#fff;
+}
+#tab_login > .tab_login_inner {
+  clear:both; color:#000;
+  border:1px #BCBCBC solid;
+}
+.tab_login_inner {
+  padding:15px;
+  height:100px;
+}

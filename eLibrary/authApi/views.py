@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.paginator import Paginator
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -7,6 +8,7 @@ from .models import User, Book, favoriteBook
 from .serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
 from jsonreader import JsonReader
 from .voter import userVoter
+import urllib
 import requests
 import json
 
@@ -107,14 +109,37 @@ def getAllBook(request):
     if request.method == 'GET':
         # if not userVoter(request).is_logged_in():
         #     return Response({'error': "No auth"}, status=status.HTTP_400_BAD_REQUEST)
-
-        books = Book.objects.select_related('type').select_related('author')
-
+        print(request.GET)
         fav = favoriteBook.objects.filter(username=request.user.id).filter(
             isFavorite=True).values_list('bookname', flat=True)
 
-        serializer = bookSerializer(books, many=True, context={
-                                    'favQuery': list(fav)})
+        def paginF(querset, itemPerPage=5):
+            nowPage = request.GET.get('page')
+            if nowPage is not None:
+                nowPage = 1 if int(nowPage) < 1 else int(nowPage)
+                pagin = Paginator(querset, itemPerPage)
+                return pagin.page(nowPage)
+            return querset
+
+        if request.GET.get('search') is None:
+            books = Book.objects.select_related(
+                'type').select_related('author')
+
+            books = paginF(books)
+
+            serializer = bookSerializer(books, many=True, context={
+                                        'favQuery': list(fav)})
+
+        else:
+            # Decode url encoding
+            Q = urllib.parse.unquote(request.GET.get('search'))
+            books = Book.objects.filter(name__contains=Q).select_related(
+                'type').select_related('author')
+
+            books = paginF(books)
+
+            serializer = bookSerializer(books, many=True, context={
+                                        'favQuery': list(fav)})
 
         return Response(serializer.data)
 
