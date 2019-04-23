@@ -38,3 +38,9 @@
   padding:15px;
   height:100px;
 }
+#status_msg {
+  width:100%;
+  text-align:center;
+  display:none;
+  color:#ffffff;
+}

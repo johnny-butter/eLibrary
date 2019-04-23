@@ -79,29 +79,20 @@ def getUserDetail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['POST'])
-def api_login(request):
-    """
-    post:
-    This view is called through API POST with a json body like so:
+# @api_view(['POST'])
+# def api_login(request):
+#     """
+#     post:
+#     This view is called through API POST with a json body
+#     """
+#     data = JsonReader.read_body(request)
 
-    {
-        "username": "admin",
-        "password": "admin"
-    }
-
-    :param request:
-    :return:
-    """
-    data = JsonReader.read_body(request)
-    print(request.build_absolute_uri())
-    print(request.build_absolute_uri(reverse('token_obtain_pair')))
-    response_login = requests.post(
-        request.build_absolute_uri(reverse('token_obtain_pair')),
-        data=data
-    )
-    response_login_dict = json.loads(response_login.content)
-    return Response(response_login_dict, response_login.status_code)
+#     response_login = requests.post(
+#         request.build_absolute_uri(reverse('token_obtain_pair')),
+#         data=data
+#     )
+#     response_login_dict = json.loads(response_login.content)
+#     return Response(response_login_dict, response_login.status_code)
 
 
 @api_view(['GET'])
@@ -153,14 +144,14 @@ def getAllBook(request):
                                         'favQuery': list(fav)})
 
         pageInfo.update({'data': serializer.data})
-        print(pageInfo)
+        # print(pageInfo)
         return Response(pageInfo)
 
 
 @api_view(['GET', 'POST'])
 def favBook(request):
     if request.method == 'GET':
-        print(request.user.id)
+        # print(request.user.id)
         favbooklist = favoriteBook.objects.filter(username=request.user.id).filter(isFavorite=True).select_related(
             'bookname').select_related('bookname__author').select_related('bookname__type')
 

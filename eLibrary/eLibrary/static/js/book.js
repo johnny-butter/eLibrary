@@ -17,6 +17,6 @@ $(document).ready(function () {
     })
 
     $(".find").click(function () {
-        window.location.href = "/elibrary/booklist?search=" + $("#bookname").val();
+        window.location.href = "/elibrary/booklist/?search=" + $("#bookname").val();
     })
 });

@@ -9,31 +9,34 @@
 </head>
 
 <body>
+    <div id="status_msg">
+        Success
+    </div>
     <div id="tab_login">
         <ul class="tab_login_title">
             <li><a href="#login_tab">登入</a></li>
             <li><a href="#register_tab">註冊</a></li>
         </ul>
         <div id="login_tab" class="tab_login_inner">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <table>
-                    <tr>
-                        <td>使用者名稱:</td>
-                        <td><input type="text" name="username"></td>
-                    </tr>
-                    <tr>
-                        <td>密碼:</td>
-                        <td><input type="password" name="password"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="submit" value="登入"></td>
-                    </tr>
-                </table>
-            </form>
+            <!-- <form action="" method="POST"> -->
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>使用者名稱:</td>
+                    <td><input id="login_account" type="text" name="username"></td>
+                </tr>
+                <tr>
+                    <td>密碼:</td>
+                    <td><input id="login_password" type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input id="login_submit" type="submit" value="登入"></td>
+                </tr>
+            </table>
+            <!-- </form> -->
         </div>
         <div id="register_tab" class="tab_login_inner">
-            <form action="{% url 'registerPage' %}" method="POST">
+            <form action="{% url 'getUserList' %}" method="POST" id="register_form">
                 {% csrf_token %}
                 <table>
                     <tr>
@@ -56,6 +59,8 @@
         </div>
     </div>
     <script src=" http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="http://malsup.github.io/min/jquery.blockUI.min.js"></script>
     <script src="{% static 'login.js' %}"></script>
     <!-- <form action="" method="POST">
         {% csrf_token %}
