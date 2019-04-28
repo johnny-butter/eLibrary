@@ -56,7 +56,7 @@ $(document).ready(function () {
             type: "POST",
             url: $(this).attr('action'),
             data: $(this).serialize(),
-            timeout: 100,
+            // timeout: 100,
             success: function (msg) {
                 $.unblockUI();
                 $('#status_msg').text("Success");
@@ -77,7 +77,7 @@ $(document).ready(function () {
         });
         // Notice "preventDefault" from the submit event,
         // otherwise the form will be posted also.
-        event.preventDefault()
+        event.preventDefault();
     });
 
 });

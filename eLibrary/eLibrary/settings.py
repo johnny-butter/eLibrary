@@ -176,4 +176,4 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
 }
 
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1','192.168.43.118',)

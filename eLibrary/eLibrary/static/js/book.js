@@ -5,8 +5,13 @@ $.ajaxSetup({
 });
 $(document).ready(function () {
     $(".fav").click(function () {
+        $(this).parent().block({
+            message: "<img src='/static/fav_load.gif'/>",
+            css: { borderWidth: '0px', backgroundColor: 'transparent' }
+        });
         var that = $(this);
         $.post("/api/favbook/", { 'bookname': $(this).val() }, function (msg) {
+            that.parent().unblock();
             if (msg.isFavorite) {
                 that.attr("src", "/static/m_fav.png");
             } else {
