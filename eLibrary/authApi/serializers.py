@@ -1,18 +1,23 @@
 from rest_framework import serializers
 from authApi.models import User, Book, favoriteBook
-from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 import json
 
 
 class userSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(
-        required=True, allow_blank=False, max_length=100, min_length=5)
+        required=True, allow_blank=False, max_length=100, min_length=5,
+        validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(required=True, write_only=True)
     email = serializers.CharField(
         required=True, allow_blank=True, max_length=100)
     is_staff = serializers.BooleanField(required=False, default=False)
     is_superuser = serializers.BooleanField(required=False, default=False)
+
+    # def validate_username(self, value):
+    #     if User.objects.filter(username=value).exists():
+    #         raise serializers.ValidationError('The username has been used')
 
     def create(self, data):
         """

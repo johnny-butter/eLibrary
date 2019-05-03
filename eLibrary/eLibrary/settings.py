@@ -26,7 +26,7 @@ SECRET_KEY = 'ot$(m)ky4w_$(*wt#ia*%y_!^1=*%3)i*gre6(m!0ifdyuzj7j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -145,6 +145,8 @@ STATICFILES_DIRS = (
 # Configure the authentication in Django Rest Framework to be JWT
 # http://www.django-rest-framework.org/
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -176,4 +178,4 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
 }
 
-INTERNAL_IPS = ('127.0.0.1','192.168.43.118',)
+INTERNAL_IPS = ('127.0.0.1', '192.168.43.118')

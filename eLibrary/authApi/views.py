@@ -8,6 +8,7 @@ from .models import User, Book, favoriteBook
 from .serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
 from jsonreader import JsonReader
 from .voter import userVoter
+from rest_framework.exceptions import NotFound
 import urllib
 import requests
 import json
@@ -100,51 +101,48 @@ def getAllBook(request):
     if request.method == 'GET':
         # if not userVoter(request).is_logged_in():
         #     return Response({'error': "No auth"}, status=status.HTTP_400_BAD_REQUEST)
-        orderItem = 'pk'
-        if 'order' in request.GET:
-            orderItem = request.GET.get('order')
+        orderItem = request.GET.get(
+            'order') if 'order' in request.GET else 'pk'
 
         fav = favoriteBook.objects.filter(username=request.user.id).filter(
             isFavorite=True).values_list('bookname', flat=True)
 
-        def paginF(querset, itemPerPage=5):
-            nowPage = request.GET.get('page')
-            if nowPage is not None:
+        def paginF(queryset, itemPerPage=5):
+            totalPage, hasPrevious, hasNext = 1, False, False
+            nowPage = 1 if request.GET.get(
+                'page') is None else request.GET.get('page')
+
+            if 'page' in request.GET:
+                pagin = Paginator(queryset, itemPerPage)
+
+                totalPage = len(list(pagin.page_range))
                 nowPage = 1 if int(nowPage) < 1 else int(nowPage)
-                pagin = Paginator(querset, itemPerPage)
+                queryset = pagin.page(nowPage)
+                hasPrevious = queryset.has_previous()
+                hasNext = queryset.has_next()
 
-                totalPage = list(pagin.page_range)
-                return pagin.page(nowPage), {'total_page': totalPage,
-                                             'current_page': nowPage,
-                                             'has_previous': pagin.page(nowPage).has_previous(),
-                                             'has_next': pagin.page(nowPage).has_next()}
-            return querset, {'total_page': [1],
-                             'current_page': 1,
-                             'has_previous': False,
-                             'has_next': False}
+            return queryset, {'total_page': totalPage,
+                              'current_page': nowPage,
+                              'has_previous': hasPrevious,
+                              'has_next': hasNext}
 
-        if 'search' not in request.GET:
+        if 'search' in request.GET:
+            # Q = urllib.parse.unquote(request.GET.get('search'))
+            books = Book.objects.filter(name__contains=request.GET.get('search')).order_by(
+                orderItem).select_related('type').select_related('author')
+        else:
             books = Book.objects.order_by(orderItem).select_related(
                 'type').select_related('author')
 
+        try:
             books, pageInfo = paginF(books)
-
             serializer = bookSerializer(books, many=True, context={
-                                        'favQuery': list(fav)})
-        else:
-            # Decode url encoding
-            Q = urllib.parse.unquote(request.GET.get('search'))
-
-            books = Book.objects.filter(name__contains=Q).order_by(orderItem).select_related(
-                'type').select_related('author')
-
-            books, pageInfo = paginF(books)
-
-            serializer = bookSerializer(books, many=True, context={
-                                        'favQuery': list(fav)})
+                'favQuery': list(fav)})
+        except:
+            raise NotFound(detail='Invalid page')
+            # return Response({'detail': 'Invalid page'}, status=status.HTTP_404_NOT_FOUND)
 
         pageInfo.update({'data': serializer.data})
-        # print(pageInfo)
         return Response(pageInfo)
 
 

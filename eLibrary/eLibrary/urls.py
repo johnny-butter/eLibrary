@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import url, include
 from django.conf import settings
 from authApi import views
+from authApi import views_cbv
 from loginPage import views as loginView
 from . import views as elibView
 from rest_framework_jwt.views import refresh_jwt_token, verify_jwt_token, obtain_jwt_token
@@ -26,10 +27,16 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/user/$', views.getUserList, name='getUserList'),
+    url(r'^api/cbv/user/$',
+        views_cbv.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
     url(r'^user/([0-9]+)/$', views.getUserDetail, name='getUserDetail'),
     # url(r'^api/login/', views.api_login, name='api_login'),
     url(r'^api/getallbook/$', views.getAllBook, name='getAllBook'),
+    url(r'^api/cbv/getallbook/$',
+        views_cbv.getAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
     url(r'^api/favbook/$', views.favBook, name='favBook'),
+    url(r'^api/cbv/favbook/$',
+        views_cbv.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
     # url(r'^api/searchbook$', views.favBook, name='favBook'),
     url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
