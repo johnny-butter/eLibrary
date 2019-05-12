@@ -31,6 +31,24 @@ class getUserList(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = userSerializer
 
 
+class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin, GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = userSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        self.kwargs['pk'] = request.user.id
+        return super(getUserDetail, self).retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+            # request.user = User.objects.get(pk=1)
+        request.data['password'] = 'NOT_UPDATE' if request.data.get(
+            'password', None) is None else request.data.get('password')
+        print(request.user.password)
+        print(request.data['password'])
+        return super(getUserDetail, self).update(request, *args, **kwargs)
+
+
 class getAllBook(mixins.ListModelMixin, GenericViewSet):
     # queryset = Book.objects.all()
     serializer_class = bookSerializer
@@ -74,7 +92,7 @@ class favBook(mixins.CreateModelMixin, GenericViewSet):
         return serializer_class
 
     def list(self, request, *args, **kwargs):
-        self.request.user = User.objects.get(pk='1')
+        # self.request.user = User.objects.get(pk='1')
 
         serializer = self.get_serializer(self.get_queryset(), many=True)
         R = [{'username': self.request.user.username, 'data': serializer.data}]

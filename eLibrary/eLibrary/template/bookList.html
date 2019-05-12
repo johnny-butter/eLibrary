@@ -6,6 +6,15 @@
     <title>書籍清單</title>
     {% load staticfiles %}
     <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
+    <div>
+        <nav>
+            <select>
+                <option value="account" selected disabled style="display:none;">帳號</option>
+                <option value="/elibrary/userinfo/">編輯</option>
+                <option value="logout">登出</option>
+            </select>
+        </nav>
+    </div>
 </head>
 
 <body>

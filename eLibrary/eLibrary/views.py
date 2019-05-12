@@ -18,7 +18,7 @@ def bookList(request):
     if qString:
         qString = '?' + qString[:-1]
 
-    url = request.build_absolute_uri(reverse('getAllBook')) + qString
+    url = request.build_absolute_uri(reverse('getAllBookCbv')) + qString
 
     books = requests.get(
         url,
@@ -36,7 +36,7 @@ def bookList(request):
 
 
 def favBookList(request):
-    favbooks = requests.get(request.build_absolute_uri(reverse('favBook')),
+    favbooks = requests.get(request.build_absolute_uri(reverse('favBookCbv')),
                             headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')})
 
     if favbooks.status_code >= 200 and favbooks.status_code < 400:
@@ -44,3 +44,16 @@ def favBookList(request):
     else:
         print(favbooks.status_code)
         return HttpResponseBadRequest('No auth >___<')
+
+
+def userInfoPage(request):
+    if request.method == 'GET':
+        url = request.build_absolute_uri(
+            reverse('getUserDetailCbv', args=(0,)))
+        print(url)
+        userinfo = requests.get(
+            url, headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')})
+        if userinfo.status_code >= 200 and userinfo.status_code < 400:
+            return render(request, 'userInfo.html', context={'user': json.loads(userinfo.content)})
+    else:
+        return HttpResponseBadRequest(userinfo.content)

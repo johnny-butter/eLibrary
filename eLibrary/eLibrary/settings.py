@@ -78,15 +78,18 @@ WSGI_APPLICATION = 'eLibrary.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+# db4free.net
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'elibrary',
-        'USER': 'elibrary',
+        'USER': 'root',
         'PASSWORD': '5566rock',
-        'HOST': 'db4free.net',
+        'HOST': '192.168.43.39',
         'PORT': '3306',
+        # 'TEST': {
+        #     # 'NAME': 'elibrary',
+        # }
     }
 }
 

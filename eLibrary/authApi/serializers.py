@@ -41,7 +41,8 @@ class userSerializer(serializers.Serializer):
         instance.email = data.get('email', instance.email)
         instance.is_staff = data.get('is_staff', instance.is_staff)
         instance.is_superuser = data.get('is_superuser', instance.is_staff)
-        instance.set_password(data.get('password'))
+        if not data.get('password', None) == 'NOT_UPDATE':
+            instance.set_password(data.get('password'))
         instance.save()
         return instance
 

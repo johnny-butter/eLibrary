@@ -4,6 +4,11 @@ $.ajaxSetup({
     }
 });
 $(document).ready(function () {
+    $("select").change(function () {
+        $.get($(this).val());
+        window.location.href = $(this).val();
+        $(this).val('account')
+    })
     $(".fav").click(function () {
         $(this).parent().block({
             message: "<img src='/static/fav_load.gif'/>",

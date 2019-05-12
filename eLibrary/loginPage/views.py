@@ -45,7 +45,7 @@ def registerPage(request):
     if request.method == 'POST':
 
         data = request.POST
-        register_response = requests.post(request.build_absolute_uri(reverse('getUserList')),
+        register_response = requests.post(request.build_absolute_uri(reverse('getUserListCbv')),
                                           json={'username': data.get('username'),
                                                 'password': data.get('password'),
                                                 'email': data.get('email')})

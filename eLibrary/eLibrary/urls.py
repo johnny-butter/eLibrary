@@ -29,7 +29,10 @@ urlpatterns = [
     url(r'^api/user/$', views.getUserList, name='getUserList'),
     url(r'^api/cbv/user/$',
         views_cbv.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
-    url(r'^user/([0-9]+)/$', views.getUserDetail, name='getUserDetail'),
+    url(r'^api/user/(?P<pk>[0-9]+)/$',
+        views.getUserDetail, name='getUserDetail'),
+    url(r'^api/cbv/user/(?P<pk>[0-9]+)/$', views_cbv.getUserDetail.as_view(
+        {'get': 'retrieve', 'put': 'update'}), name='getUserDetailCbv'),
     # url(r'^api/login/', views.api_login, name='api_login'),
     url(r'^api/getallbook/$', views.getAllBook, name='getAllBook'),
     url(r'^api/cbv/getallbook/$',
@@ -46,6 +49,7 @@ urlpatterns = [
     # url(r'^jwt/api-token-auth/', obtain_jwt_token, name='obtain_jwt_token'),
     url(r'^elibrary/login/$', loginView.loginPage, name='loginPage'),
     url(r'^elibrary/register/$', loginView.registerPage, name='registerPage'),
+    url(r'^elibrary/userinfo/$', elibView.userInfoPage, name='userInfoPage'),
     url(r'^elibrary/booklist/', elibView.bookList, name='booklist'),
     url(r'^elibrary/favbooklist/$', elibView.favBookList, name='favbooklist'),
 ]
