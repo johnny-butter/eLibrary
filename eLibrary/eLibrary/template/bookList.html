@@ -77,7 +77,8 @@
                         <a class="currentPage"
                             href="{% url 'booklist' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
                         {% else %}
-                        <a href="{% url 'booklist' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+                        <a href="{% url 'booklist' %}?page={{ forloop.counter }}"
+                            rel="keep-params">{{ forloop.counter }}</a>
                         {% endif %}
                         {% endfor %}
 

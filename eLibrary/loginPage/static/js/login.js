@@ -8,6 +8,12 @@ $(function () {
     });
 });
 $(document).ready(function () {
+    $("#login_tab input").keypress(function (event) {
+        if (event.keyCode == 13) {
+            $('#login_submit').click();
+        }
+    });
+
     $("#login_submit").click(function () {
         $.blockUI({
             message: "<img src='/static/loading.gif'/>",

@@ -8,7 +8,8 @@ $(document).ready(function () {
         $.get($(this).val());
         window.location.href = $(this).val();
         $(this).val('account')
-    })
+    });
+
     $(".fav").click(function () {
         $(this).parent().block({
             message: "<img src='/static/fav_load.gif'/>",
@@ -24,7 +25,27 @@ $(document).ready(function () {
                 // that.text("fav this");
             }
         })
-    })
+    });
+
+    $("a[rel~='keep-params']").click(function (event) {
+        event.preventDefault();
+
+        var params = window.location.search.split("&");
+        params.splice(0, 1);
+        // console.info(params)
+        if (params.length > 0) {
+            params = "&" + params.join("&");
+        } else {
+            params = "";
+        }
+        // console.info(params)
+        var dest = $(this).attr('href') + params;
+
+        // A short timeout has helped overcome browser bugs
+        window.setTimeout(function () {
+            window.location.href = dest;
+        }, 100);
+    });
 
     $(".find").click(function () {
         window.location.href = "/elibrary/booklist/?search=" + $("#bookname").val();
