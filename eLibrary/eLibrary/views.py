@@ -22,7 +22,8 @@ def bookList(request):
 
     books = requests.get(
         url,
-        headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}
+        headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')},
+        verify=False
     )
     if books.status_code >= 200 and books.status_code < 400:
         responseData = json.loads(books.content)
@@ -32,18 +33,18 @@ def bookList(request):
                                                          'has_previous': responseData['has_previous'],
                                                          'has_next': responseData['has_next']})
     else:
-        return HttpResponseBadRequest('No auth >___<')
+        return HttpResponseBadRequest('Error:' + str(json.loads(books.content)))
 
 
 def favBookList(request):
     favbooks = requests.get(request.build_absolute_uri(reverse('favBookCbv')),
-                            headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')})
+                            headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
 
     if favbooks.status_code >= 200 and favbooks.status_code < 400:
         return render(request, 'favBookList.html', context={'favbooks': json.loads(favbooks.content)[0]})
     else:
         print(favbooks.status_code)
-        return HttpResponseBadRequest('No auth >___<')
+        return HttpResponseBadRequest('Error:' + str(json.loads(favbooks.content)))
 
 
 def userInfoPage(request):
@@ -52,7 +53,7 @@ def userInfoPage(request):
             reverse('getUserDetailCbv', args=(0,)))
         print(url)
         userinfo = requests.get(
-            url, headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')})
+            url, headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
         if userinfo.status_code >= 200 and userinfo.status_code < 400:
             return render(request, 'userInfo.html', context={'user': json.loads(userinfo.content)})
     else:

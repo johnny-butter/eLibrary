@@ -7,6 +7,77 @@ $(function () {
         $(this).addClass('active').siblings('.active').removeClass('active');
     });
 });
+
+function app_register(id, name, email) {
+    $.ajax({
+        type: "POST",
+        url: '/api/cbv/user/',
+        data: {
+            'username': "fb_" + id,
+            'password': id,
+            'email': email
+        },
+
+        success: function (msg) {
+            $.unblockUI();
+            $('#status_msg').text("Success");
+            $('#status_msg').css({ "background-color": "#99CC66" });
+            $('#status_msg').slideDown();
+            $('#status_msg').delay(1500).slideUp("slow", "swing",
+                app_login('fb_' + id, id)
+            );
+        },
+        error: function (error) {
+            $.unblockUI();
+            $('#status_msg').text("Fail:" + error.responseText);
+            $('#status_msg').css({ "background-color": "#FF6666" });
+            $('#status_msg').slideDown();
+            $('#status_msg').delay(3000).slideUp();
+        }
+    });
+};
+
+function fb_oauth_register(fb_response) {
+    var url = "https://graph.facebook.com/" + fb_response.authResponse.userID +
+        "?access_token=" + fb_response.authResponse.accessToken + "&fields=name,email"
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (response) {
+            app_login("fb_" + response.id, response.id, response = response);
+        },
+        error: function (error) {
+            $.unblockUI();
+            $('#status_msg').text("Fail:" + error.responseText);
+            $('#status_msg').css({ "background-color": "#FF6666" });
+            $('#status_msg').slideDown();
+            $('#status_msg').delay(3000).slideUp();
+        }
+    });
+
+};
+
+function app_login(user, pass, response = null) {
+    $.ajax({
+        type: "POST",
+        url: "/api/token/",
+        data: {
+            'username': user,
+            'password': pass
+        },
+        success: function (msg) {
+            $.cookie("token", msg.access, { path: "/" });
+            $.cookie("token_r", msg.refresh, { path: "/" });
+            window.location.href = "/elibrary/booklist/?page=1";
+        },
+        error: function (error) {
+            if (response != null) {
+                app_register(response.id, response.name, response.email);
+            };
+        }
+    });
+};
+
 $(document).ready(function () {
     $("#login_tab input").keypress(function (event) {
         if (event.keyCode == 13) {

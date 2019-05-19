@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>書籍清單</title>
     {% load staticfiles %}
     <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
@@ -69,13 +70,12 @@
                 <td colspan="6">
                     <div class="links">
                         {% if has_previous == True %}
-                        <a href="{% url 'booklist' %}?page={{ current_page|add:'-1' }}">Previous</a>
+                        <a href="{% url 'booklist' %}?page={{ current_page|add:'-1' }}" rel="keep-params">Previous</a>
                         {% endif %}
 
                         {% for page in "x"|ljust:pages %}
                         {% if forloop.counter == current_page %}
-                        <a class="currentPage"
-                            href="{% url 'booklist' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+                        <a class="currentPage">{{ forloop.counter }}</a>
                         {% else %}
                         <a href="{% url 'booklist' %}?page={{ forloop.counter }}"
                             rel="keep-params">{{ forloop.counter }}</a>
@@ -83,7 +83,7 @@
                         {% endfor %}
 
                         {% if has_next == True %}
-                        <a href="{% url 'booklist' %}?page={{ current_page|add:'1' }}">Next</a>
+                        <a href="{% url 'booklist' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
                         {% endif %}
                     </div>
                 </td>

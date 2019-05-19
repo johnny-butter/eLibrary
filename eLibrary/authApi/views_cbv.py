@@ -6,14 +6,17 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import User, Book, favoriteBook
 from .serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
-from jsonreader import JsonReader
-from .voter import userVoter
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+# from jsonreader import JsonReader
+# from .voter import userVoter
 import urllib
 import requests
 import json
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics, mixins, views
 from rest_framework.viewsets import GenericViewSet
+from rest_framework_extensions.cache.decorators import cache_response
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 
 class bookPaging(PageNumberPagination):
@@ -49,10 +52,16 @@ class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
         return super(getUserDetail, self).update(request, *args, **kwargs)
 
 
+def bookListRedisKeys(view_instance, view_method, request, args, kwargs):
+    total = Book.objects.all().count()
+    return 'books_{}'.format(total)
+
+
 class getAllBook(mixins.ListModelMixin, GenericViewSet):
     # queryset = Book.objects.all()
     serializer_class = bookSerializer
     pagination_class = bookPaging
+    # permission_classes = (IsAuthenticated,)
 
     def get_serializer_context(self):
         fav = favoriteBook.objects.filter(username=self.request.user.id).filter(
@@ -61,7 +70,9 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
         context.update({'favQuery': list(fav)})
         return context
 
+    # @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
     def list(self, request, *args, **kwargs):
+        print(getAllBook.__mro__)
         order_field = request.GET.get(
             'order') if 'order' in request.GET else 'pk'
 

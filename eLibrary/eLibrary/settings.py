@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'werkzeug_debugger_runserver',
+    'django_extensions',
     'debug_toolbar',
     'rest_framework',
     'authApi',
@@ -145,7 +147,16 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'loginPage/static/img/'),
 )
 
-# Configure the authentication in Django Rest Framework to be JWT
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 # http://www.django-rest-framework.org/
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -182,3 +193,9 @@ SIMPLE_JWT = {
 }
 
 INTERNAL_IPS = ('127.0.0.1', '192.168.43.118')
+
+# FB login
+# {
+#     "access_token": "1347009465447844|4195AHcZplayKkPmxsCV1k1tYVQ",
+#     "token_type": "bearer"
+# }
