@@ -6,6 +6,10 @@ $.ajaxSetup({
 $(document).ready(function () {
     $("select").change(function () {
         $.get($(this).val());
+        if ($(this).val() == "/elibrary/login/") {
+            $.removeCookie("token", { path: "/" });
+            $.removeCookie("token_r", { path: "/" });
+        }
         window.location.href = $(this).val();
         $(this).val('account')
     });
