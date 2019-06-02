@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>最愛書籍</title>
+    {% load staticfiles %}
+    <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
+</head>
+
+<body>
+    <h1>{{ favbooks.username }}的最愛</h1>
+    <table class="woodTable">
+        <thead>
+            <tr>
+                <th>書名</th>
+                <th>分類</th>
+                <th>作者</th>
+                <th>原價</th>
+                <th>特價</th>
+            </tr>
+        </thead>
+        {% for favbook in favbooks.data %}
+        <tr>
+            <td>{{ favbook.bookinfo.name }}</td>
+            <td>{{ favbook.bookinfo.type_name }}</td>
+            <td>{{ favbook.bookinfo.author_name }}</td>
+            <td>{{ favbook.bookinfo.price_origin }}</td>
+            <td>{{ favbook.bookinfo.price_discount }}</td>
+            <!-- <td>
+                {% if book.favthis == True %}
+                <button type="button" class="fav" value="{{ book.id }}">fav already</button>
+                {% elif book.favthis == False %}
+                <button type="button" class="fav" value="{{ book.id }}">fav this</button>
+                {% endif %}
+            </td> -->
+        </tr>
+        {% endfor %}
+    </table>
+</body>

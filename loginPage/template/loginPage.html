@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>登入</title>
+    {% load staticfiles %}
+    <link rel=stylesheet type="text/css" href="{% static 'login.css' %}">
+</head>
+
+<body>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.3&appId=1347009465447844&autoLogAppEvents=1"></script>
+    <div id="status_msg">
+        Success
+    </div>
+    <div id="tab_login">
+        <ul class="tab_login_title">
+            <li><a href="#login_tab">登入</a></li>
+            <li><a href="#register_tab">註冊</a></li>
+        </ul>
+        <div id="login_tab" class="tab_login_inner">
+            <!-- <form action="" method="POST"> -->
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>使用者名稱:</td>
+                    <td><input id="login_account" type="text" name="username"></td>
+                </tr>
+                <tr>
+                    <td>密碼:</td>
+                    <td><input id="login_password" type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input id="login_submit" type="submit" value="登入"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- <fb:login-button data-auto-logout-link="true" scope="public_profile,email" data-size="medium"
+                            onlogin="checkLoginState();">
+                        </fb:login-button> -->
+                        <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with"
+                            data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
+                            onlogin="checkLoginState();">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!-- </form> -->
+        </div>
+        <div id="register_tab" class="tab_login_inner">
+            <form action="{% url 'getUserList' %}" method="POST" id="register_form">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>使用者名稱:</td>
+                        <td><input type="text" name="username"></td>
+                    </tr>
+                    <tr>
+                        <td>密碼:</td>
+                        <td><input type="password" name="password"></td>
+                    </tr>
+                    <tr>
+                        <td>電子信箱:</td>
+                        <td><input type="email" name="email"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="註冊"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <script src=" http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+    <script>
+        // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                fb_oauth_register(response);
+                // window.location.href = "/elibrary/booklist/?page=1";
+            } else {
+                // The person is not logged into your app or we are unable to tell.
+                document.getElementById('status_msg').innerHTML = 'Please log ' +
+                    'into this app.';
+            }
+        }
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1347009465447844',
+                cookie: true,
+                xfbml: true,
+                version: 'v3.3'
+            });
+
+            FB.AppEvents.logPageView();
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/zh-TW/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script src="http://malsup.github.io/min/jquery.blockUI.min.js"></script>
+    <script src="{% static 'login.js' %}"></script>
+</body>
+
+</html>
