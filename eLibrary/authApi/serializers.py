@@ -11,7 +11,7 @@ class userSerializer(serializers.Serializer):
         validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(required=True, write_only=True)
     email = serializers.CharField(
-        required=True, allow_blank=True, max_length=100)
+        required=True, allow_null=True, max_length=100, validators=[UniqueValidator(queryset=User.objects.all())])
     is_staff = serializers.BooleanField(required=False, default=False)
     is_superuser = serializers.BooleanField(required=False, default=False)
 

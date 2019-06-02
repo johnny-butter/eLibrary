@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'rest_framework_simplejwt.token_blacklist',
     'werkzeug_debugger_runserver',
     'django_extensions',
     'debug_toolbar',
@@ -116,6 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Custom User model
 AUTH_USER_MODEL = 'authApi.User'
+
+AUTHENTICATION_BACKENDS = ['authApi.obtainJWT.emailOrUsernameModelBackend']
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

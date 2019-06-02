@@ -17,6 +17,7 @@ from rest_framework import generics, mixins, views
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_extensions.cache.decorators import cache_response
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
+from rest_framework.exceptions import AuthenticationFailed
 
 
 class bookPaging(PageNumberPagination):
@@ -40,8 +41,10 @@ class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     serializer_class = userSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        self.kwargs['pk'] = request.user.id
-        return super(getUserDetail, self).retrieve(request, *args, **kwargs)
+        # print(kwargs)
+        if int(kwargs['pk']) == request.user.id:
+            return super(getUserDetail, self).retrieve(request, *args, **kwargs)
+        raise AuthenticationFailed('This is not you')
 
     def update(self, request, *args, **kwargs):
             # request.user = User.objects.get(pk=1)

@@ -5,7 +5,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    pass
+    email = models.CharField(unique=True, null=True, max_length=254)
+
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = []
 
 
 class Book(models.Model):
