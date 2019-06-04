@@ -41,7 +41,8 @@ class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     serializer_class = userSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        # print(kwargs)
+        if int(kwargs['pk']) <= 0:
+            self.kwargs['pk'] = kwargs['pk'] = str(request.user.id)
         if int(kwargs['pk']) == request.user.id:
             return super(getUserDetail, self).retrieve(request, *args, **kwargs)
         raise AuthenticationFailed('This is not you')
@@ -57,7 +58,9 @@ class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
 
 def bookListRedisKeys(view_instance, view_method, request, args, kwargs):
     total = Book.objects.all().count()
-    return 'books_{}'.format(total)
+    page = request.query_params.get(
+        'page') if request.query_params.get('page', None) else '1'
+    return 'books_{}_p{}'.format(total, page)
 
 
 class getAllBook(mixins.ListModelMixin, GenericViewSet):
@@ -73,7 +76,7 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
         context.update({'favQuery': list(fav)})
         return context
 
-    # @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
+    @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
     def list(self, request, *args, **kwargs):
         print(getAllBook.__mro__)
         order_field = request.GET.get(
@@ -113,7 +116,7 @@ class favBook(mixins.CreateModelMixin, GenericViewSet):
         return Response(R, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
-        self.request.user = User.objects.get(pk='1')
+        # self.request.user = User.objects.get(pk='1')
         request.data if 'username' in request.data else request.data.update(
             {'username': self.request.user.id})
 

@@ -56,7 +56,7 @@
             <td>{{ book.price_origin }}</td>
             <td>{{ book.price_discount }}</td>
             <td>
-                {% if book.favthis == True %}
+                {% if book.id in fav %}
                 <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_fav.png' %}">
                 {% elif book.favthis == False %}
                 <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_unfav.png' %}">
