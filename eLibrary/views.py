@@ -2,8 +2,19 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseBadRequest
 # from jsonreader import JsonReader
+import asyncio
+import functools
 import requests
 import json
+import time
+
+
+async def get_response(url, eventLoop, headers=None, method='get'):
+    req = getattr(requests, method)
+    # res = req(url, headers=headers, verify=False)
+    res = await eventLoop.run_in_executor(None, functools.partial(
+        req, url, headers=headers, verify=False))
+    return res
 
 
 def bookList(request):
@@ -18,24 +29,42 @@ def bookList(request):
     if qString:
         qString = '?' + qString[:-1]
 
-    url = request.build_absolute_uri(reverse('getAllBookCbv')) + qString
-
-    books = requests.get(
-        url,
-        headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')},
-        verify=False
+    headers = {'Authorization': 'JWT ' + request.COOKIES.get('token', '')}
+    print('S:' + str(time.time()))
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop = asyncio.get_event_loop()
+    tasks = (
+        asyncio.ensure_future(get_response(request.build_absolute_uri(
+            reverse('getAllBookCbv')), loop, headers=headers)),
+        asyncio.ensure_future(get_response(request.build_absolute_uri(
+            reverse('favBookCbv')), loop, headers=headers))
     )
 
-    fav = requests.get(
-        request.build_absolute_uri(reverse('favBookCbv')),
-        headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')},
-        verify=False
-    )
+    # loop.run_until_complete(asyncio.wait(tasks))
+    results = loop.run_until_complete(asyncio.gather(*tasks))
+    # print(results)
+    books = results[0]
+    fav = results[1]
+
+    # url = request.build_absolute_uri(reverse('getAllBookCbv')) + qString
+
+    # books = requests.get(
+    #     url,
+    #     headers=headers,
+    #     verify=False
+    # )
+
+    # fav = requests.get(
+    #     request.build_absolute_uri(reverse('favBookCbv')),
+    #     headers=headers,
+    #     verify=False
+    # )
 
     if books.ok and fav.ok:
+        print('F:' + str(time.time()))
         bResponseData = json.loads(books.content)
         fResponseData = json.loads(fav.content)
-        print(fResponseData)
         favBooks = [info['bookname'] for info in fResponseData[0]['data']]
         return render(request, 'bookList.html', context={'books': bResponseData['data'],
                                                          'pages': bResponseData['total_page'],
