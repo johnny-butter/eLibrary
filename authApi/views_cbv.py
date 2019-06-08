@@ -7,8 +7,6 @@ from rest_framework.response import Response
 from .models import User, Book, favoriteBook
 from .serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-# from jsonreader import JsonReader
-# from .voter import userVoter
 import urllib
 import requests
 import json
@@ -48,11 +46,11 @@ class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
         raise AuthenticationFailed('This is not you')
 
     def update(self, request, *args, **kwargs):
-            # request.user = User.objects.get(pk=1)
+        # request.user = User.objects.get(pk=1)
         request.data['password'] = 'NOT_UPDATE' if request.data.get(
             'password', None) is None else request.data.get('password')
-        print(request.user.password)
-        print(request.data['password'])
+        # print(request.user.password)
+        # print(request.data['password'])
         return super(getUserDetail, self).update(request, *args, **kwargs)
 
 
@@ -78,7 +76,7 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
 
     @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
     def list(self, request, *args, **kwargs):
-        print(getAllBook.__mro__)
+        # print(getAllBook.__mro__)
         order_field = request.GET.get(
             'order') if 'order' in request.GET else 'pk'
 

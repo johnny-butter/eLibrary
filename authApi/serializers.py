@@ -83,7 +83,7 @@ class bookFavGetSerializer(serializers.ModelSerializer):
         fields = ('bookname', 'bookinfo')
 
     def get_bookinfo(self, obj):
-        print(obj)
+        # print(obj)
         dict = {'name': obj.bookname.name,
                 'type_name': obj.bookname.type.name,
                 'author_name': obj.bookname.author.name if obj.bookname.author else 'unknow',
