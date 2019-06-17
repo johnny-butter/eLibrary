@@ -10,6 +10,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 import urllib
 import requests
 import json
+# from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics, mixins, views
 from rest_framework.viewsets import GenericViewSet
@@ -58,7 +60,11 @@ def bookListRedisKeys(view_instance, view_method, request, args, kwargs):
     total = Book.objects.all().count()
     page = request.query_params.get(
         'page') if request.query_params.get('page', None) else '1'
-    return 'books_{}_p{}'.format(total, page)
+    search = request.query_params.get(
+        'search') if request.query_params.get('search', None) else 'none'
+    order = request.query_params.get(
+        'order') if request.query_params.get('order', None) else 'none'
+    return 'books_{}_p{}_s{}_o{}'.format(total, page, search, order)
 
 
 class getAllBook(mixins.ListModelMixin, GenericViewSet):
@@ -66,6 +72,10 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
     serializer_class = bookSerializer
     pagination_class = bookPaging
     # permission_classes = (IsAuthenticated,)
+    filter_backends = (OrderingFilter, SearchFilter)
+    search_fields = ('name', 'type__name')
+    ordering = 'pk'
+    # ordering_fields = ('price_discount',)
 
     def get_serializer_context(self):
         fav = favoriteBook.objects.filter(username=self.request.user.id).filter(
@@ -77,14 +87,16 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
     @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
     def list(self, request, *args, **kwargs):
         # print(getAllBook.__mro__)
-        order_field = request.GET.get(
-            'order') if 'order' in request.GET else 'pk'
-
-        self.queryset = Book.objects.order_by(order_field).select_related(
+        self.queryset = Book.objects.select_related(
             'type').select_related('author')
+        # order_field = request.GET.get(
+        #     'order') if 'order' in request.GET else 'pk'
 
-        self.queryset = self.queryset.filter(name__contains=request.GET.get(
-            'search')) if 'search' in request.GET else self.queryset
+        # self.queryset = Book.objects.order_by(order_field).select_related(
+        #     'type').select_related('author')
+
+        # self.queryset = self.queryset.filter(name__contains=request.GET.get(
+        #     'search')) if 'search' in request.GET else self.queryset
 
         return super(getAllBook, self).list(request, *args, **kwargs)
 

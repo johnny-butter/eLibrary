@@ -36,9 +36,9 @@ def bookList(request):
     loop = asyncio.get_event_loop()
     tasks = (
         asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('getAllBookCbv')), loop, headers=headers)),
+            reverse('getAllBookCbv')) + qString, loop, headers=headers)),
         asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('favBookCbv')), loop, headers=headers))
+            reverse('favBookCbv')) + qString, loop, headers=headers))
     )
 
     # loop.run_until_complete(asyncio.wait(tasks))

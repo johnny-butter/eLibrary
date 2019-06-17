@@ -8,12 +8,13 @@ $(function () {
     });
 });
 
-function app_register(id, name, email) {
+function app_register(id, name, email, platform) {
     $.ajax({
         type: "POST",
         url: '/api/cbv/user/',
         data: {
-            'username': "fb_" + id,
+            // 'username': "fb_" + id,
+            'username': platform + "_" + id,
             'password': id,
             'email': email
         },
@@ -24,7 +25,7 @@ function app_register(id, name, email) {
             $('#status_msg').css({ "background-color": "#99CC66" });
             $('#status_msg').slideDown();
             $('#status_msg').delay(1500).slideUp("slow", "swing",
-                app_login('fb_' + id, id)
+                app_login(platform + '_' + id, id, platform)
             );
         },
         error: function (error) {
@@ -44,7 +45,7 @@ function fb_oauth_register(fb_response) {
         type: "GET",
         url: url,
         success: function (response) {
-            app_login("fb_" + response.id, response.id, response = response);
+            app_login("fb_" + response.id, response.id, "fb", response = response);
         },
         error: function (error) {
             $.unblockUI();
@@ -57,7 +58,7 @@ function fb_oauth_register(fb_response) {
 
 };
 
-function app_login(user, pass, response = null) {
+function app_login(user, pass, platform, response = null) {
     $.ajax({
         type: "POST",
         url: "/api/token/",
@@ -72,7 +73,7 @@ function app_login(user, pass, response = null) {
         },
         error: function (error) {
             if (response != null) {
-                app_register(response.id, response.name, response.email);
+                app_register(response.id, response.name, response.email, platform);
             };
         }
     });
