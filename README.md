@@ -7,6 +7,7 @@
     -   username
     -   e-mail
     -   FB account
+    -   Gmail
 
 -   register
 -   book list *(show all the books)*
