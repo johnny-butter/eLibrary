@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'elibrary',
         'USER': 'root',
         'PASSWORD': '5566rock',
-        'HOST': '192.168.43.39',
+        'HOST': 'virtual',
         'PORT': '3306',
         # 'TEST': {
         #     # 'NAME': 'elibrary',
