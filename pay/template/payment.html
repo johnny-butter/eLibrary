@@ -1,0 +1,135 @@
+<head>
+    <meta charset="utf-8">
+    <title>購物車</title>
+    <script src="https://js.braintreegateway.com/web/dropin/1.18.0/js/dropin.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container" style="max-width: 60%;">
+        <h1>購物車</h1>
+        <br>
+        <table class="table table-bordered table-striped table-hover">
+
+            <thead>
+                <tr>
+                    <th>書名</th>
+                    <th>數量</th>
+                    <th>金額</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <th scope="row">{{ book.book_name }}</th>
+                    <td>{{ book.quantity }}</td>
+                    <td>{{ book.book_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="2" scope="row">總金額</th>
+                    <td>{{ amount }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% if amount > 0 %}
+        <div id="dropin-container"></div>
+        <button id="submit-button" class="btn btn-primary float-right">付款</button>
+        {% endif %}
+        <!-- Button trigger modal -->
+        <button id="success-btn" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter" style="display:none;">
+            suuuess btn
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">交易成功</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        success message
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="location.reload()">確定</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        var button = document.querySelector('#submit-button');
+
+        braintree.dropin.create({
+            authorization: '{{ bToken }}',
+            container: '#dropin-container'
+        }, function (createErr, instance) {
+            button.addEventListener('click', function () {
+                instance.requestPaymentMethod(function (err, payload) {
+                    // Submit payload.nonce to your server
+                    var bookinfo = {}
+
+                    {% for book in books %}
+                    bookinfo["{{ book.book }}"] = "{{ book.quantity }}"
+                    {% endfor %}
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/api/cbv/paytoken/',
+                        headers: {
+                            'Authorization': "JWT " + $.cookie("token")
+                        },
+                        data: {
+                            'nonce': payload.nonce,
+                            'amount': '{{ amount }}',
+                            'books': JSON.stringify(bookinfo)
+                        },
+
+                        success: function (msg) {
+                            var obj = $(".modal-body").text(
+                                '交易代碼: ' + msg.data.transaction_id + "\n" +
+                                '金額: ' + msg.data.amount + " " + msg.data.currency + "\n" +
+                                '日期: ' + msg.data.date + "\n" +
+                                '付款方式: ' + msg.data.payment_type
+                            );
+                            obj.html(obj.html().replace(/\n/g, '<br/>'));
+                            $("#success-btn").click();
+                            $.ajax({
+                                type: "DELETE",
+                                url: '/api/cbv/cart/?del=all',
+                                headers: {
+                                    'Authorization': "JWT " + $.cookie("token")
+                                },
+                                success: function (msg) {
+                                    console.log("Success");
+                                    console.log(msg.data.delete_count);
+                                },
+                                error: function (error) {
+                                    console.log("Fail");
+                                    console.log(error.responseText);
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            $(".modal-title").text("Fail");
+                            $(".modal-body").text(error.responseText);
+                            $("#success-btn").click();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>

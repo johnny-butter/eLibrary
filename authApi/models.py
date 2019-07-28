@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 # Create your models here.
 
@@ -54,3 +55,32 @@ class favoriteBook(models.Model):
     class Meta:
         db_table = 'favorite_book'
         unique_together = (("bookname", "username"),)
+
+
+class shopCar(models.Model):
+    user = models.ForeignKey('User', models.CASCADE)
+    book = models.ForeignKey('Book', models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    create_date = models.DateTimeField(default=timezone.now())
+    sold = models.BooleanField(default=False)
+    sold_date = models.DateTimeField(null=True, default=None)
+
+    class Meta:
+        db_table = 'shop_car'
+        unique_together = (("user", "book"),)
+
+
+class shopHistory(models.Model):
+    user = models.ForeignKey('User', models.DO_NOTHING)
+    book = models.ForeignKey('Book', models.DO_NOTHING)
+    quantity = models.IntegerField()
+    sold_date = models.DateTimeField(default=timezone.now())
+    transaction_id = models.CharField(max_length=30)
+    transaction_total_amount = models.DecimalField(
+        max_digits=10, decimal_places=3)
+    transaction_currency = models.CharField(max_length=5)
+    transaction_pay_type = models.CharField(max_length=15)
+
+    class Meta:
+        db_table = 'shop_history'
+        unique_together = (("book", "transaction_id"),)
