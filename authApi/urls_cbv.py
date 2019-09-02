@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views_cbv, views_pay
 
+app_name = 'api_v2'
 urlpatterns = [
     path(
         'user/', views_cbv.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
@@ -15,7 +16,10 @@ urlpatterns = [
          views_cbv.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
 
     path('paytoken/', views_pay.brainTreePayment.as_view(
-        {'get': 'getClientToken', 'post': 'createTransaction'}), name='brainTreePayment'),
+        {'get': 'getClientToken', 'post': 'createPayOrder'}), name='brainTreePayment'),
+
+    path('pay/', views_pay.brainTreePayment.as_view(
+        {'post': 'createTransaction'}), name='Pay'),
 
     path('cart/', views_pay.shopCarManage.as_view(
         {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shopCar'),

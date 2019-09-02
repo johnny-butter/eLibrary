@@ -3,9 +3,9 @@ from django.conf.urls import url, include
 from . import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-
+app_name = 'api_v1'
 urlpatterns = [
-    path('cbv/', include('authApi.urls_cbv')),
+    # path('cbv/', include('authApi.urls_cbv')),
 
     url(r'^user/$', views.getUserList, name='getUserList'),
     url(r'^user/(?P<pk>[0-9]+)/$',
