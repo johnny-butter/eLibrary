@@ -14,6 +14,9 @@ celery == 4.3.0
 # eLibrary\urls.py: 47
 django_debug_toolbar == 1.11
 
+# eLibrary\settings copy.py: 15
+django_environ == 0.4.5
+
 # authApi\models.py: 4
 django_fsm == 2.6.1
 

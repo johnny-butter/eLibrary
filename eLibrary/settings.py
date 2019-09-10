@@ -12,6 +12,37 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import datetime
+import environ
+from django.utils.translation import gettext_lazy as _
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True),
+    ALLOWED_HOSTS=(list, '*'),
+    SECRET_KEY=(str, 'ot$(m)ky4w_$(*wt#ia*%y_!^1=*%3)i*gre6(m!0ifdyuzj7j'),
+    DB=(dict, {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'elibrary',
+        'USER': 'root',
+        'PASSWORD': '5566rock',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        # 'TEST': {
+        #     'NAME': 'elibrary',
+        # }
+    }),
+    CACHE=(dict, {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }),
+    BRAINTREE_MERCHANT_ID=(str, '2yt4756q4gnf5yd7'),
+    BRAINTREE_PUBLIC_KEY=(str, 'f6hwn45pfn3xzgk8'),
+    BRAINTREE_PRIVATE_KEY=(str, '08e566b7112491b6aa8327229705e97c'),
+    EMAIL_BACKEND=(str, 'django.core.mail.backends.console.EmailBackend'),
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +52,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ot$(m)ky4w_$(*wt#ia*%y_!^1=*%3)i*gre6(m!0ifdyuzj7j'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -38,7 +69,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework_simplejwt.token_blacklist',
     'werkzeug_debugger_runserver',
     'django_extensions',
     'debug_toolbar',
@@ -49,6 +79,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -62,13 +93,17 @@ ROOT_URLCONF = 'eLibrary.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR + '/loginPage/template',
-                 BASE_DIR + '/eLibrary/template', ],
+        'DIRS': [
+            BASE_DIR + '/loginPage/template',
+            BASE_DIR + '/eLibrary/template',
+            BASE_DIR + '/pay/template',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -83,17 +118,7 @@ WSGI_APPLICATION = 'eLibrary.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 # db4free.net
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'elibrary',
-        'USER': 'root',
-        'PASSWORD': '5566rock',
-        'HOST': 'virtual',
-        'PORT': '3306',
-        # 'TEST': {
-        #     # 'NAME': 'elibrary',
-        # }
-    }
+    'default': env('DB')
 }
 
 
@@ -133,6 +158,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = [
+    ('en', _('English')),
+    ('zh-tw', _('中文繁體')),
+    ('zh-hant', _('中文繁體')),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+# LOCALE_PATHS[
+
+# ]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -151,17 +190,12 @@ STATICFILES_DIRS = (
 )
 
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
+    "default": env('CACHE')
 }
 
 # http://www.django-rest-framework.org/
 REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
     'ORDERING_PARAM': 'order',
@@ -171,24 +205,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Configure the JWTs to expire after 1 hour, and allow users to refresh near-expiration tokens
-# https://getblimp.github.io/django-rest-framework-jwt/
-# JWT_AUTH = {
-#     # If the secret is wrong, it will raise a jwt.DecodeError telling you as such. You can still get at the payload by setting the JWT_VERIFY to False.
-#     'JWT_VERIFY': True,
-
-#     # You can turn off expiration time verification by setting JWT_VERIFY_EXPIRATION to False.
-#     # If set to False, JWTs will last forever meaning a leaked token could be used by an attacker indefinitely.
-#     'JWT_VERIFY_EXPIRATION': True,
-
-#     # This is an instance of Python's datetime.timedelta. This will be added to datetime.utcnow() to set the expiration time.
-#     # Default is datetime.timedelta(seconds=300)(5 minutes).
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=600),
-
-#     'JWT_ALLOW_REFRESH': True,
-#     'JWT_AUTH_HEADER_PREFIX': 'JWT',
-# }
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
@@ -196,10 +212,15 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
 }
 
+# for django-debug-toolbar using
 INTERNAL_IPS = ('127.0.0.1', '192.168.43.118')
 
-# FB login
-# {
-#     "access_token": "1347009465447844|4195AHcZplayKkPmxsCV1k1tYVQ",
-#     "token_type": "bearer"
-# }
+BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
+BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
+BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')
+
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/2'
+CELERY_RESULT_SERIALIZER = 'json'
