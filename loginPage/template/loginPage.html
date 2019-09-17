@@ -9,6 +9,10 @@
     <title>登入</title>
     {% load staticfiles %}
     <link rel=stylesheet type="text/css" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -18,70 +22,81 @@
     <div id="status_msg">
         Success
     </div>
-    <div id="tab_login">
-        <ul class="tab_login_title">
-            <li><a href="#login_tab">登入</a></li>
-            <li><a href="#register_tab">註冊</a></li>
+    <div id="tab_login" class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#login_tab">登入</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#register_tab">註冊</a>
+            </li>
         </ul>
-        <div id="login_tab" class="tab_login_inner">
-            <!-- <form action="" method="POST"> -->
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>使用者名稱:</td>
-                    <td><input id="login_account" type="text" name="username"></td>
-                </tr>
-                <tr>
-                    <td>密碼:</td>
-                    <td><input id="login_password" type="password" name="password"></td>
-                </tr>
-                <tr>
-                    <td><input id="login_submit" type="submit" value="登入"></td>
-                    <td>
-                        <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with"
-                            data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
-                            onlogin="checkLoginState();">
-                        </div>
-                    </td>
-                    <!-- <td>
-                        <div class="g-signin2" data-onsuccess="onSignIn" onclick="(function(){gSuccessCount+=1}())">
-                        </div>
-                    </td> -->
-                </tr>
-                <tr>
-                    <td>
-                        <!-- <fb:login-button data-auto-logout-link="true" scope="public_profile,email" data-size="medium"
-                            onlogin="checkLoginState();">
-                        </fb:login-button> -->
-                        <div class="g-signin2" data-onsuccess="onSignIn" onclick="(function(){gSuccessCount+=1}())"
-                            style="height:22px; width:73px;">
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <!-- </form> -->
-        </div>
-        <div id="register_tab" class="tab_login_inner">
-            <form action="{% url 'getUserList' %}" method="POST" id="register_form">
+        <div class="tab-content">
+            <div id="login_tab" class="container tab-pane active tab_login_inner"><br>
                 {% csrf_token %}
                 <table>
                     <tr>
                         <td>使用者名稱:</td>
-                        <td><input type="text" name="username"></td>
+                        <td><input id="login_account" type="text" name="username"></td>
                     </tr>
                     <tr>
                         <td>密碼:</td>
-                        <td><input type="password" name="password"></td>
+                        <td><input id="login_password" type="password" name="password"></td>
                     </tr>
-                    <tr>
-                        <td>電子信箱:</td>
-                        <td><input type="email" name="email"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" value="註冊"></td>
-                    </tr>
+                    <!-- <tr> -->
+                    <!-- <td><input id="login_submit" class="btn btn-primary btn-block" type="submit" value="登入"></td> -->
+                    <!-- <td>
+                            <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with"
+                                data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
+                                onlogin="checkLoginState();">
+                            </div>
+                        </td> -->
+                    <!-- </tr> -->
+                    <!-- <tr>
+                        <td>
+                            <div class="g-signin2" data-onsuccess="onSignIn" onclick="(function(){gSuccessCount+=1}())"
+                                style="height:22px; width:73px;">
+                            </div>
+                        </td>
+                    </tr> -->
                 </table>
-            </form>
+                <br>
+                <td><input id="login_submit" class="btn btn-primary btn-block" type="submit" value="登入"></td>
+                <br>
+                <div class="fb-login-button" data-width="290" data-size="large" data-button-type="login_with"
+                    data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
+                    onlogin="checkLoginState();">
+                </div>
+                <br>
+                <br>
+                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-width="290" data-height="40"
+                    onclick="(function(){gSuccessCount+=1}())">
+                </div>
+            </div>
+            <div id="register_tab" class="container tab-pane fade tab_login_inner"><br>
+                <form action="{% url 'api_v2:getUserListCbv' %}" method="POST" id="register_form">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>使用者名稱:</td>
+                            <td><input type="text" name="username"></td>
+                        </tr>
+                        <tr>
+                            <td>密碼:</td>
+                            <td><input type="password" name="password"></td>
+                        </tr>
+                        <tr>
+                            <td>電子信箱:</td>
+                            <td><input type="email" name="email"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td><input type="submit" class="btn btn-primary" value="註冊"></td>
+                        </tr> -->
+                    </table>
+                    <br>
+                    <td><input type="submit" class="btn btn-primary btn-block" value="註冊"></td>
+                </form>
+            </div>
         </div>
     </div>
     <script src=" http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>

@@ -20,7 +20,7 @@ $(document).ready(function () {
             css: { borderWidth: '0px', backgroundColor: 'transparent' }
         });
         var that = $(this);
-        $.post("/api/favbook/", { 'bookname': $(this).val() }, function (msg) {
+        $.post("/api/v2/favbook/", { 'bookname': $(this).val() }, function (msg) {
             that.parent().unblock();
             if (msg.isFavorite) {
                 that.attr("src", "/static/m_fav.png");
@@ -53,5 +53,15 @@ $(document).ready(function () {
 
     $(".find").click(function () {
         window.location.href = "/elibrary/booklist/?search=" + $("#bookname").val();
+    })
+    $(".shopplus").click(function () {
+        $.post("/api/v2/cart/?action=add", { 'book': $(this).val() }, function (msg) {
+            console.log("+1")
+        })
+    })
+    $(".shopminus").click(function () {
+        $.post("/api/v2/cart/?action=cut", { 'book': $(this).val() }, function (msg) {
+            console.log("-1")
+        })
     })
 });

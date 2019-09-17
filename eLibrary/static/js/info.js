@@ -11,11 +11,14 @@ $(document).ready(function () {
         };
         if ($("#pass1").val() != "" && $("#pass1").val() == $("#pass2").val()) {
             data["password"] = $("#pass1").val();
+        } else if ($("#pass1").val() != "") {
+            alert("請確認密碼一致");
+            return;
         }
         console.info($("#username").attr('name'))
         $.ajax({
             type: "PUT",
-            url: "/api/cbv/user/" + $("#username").attr('name') + '/',
+            url: "/api/v2/user/" + $("#username").attr('name') + '/',
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),

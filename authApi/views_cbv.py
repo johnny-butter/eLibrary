@@ -127,7 +127,17 @@ class favBook(mixins.CreateModelMixin, GenericViewSet):
 
     def create(self, request, *args, **kwargs):
         # self.request.user = User.objects.get(pk='1')
-        request.data if 'username' in request.data else request.data.update(
-            {'username': self.request.user.id})
+        # request.data if 'username' in request.data else request.data.update(
+        #     {'username': self.request.user.id})
 
-        return super(favBook, self).create(request, *args, **kwargs)
+        # return super(favBook, self).create(request, *args, **kwargs)
+
+        data = request.data.copy()
+        if 'username' not in data:
+            data['username'] = request.user.id
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

@@ -7,23 +7,29 @@
     <title>使用者</title>
     {% load staticfiles %}
     <link rel=stylesheet type="text/css" href="{% static 'info.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <div class="divTable" style="width: 50%;">
+    <div class="divTable" style="width: 25%;">
+        <h2>使用者資訊</h2>
+        <br>
         <div class="divTableBody">
-            <div class="divTableRow">
+            <!-- <div class="divTableRow">
                 <div class="divTableCell">使用者資訊</div>
                 <div class="divTableCell"></div>
-            </div>
+            </div> -->
             <div class="divTableRow">
-                <div class="divTableCell">Username</div>
+                <div class="divTableCell">使用者名稱</div>
                 <div class="divTableCell">
                     <input id="username" name="{{ user.id }}" type="text" value="{{ user.username }}">
                 </div>
             </div>
             <div class="divTableRow">
-                <div class="divTableCell">Password</div>
+                <div class="divTableCell">密碼</div>
                 <div class="divTableCell">
                     <input id=pass1 type="password" placeholder="請輸入新密碼">
                 </div>
@@ -41,9 +47,9 @@
                 </div>
             </div>
             <div class="divTableRow">
-                <div class="divTableCell">Update info?</div>
+                <div class="divTableCell">確認更新?</div>
                 <div class="divTableCell">
-                    <input id="updateinfo" type="button" value="確認更新">
+                    <input class="btn btn-primary" id="updateinfo" type="button" value="確認">
                 </div>
             </div>
         </div>

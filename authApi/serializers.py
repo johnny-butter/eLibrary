@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from authApi.models import User, Book, favoriteBook
+from authApi.models import User, Book, favoriteBook, shopCar, payOrder, payOrderDetail
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
+from django.utils.translation import gettext_lazy as _
 import json
 
 
@@ -96,12 +97,13 @@ class bookSerializer(serializers.ModelSerializer):
     type_name = serializers.CharField(allow_null=True, source='type.name')
     author_name = serializers.CharField(allow_null=True, source='author.name')
     favthis = serializers.SerializerMethodField()
+    i18n_test = serializers.SerializerMethodField()
     # favoritebook_set = bookFavSerializer(many=True)
 
     class Meta:
         model = Book
         fields = ('id', 'name', 'type_name', 'author_name',
-                  'price_origin', 'price_discount', 'favthis')
+                  'price_origin', 'price_discount', 'favthis', 'i18n_test')
 
     def get_favthis(self, obj):
         favQuery = self.context.get('favQuery')
@@ -111,3 +113,77 @@ class bookSerializer(serializers.ModelSerializer):
             else:
                 return False
         return False
+
+    def get_i18n_test(self, obj):
+        return _('hello world')
+
+
+class cartSerializer(serializers.ModelSerializer):
+    book_name = serializers.CharField(read_only=True, source='book.name')
+    book_price = serializers.CharField(
+        read_only=True, source='book.price_discount')
+
+    def run_validators(self, value):
+        for validator in self.validators.copy():
+            if isinstance(validator, UniqueTogetherValidator):
+                self.validators.remove(validator)
+        super(cartSerializer, self).run_validators(value)
+
+    def create(self, data):
+        action = self.context['request'].query_params.get('action', 'add')
+        cart, created = shopCar.objects.get_or_create(user=self.context['request'].user,
+                                                      book=data['book'])
+        if not created:
+            if action == 'add':
+                cart.quantity += 1
+            elif action == 'cut':
+                cart.quantity = cart.quantity - 1 if cart.quantity > 0 else 0
+
+            cart.save()
+
+        return cart
+
+    class Meta:
+        model = shopCar
+        exclude = ('id', 'user')
+        # fields = '__all__'
+
+
+class payOrderDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = payOrderDetail
+        exclude = ('id', 'pay_order')
+
+
+class payOrderSerializer(serializers.ModelSerializer):
+
+    item_list = payOrderDetailSerializer(
+        many=True, source='payorderdetail_set')
+
+    def create(self, data):
+        print(data)
+        items_data = data.pop("payorderdetail_set", None)
+        print(data)
+        instance = payOrder.objects.create(
+            user=User.objects.get(id=1),
+            **data
+        )
+
+
+# {"total_price": 500, "pay_type": "braintree", "item_list": [{"quantity": 1, "price": 100, "book": 2}, {"quantity": 5, "price": 500, "book": 3}, {"quantity": 7, "price": 700, "book": 5}]}
+        for item_data in items_data:
+            payOrderDetail.objects.create(
+                pay_order=instance,
+                **item_data
+            )
+
+        instance.save()
+
+        return instance
+
+    class Meta:
+        model = payOrder
+        fields = ['id', 'user', 'state', 'total_price',
+                  'pay_type', 'create_date', 'item_list']
+        read_only_fields = ('user',)

@@ -1,0 +1,80 @@
+<head>
+    <meta charset="utf-8">
+    <title>購物車</title>
+    {% load staticfiles %}
+    <script src="https://js.braintreegateway.com/web/dropin/1.18.0/js/dropin.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container" style="max-width: 60%;">
+        <h1>購物車</h1>
+        <br>
+        <table id="cart-table" class="table table-bordered table-striped table-hover">
+
+            <thead>
+                <tr>
+                    <th>書名</th>
+                    <th>數量</th>
+                    <th>金額</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <th class="cart_book_name" data-value="{{ book.book }}" scope="row">
+                        {{ book.book_name }}
+                        &nbsp;
+                        <input class="shopminus" type="image" src="{% static 'minus.png' %}" value="{{ book.book }}">
+                    </th>
+                    <td class="cart_book_quantity">{{ book.quantity }}</td>
+                    <td class="cart_book_price">{{ book.book_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="2" scope="row">總金額</th>
+                    <td id="cart_total_amount">{{ amount }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% if amount > 0 %}
+        <button id="order-create-button" class="btn btn-primary float-right">確認付款</button>
+        <br>
+        <div id="dropin-container"></div>
+        <button id="submit-button" class="btn btn-primary float-right" style="display:none;">付款</button>
+        {% endif %}
+        <!-- Button trigger modal -->
+        <button id="success-btn" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter" style="display:none;">
+            success btn
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">交易成功</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        success message
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="location.reload()">確定</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="{% static 'payment.js' %}"></script>
+</body>
