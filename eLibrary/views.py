@@ -36,10 +36,13 @@ def bookList(request):
     loop = asyncio.get_event_loop()
     tasks = (
         asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('getAllBookCbv')) + qString, loop, headers=headers)),
+            reverse('api_v2:getAllBookCbv')) + qString, loop, headers=headers)),
         asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('favBookCbv')) + qString, loop, headers=headers))
+            reverse('api_v2:favBookCbv')) + qString, loop, headers=headers))
     )
+
+    # asyncio.wait(): accept list;
+    # asyncio.gather(): accept many tasks;
 
     # loop.run_until_complete(asyncio.wait(tasks))
     results = loop.run_until_complete(asyncio.gather(*tasks))
@@ -77,7 +80,7 @@ def bookList(request):
 
 
 def favBookList(request):
-    favbooks = requests.get(request.build_absolute_uri(reverse('favBookCbv')),
+    favbooks = requests.get(request.build_absolute_uri(reverse('api_v2:favBookCbv')),
                             headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
 
     if favbooks.status_code >= 200 and favbooks.status_code < 400:
@@ -90,7 +93,7 @@ def favBookList(request):
 def userInfoPage(request):
     if request.method == 'GET':
         url = request.build_absolute_uri(
-            reverse('getUserDetailCbv', args=(0,)))
+            reverse('api_v2:getUserDetailCbv', args=(0,)))
         print(url)
         userinfo = requests.get(
             url, headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
