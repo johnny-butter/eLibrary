@@ -11,7 +11,7 @@ $(function () {
 function app_register(id, name, email, platform) {
     $.ajax({
         type: "POST",
-        url: '/api/cbv/user/',
+        url: '/api/v2/user/',
         data: {
             // 'username': "fb_" + id,
             'username': platform + "_" + id,
@@ -61,7 +61,7 @@ function fb_oauth_register(fb_response) {
 function app_login(user, pass, platform, response = null) {
     $.ajax({
         type: "POST",
-        url: "/api/token/",
+        url: "/api/v1/token/",
         data: {
             'username': user,
             'password': pass
@@ -94,7 +94,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "POST",
-            url: "/api/token/",
+            url: "/api/v1/token/",
             // dataType: "json",
             // contentType: "application/json; charset=utf-8",
             data: {

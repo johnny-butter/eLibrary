@@ -15,24 +15,24 @@
 #tab_login > ul > li {
   display:inline-block;
   margin:0 -1px -1px 0 ;
-  border:1px solid #BCBCBC;
+  /* border:1px solid #BCBCBC; */
   height:25px; line-height:25px;
-  background:#cdcdcd;
+  /* background:#cdcdcd; */
   padding:0 15px;
   list-style:none;
-  box-sizing:border-box;
+  /* box-sizing:border-box; */
 }
 #tab_login >  ul > li a {
-  color:#000;
+  /* color:#000; */
   text-decoration:none;
 }
 #tab_login > ul > li.active {
-  border-bottom:1px solid #fff;
-  background:#fff;
+  /* border-bottom:1px solid #fff; */
+  /* background:#fff; */
 }
 #tab_login > .tab_login_inner {
-  clear:both; color:#000;
-  border:1px #BCBCBC solid;
+  /* clear:both; color:#000; */
+  /* border:1px #BCBCBC solid; */
 }
 .tab_login_inner {
   padding:15px;
