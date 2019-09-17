@@ -187,6 +187,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'loginPage/static/js/'),
     os.path.join(BASE_DIR, 'loginPage/static/css/'),
     os.path.join(BASE_DIR, 'loginPage/static/img/'),
+    os.path.join(BASE_DIR, 'pay/static/js/'),
 )
 
 CACHES = {
@@ -204,10 +205,10 @@ REST_FRAMEWORK = {
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
 }
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=365),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=365),
 
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
 }
