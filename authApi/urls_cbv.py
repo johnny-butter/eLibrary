@@ -16,10 +16,13 @@ urlpatterns = [
          views_cbv.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
 
     path('paytoken/', views_pay.brainTreePayment.as_view(
-        {'get': 'getClientToken', 'post': 'createPayOrder'}), name='brainTreePayment'),
+        {'get': 'getClientToken'}), name='brainTreePayment'),
+
+    path('pay-order/', views_pay.brainTreePayment.as_view(
+        {'get': 'getPayOrderList', 'post': 'createPayOrder'}), name='payOrder'),
 
     path('pay/', views_pay.brainTreePayment.as_view(
-        {'post': 'createTransaction'}), name='Pay'),
+        {'post': 'createTransaction'}), name='pay'),
 
     path('cart/', views_pay.shopCarManage.as_view(
         {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shopCar'),

@@ -14,10 +14,7 @@ def payPage(request):
         headers = {'Authorization': 'JWT ' + request.COOKIES.get('token', '')}
 
         result = requests.get(request.build_absolute_uri(
-            reverse('shopCar')), headers=headers)
-
-        bToken = requests.get(request.build_absolute_uri(
-            reverse('brainTreePayment')))
+            reverse('api_v2:shopCar')), headers=headers)
 
         books = json.loads(result.content).get('results', None)
         amount = 0
@@ -27,7 +24,6 @@ def payPage(request):
             amount += int(price) * int(quantity)
         if result.ok:
             return render(request, 'payment.html', context={'books': books,
-                                                            'amount': amount,
-                                                            'bToken': json.loads(bToken.content)['token']})
+                                                            'amount': amount, })
         else:
             return HttpResponseBadRequest('Error:' + str(json.loads(result.content)))

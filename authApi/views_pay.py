@@ -7,9 +7,10 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet, GenericViewSet
 from rest_framework import mixins
 from django.conf import settings
-from authApi.models import shopCar, shopHistory, Book
-from .serializers import cartSerializer
+from authApi.models import shopCar, shopHistory, Book, payOrder, User
+from .serializers import cartSerializer, payOrderSerializer
 from .tasks import sent_transaction_mail
+from django_fsm import can_proceed
 
 
 class brainTreePayment(ViewSet):
@@ -30,60 +31,60 @@ class brainTreePayment(ViewSet):
 
     def getClientToken(self, request):
         client_token = self.gateway.client_token.generate()
-        # client_token = gateway.client_token.generate({
-        #     "customer_id": a_customer_id
-        # })
+
         return Response({'token': client_token})
 
-    def createTransaction(self, request):
-        nonce = request.data.get('nonce', None)
-        amount = request.data.get('amount', 0)
+    def getPayOrderList(self, request):
+        query_set = payOrder.objects.filter(
+            user=User.objects.get(id=1), state=0)
 
-        result = self.gateway.transaction.sale({
-            "amount": str(amount),
-            "payment_method_nonce": nonce,
-            "options": {
-                "submit_for_settlement": True
-            }
-        })
+        serializer = payOrderSerializer(query_set, many=True)
+        return Response({'data': serializer.data})
+
+    def createPayOrder(self, request):
+        print(request.data)
+
+        serializer = payOrderSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def createTransaction(self, request):
+        pay_order_id = request.data.get('pay_order_id', None)
+        nonce = request.data.get('nonce', None)
+
+        instance, result = payOrder.objects.get(id=pay_order_id).pay(
+            pay_method='braintree',
+            braintree_gateway=self.gateway,
+            braintree_nonce=nonce
+        )
+
+        instance.save()
 
         if result.is_success:
             t = result.transaction
 
-            books = request.data.get('books', None)
+            h = shopHistory.objects.create(
+                pay_order=payOrder.objects.get(id=pay_order_id),
+                transaction_id=str(t.id),
+                transaction_total_price=t.amount,
+                transaction_currency=t.currency_iso_code,
+                transaction_pay_type=t.payment_instrument_type
+            )
+            h.save()
 
-            if books:
-                for book, quantity in json.loads(books).items():
-                    h = shopHistory.objects.create(user=request.user,
-                                                   book=Book.objects.get(
-                                                       id=int(book)),
-                                                   quantity=int(quantity),
-                                                   transaction_id=str(t.id),
-                                                   transaction_total_amount=t.amount,
-                                                   transaction_currency=t.currency_iso_code,
-                                                   transaction_pay_type=t.payment_instrument_type)
-                    h.save()
-
-            sent_transaction_mail.delay(
-                t.id, request.user.username, request.user.email)
-
-            return Response({'data': {
-                'status': t.status,
-                'transaction_id': t.id,
-                'amount': t.amount,
-                'currency': t.currency_iso_code,
-                'date': t.created_at,
-                'payment_type': t.payment_instrument_type,
-            }})
-        else:
-            # print(result.errors.deep_errors)
-            e = []
-            for error in result.errors.deep_errors:
-                e.append({
-                    'cade': error.code,
-                    'message': error.message
-                })
-            return Response({'data': e}, status=status.HTTP_400_BAD_REQUEST)
+            data = dict(
+                status=t.status,
+                transaction_id=t.id,
+                amount=t.amount,
+                currency=t.currency_iso_code,
+                date=t.created_at,
+                payment_type=t.payment_instrument_type,
+            )
+            return Response({'data': data})
+        # else:
+        #     return Response({'data': 'pay fail'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class shopCarManage(mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet):
