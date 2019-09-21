@@ -18,31 +18,13 @@ from django.utils.translation import gettext_lazy as _
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
-    ALLOWED_HOSTS=(list, '*'),
-    SECRET_KEY=(str, 'ot$(m)ky4w_$(*wt#ia*%y_!^1=*%3)i*gre6(m!0ifdyuzj7j'),
-    DB=(dict, {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'elibrary',
-        'USER': 'root',
-        'PASSWORD': '5566rock',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        # 'TEST': {
-        #     'NAME': 'elibrary',
-        # }
-    }),
-    CACHE=(dict, {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }),
-    BRAINTREE_MERCHANT_ID=(str, '2yt4756q4gnf5yd7'),
-    BRAINTREE_PUBLIC_KEY=(str, 'f6hwn45pfn3xzgk8'),
-    BRAINTREE_PRIVATE_KEY=(str, '08e566b7112491b6aa8327229705e97c'),
-    EMAIL_BACKEND=(str, 'django.core.mail.backends.console.EmailBackend'),
+    ALLOWED_HOSTS=(list, []),
+    SECRET_KEY=(str, ''),
+    CACHE_OPTIONS=(dict, {}),
 )
+
+# reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -118,7 +100,17 @@ WSGI_APPLICATION = 'eLibrary.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 # db4free.net
 DATABASES = {
-    'default': env('DB')
+    'default': {
+        'ENGINE': env('DB_ENGINE'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+        # 'TEST': {
+        #     'NAME': 'elibrary',
+        # }
+    },
 }
 
 
@@ -168,11 +160,6 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 
-# LOCALE_PATHS[
-
-# ]
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
@@ -191,7 +178,11 @@ STATICFILES_DIRS = (
 )
 
 CACHES = {
-    "default": env('CACHE')
+    "default": {
+        "BACKEND": env('CACHE_BACKEND'),
+        "LOCATION": env('CACHE_LOCATION'),
+        "OPTIONS": env('CACHE_OPTIONS')
+    }
 }
 
 # http://www.django-rest-framework.org/
