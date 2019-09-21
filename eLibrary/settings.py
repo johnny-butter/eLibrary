@@ -201,16 +201,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
     'ORDERING_PARAM': 'order',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'api.jwt_validate_view.JWTAuthentication',
     ),
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=365),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=365),
-
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
 }
 
 # for django-debug-toolbar using
