@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views_cbv, views_pay
+from .view import jwtProvider
 
 app_name = 'api_v2'
 urlpatterns = [
+    path('login/', jwtProvider.as_view(), name='login'),
     path(
         'user/', views_cbv.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
 

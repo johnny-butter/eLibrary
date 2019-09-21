@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('authApi', '0001_initial'),
+        ('api', '0001_initial'),
     ]
 
     operations = [
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('publish_date', models.DateTimeField()),
                 ('price_origin', models.IntegerField()),
                 ('price_discount', models.IntegerField(blank=True, null=True)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='authApi.Author')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.Author')),
             ],
             options={
                 'db_table': 'book',
@@ -58,11 +58,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='book',
             name='publish_company',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='authApi.publishCompany'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.publishCompany'),
         ),
         migrations.AddField(
             model_name='book',
             name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='authApi.bookType'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.bookType'),
         ),
     ]

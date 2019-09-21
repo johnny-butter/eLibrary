@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet, GenericViewSet
 from rest_framework import mixins
 from django.conf import settings
-from authApi.models import shopCar, shopHistory, Book, payOrder, User
+from api.models import shopCar, shopHistory, Book, payOrder, User
 from .serializers import cartSerializer, payOrderSerializer
 from .tasks import sent_transaction_mail
 from django_fsm import can_proceed

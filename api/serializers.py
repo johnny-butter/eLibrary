@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from authApi.models import User, Book, favoriteBook, shopCar, payOrder, payOrderDetail
+from api.models import User, Book, favoriteBook, shopCar, payOrder, payOrderDetail
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from django.utils.translation import gettext_lazy as _
 import json

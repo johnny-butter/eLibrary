@@ -11,7 +11,7 @@ import django_fsm
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('authApi', '0009_auto_20190716_1732'),
+        ('api', '0009_auto_20190716_1732'),
     ]
 
     operations = [
@@ -49,9 +49,9 @@ class Migration(migrations.Migration):
                 ('create_date', models.DateTimeField(default=datetime.datetime(
                     2019, 8, 31, 4, 43, 51, 568134, tzinfo=utc))),
                 ('book', models.ForeignKey(
-                    on_delete=django.db.models.deletion.DO_NOTHING, to='authApi.Book')),
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='api.Book')),
                 ('pay_order', models.ForeignKey(
-                    on_delete=django.db.models.deletion.DO_NOTHING, to='authApi.payOrder')),
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='api.payOrder')),
             ],
             options={
                 'db_table': 'pay_order_detail',
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
             model_name='shophistory',
             name='pay_order',
             field=models.ForeignKey(
-                default=99999, on_delete=django.db.models.deletion.DO_NOTHING, to='authApi.payOrder'),
+                default=99999, on_delete=django.db.models.deletion.DO_NOTHING, to='api.payOrder'),
             preserve_default=False,
         ),
     ]

@@ -84,7 +84,7 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
         context.update({'favQuery': list(fav)})
         return context
 
-    @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
+    # @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
     def list(self, request, *args, **kwargs):
         # print(getAllBook.__mro__)
         self.queryset = Book.objects.select_related(

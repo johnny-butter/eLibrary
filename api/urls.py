@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 app_name = 'api_v1'
 urlpatterns = [
-    # path('cbv/', include('authApi.urls_cbv')),
+    # path('cbv/', include('api.urls_cbv')),
 
     url(r'^user/$', views.getUserList, name='getUserList'),
     url(r'^user/(?P<pk>[0-9]+)/$',

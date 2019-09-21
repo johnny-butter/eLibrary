@@ -10,7 +10,7 @@ from django.utils.timezone import utc
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('authApi', '0007_auto_20190528_1249'),
+        ('api', '0007_auto_20190528_1249'),
     ]
 
     operations = [
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('create_date', models.DateTimeField(default=datetime.datetime(2019, 7, 14, 3, 16, 5, 286112, tzinfo=utc))),
                 ('sold', models.BooleanField(default=False)),
                 ('sold_date', models.DateTimeField(default=None, null=True)),
-                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authApi.Book')),
+                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.Book')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
