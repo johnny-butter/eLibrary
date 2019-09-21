@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'debug_toolbar',
     'rest_framework',
-    'authApi',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -141,9 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Custom User model
-AUTH_USER_MODEL = 'authApi.User'
+AUTH_USER_MODEL = 'api.User'
 
-AUTHENTICATION_BACKENDS = ['authApi.obtainJWT.emailOrUsernameModelBackend']
+AUTHENTICATION_BACKENDS = ['api.obtainJWT.emailOrUsernameModelBackend']
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -205,7 +205,7 @@ REST_FRAMEWORK = {
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
 }
-from rest_framework_simplejwt.authentication import JWTAuthentication
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=365),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=365),

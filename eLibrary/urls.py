@@ -27,8 +27,8 @@ from . import views as elibView
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
 
-    url(r'^api/v1/', include('authApi.urls', namespace='v1')),
-    url(r'^api/v2/', include('authApi.urls_cbv', namespace='v2')),
+    url(r'^api/v1/', include('api.urls', namespace='v1')),
+    url(r'^api/v2/', include('api.urls_cbv', namespace='v2')),
 
     # url(r'^jwt/refresh-token/', refresh_jwt_token, name='refresh_jwt_token'),
     # url(r'^jwt/api-token-verify/', verify_jwt_token, name='verify_jwt_token'),
