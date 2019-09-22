@@ -27,8 +27,7 @@ env = environ.Env(
 environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -135,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Custom User model
 AUTH_USER_MODEL = 'api.User'
 
-AUTHENTICATION_BACKENDS = ['api.obtainJWT.emailOrUsernameModelBackend']
+AUTHENTICATION_BACKENDS = ['auth_backend.emailOrUsernameModelBackend']
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -192,7 +191,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
     'ORDERING_PARAM': 'order',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'api.jwt_validate_view.JWTAuthentication',
+        'api.views.jwt_validate_view.JWTAuthentication',
     ),
 }
 
