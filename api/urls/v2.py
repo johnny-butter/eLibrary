@@ -1,6 +1,5 @@
 from django.urls import path
-from . import views_cbv, views_pay
-from .view import jwtProvider
+from ..views import jwtProvider, views_cbv, views_pay
 
 app_name = 'api_v2'
 urlpatterns = [
