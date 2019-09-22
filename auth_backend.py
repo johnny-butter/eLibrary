@@ -1,28 +1,4 @@
-from rest_framework_simplejwt.serializers import TokenObtainSerializer, TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenViewBase
 from django.contrib.auth.backends import ModelBackend, UserModel
-
-
-class emailOrUsernameJWTSerializer(TokenObtainSerializer):
-
-    def validate(self, attrs):
-        if '@' in attrs[self.username_field]:
-            attrs['email'] = attrs[self.username_field]
-            self.username_field = 'email'
-        return super().validate(attrs)
-
-
-class obtainJWTTokenPairSerializer(TokenObtainPairSerializer, emailOrUsernameJWTSerializer):
-
-    def validate(self, attrs):
-        print(self.__class__.mro())
-        data = super().validate(attrs)
-        return data
-
-
-class obtainJWTTokenPairView(TokenViewBase):
-
-    serializer_class = obtainJWTTokenPairSerializer
 
 
 class emailOrUsernameModelBackend(ModelBackend):
