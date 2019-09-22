@@ -4,8 +4,8 @@ from django.core.paginator import Paginator
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import User, Book, favoriteBook
-from .serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
+from ..models import User, Book, favoriteBook
+from ..serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 import urllib
 import requests

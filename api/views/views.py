@@ -4,10 +4,9 @@ from django.core.paginator import Paginator
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import User, Book, favoriteBook
-from .serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
+from ..models import User, Book, favoriteBook
+from ..serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
 from jsonreader import JsonReader
-from .voter import userVoter
 from rest_framework.exceptions import NotFound
 import urllib
 import requests
@@ -26,8 +25,6 @@ def getUserList(request):
     print(str(request.auth))
 
     if request.method == 'GET':
-        if not userVoter(request).is_logged_in():
-            return Response({'error': "No auth"}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = userSerializer(User.objects.all(), many=True)
         return Response(serializer.data)
@@ -51,17 +48,12 @@ def getUserDetail(request, pk):
     delete:
     Delete one user.
     """
-    if not userVoter(request).is_logged_in():
-        return Response({'error': "No auth"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         user = User.objects.get(pk=pk)
         print(user)
     except User.DoesNotExist:
         return Response({'error': "User " + pk + " does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-    if not userVoter(request).user_can_manage_me(user):
-        return Response({'error': "No permission"}, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
         serializer = userSerializer(user)
@@ -99,8 +91,6 @@ def getUserDetail(request, pk):
 @api_view(['GET'])
 def getAllBook(request):
     if request.method == 'GET':
-        # if not userVoter(request).is_logged_in():
-        #     return Response({'error': "No auth"}, status=status.HTTP_400_BAD_REQUEST)
         orderItem = request.GET.get(
             'order') if 'order' in request.GET else 'pk'
 
