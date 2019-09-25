@@ -1,44 +1,38 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseBadRequest
-# from jsonreader import JsonReader
 import asyncio
+import aiohttp
 import functools
 import requests
 import json
 import time
 
 
-async def get_response(url, eventLoop, headers=None, method='get'):
-    req = getattr(requests, method)
-    # res = req(url, headers=headers, verify=False)
-    res = await eventLoop.run_in_executor(None, functools.partial(
-        req, url, headers=headers, verify=False))
-    return res
+async def get_response(url, params=None, headers=None):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, headers=headers) as response:
+            return response.status, await response.text()
 
 
 def bookList(request):
-    qString = ''
-    if 'search' in request.GET:
-        qString += 'search=' + request.GET.get('search') + '&'
-    if 'page' in request.GET:
-        qString += 'page=' + request.GET.get('page') + '&'
-    if 'order' in request.GET:
-        qString += 'order=' + request.GET.get('order') + '&'
-
-    if qString:
-        qString = '?' + qString[:-1]
+    qString = {}
+    for qKey in ['search', 'search', 'order']:
+        if request.GET.get(qKey, None):
+            qString[qKey] = request.GET.get(qKey)
 
     headers = {'Authorization': 'JWT ' + request.COOKIES.get('token', '')}
+
     print('S:' + str(time.time()))
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop = asyncio.get_event_loop()
+
     tasks = (
+        asyncio.ensure_future(asyncio.ensure_future(get_response(request.build_absolute_uri(
+            reverse('api_v2:getAllBookCbv')), params=qString, headers=headers))),
         asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('api_v2:getAllBookCbv')) + qString, loop, headers=headers)),
-        asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('api_v2:favBookCbv')) + qString, loop, headers=headers))
+            reverse('api_v2:favBookCbv')), params=qString, headers=headers))
     )
 
     # asyncio.wait(): accept list;
@@ -46,28 +40,15 @@ def bookList(request):
 
     # loop.run_until_complete(asyncio.wait(tasks))
     results = loop.run_until_complete(asyncio.gather(*tasks))
-    # print(results)
+
     books = results[0]
     fav = results[1]
+    print('F:' + str(time.time()))
 
-    # url = request.build_absolute_uri(reverse('getAllBookCbv')) + qString
+    bResponseData = json.loads(books[1])
+    fResponseData = json.loads(fav[1])
 
-    # books = requests.get(
-    #     url,
-    #     headers=headers,
-    #     verify=False
-    # )
-
-    # fav = requests.get(
-    #     request.build_absolute_uri(reverse('favBookCbv')),
-    #     headers=headers,
-    #     verify=False
-    # )
-
-    if books.ok and fav.ok:
-        print('F:' + str(time.time()))
-        bResponseData = json.loads(books.content)
-        fResponseData = json.loads(fav.content)
+    if (books[0] >= 200 and books[0] < 400) and (fav[0] >= 200 and fav[0] < 400):
         favBooks = [info['bookname'] for info in fResponseData[0]['data']]
         return render(request, 'bookList.html', context={'books': bResponseData['data'],
                                                          'pages': bResponseData['total_page'],
@@ -76,7 +57,7 @@ def bookList(request):
                                                          'has_next': bResponseData['has_next'],
                                                          'fav': favBooks})
     else:
-        return HttpResponseBadRequest('Error:' + str(json.loads(books.content)))
+        return HttpResponseBadRequest('Error:{}'.format(bResponseData))
 
 
 def favBookList(request):
