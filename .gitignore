@@ -9,3 +9,5 @@ staticFile
 server.crt
 
 server.key
+
+*.mo
