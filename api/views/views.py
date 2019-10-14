@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from ..models import User, Book, favoriteBook
 from ..serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
-from jsonreader import JsonReader
+from json_reader import JsonReader
 from rest_framework.exceptions import NotFound
 import urllib
 import requests
@@ -72,22 +72,6 @@ def getUserDetail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# @api_view(['POST'])
-# def api_login(request):
-#     """
-#     post:
-#     This view is called through API POST with a json body
-#     """
-#     data = JsonReader.read_body(request)
-
-#     response_login = requests.post(
-#         request.build_absolute_uri(reverse('token_obtain_pair')),
-#         data=data
-#     )
-#     response_login_dict = json.loads(response_login.content)
-#     return Response(response_login_dict, response_login.status_code)
-
-
 @api_view(['GET'])
 def getAllBook(request):
     if request.method == 'GET':
@@ -130,7 +114,6 @@ def getAllBook(request):
                 'favQuery': list(fav)})
         except:
             raise NotFound(detail='Invalid page')
-            # return Response({'detail': 'Invalid page'}, status=status.HTTP_404_NOT_FOUND)
 
         pageInfo.update({'data': serializer.data})
         return Response(pageInfo)
@@ -139,7 +122,6 @@ def getAllBook(request):
 @api_view(['GET', 'POST'])
 def favBook(request):
     if request.method == 'GET':
-        # print(request.user.id)
         favbooklist = favoriteBook.objects.filter(username=request.user.id).filter(isFavorite=True).select_related(
             'bookname').select_related('bookname__author').select_related('bookname__type')
 
