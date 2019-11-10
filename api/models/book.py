@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils import timezone
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Book(models.Model):
@@ -10,9 +13,15 @@ class Book(models.Model):
     publish_date = models.DateTimeField(blank=True, null=True)
     price_origin = models.IntegerField()
     price_discount = models.IntegerField(blank=True, null=True)
+    update_at = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
         db_table = 'book'
+
+
+@receiver(pre_save, sender=Book)
+def record_update_time(sender, instance, **kwargs):
+    instance.update_at = timezone.now()
