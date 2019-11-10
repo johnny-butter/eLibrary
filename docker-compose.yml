@@ -1,0 +1,51 @@
+version: "3"
+services:
+  app:
+    restart: always
+    build: .
+    command: >
+      bash -c "
+      python3 manage.py collectstatic --no-input &&
+      python3 manage.py migrate &&
+      gunicorn --timeout=30 --workers=4 --bind :8000 eLibrary.wsgi:application"
+    volumes:
+      - "./staticFiles:/code/staticFiles"
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    networks:
+      - web_network
+      - db_network
+
+  db:
+    restart: always
+    image: mysql:5.7
+    volumes:
+      - "./mysql:/var/lib/mysql"
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    networks:
+      - db_network
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./staticFiles:/code/staticFiles"
+      - "./config/nginx:/etc/nginx/conf.d"
+    depends_on:
+      - app
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    driver: bridge
+  db_network:
+    driver: bridge
