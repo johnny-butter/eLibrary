@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from jsonreader import JsonReader
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseBadRequest
 import requests
