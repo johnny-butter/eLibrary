@@ -9,7 +9,7 @@ class shopHistory(models.Model):
         max_digits=10, decimal_places=3)
     transaction_currency = models.CharField(max_length=5)
     transaction_pay_type = models.CharField(max_length=15)
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'shop_history'

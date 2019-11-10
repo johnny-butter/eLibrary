@@ -6,7 +6,7 @@ class shopCar(models.Model):
     user = models.ForeignKey('User', models.CASCADE)
     book = models.ForeignKey('Book', models.CASCADE)
     quantity = models.IntegerField(default=1)
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=timezone.now)
     sold = models.BooleanField(default=False)
     sold_date = models.DateTimeField(null=True, default=None)
 

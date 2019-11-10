@@ -19,7 +19,7 @@ class payOrder(models.Model):
     total_price = models.DecimalField(
         max_digits=10, decimal_places=3)
     pay_type = models.CharField(max_length=30)
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'pay_order'
