@@ -11,3 +11,5 @@ server.crt
 server.key
 
 *.mo
+
+log/
