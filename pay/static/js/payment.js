@@ -2,10 +2,10 @@ var pay_order_id = null;
 $("#order-create-button").click(function () {
     var books_info = [];
     create_books_info(books_info);
-    console.log(books_info)
+
     $.ajax({
         type: "POST",
-        url: '/api/v2/pay-order/',
+        url: '/api/v2/pay_order/',
         headers: {
             'Authorization': "JWT " + $.cookie("token")
         },
@@ -17,7 +17,7 @@ $("#order-create-button").click(function () {
         }),
         success: function (msg) {
             pay_order_id = msg.id
-            $.get("/api/v2/paytoken/", function (msg) {
+            $.get("/api/v2/braintree_client_token/", function (msg) {
                 var pay_token = msg.token;
                 create_braintree_pay(pay_token);
             });
@@ -45,7 +45,6 @@ function create_braintree_pay(pay_token) {
         authorization: pay_token,
         container: '#dropin-container'
     }, function (createErr, instance) {
-        console.log(pay_token);
         $("#submit-button").show();
         button.addEventListener('click', function () {
             instance.requestPaymentMethod(function (err, payload) {
@@ -56,10 +55,13 @@ function create_braintree_pay(pay_token) {
                     headers: {
                         'Authorization': "JWT " + $.cookie("token")
                     },
-                    data: {
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify({
                         'pay_order_id': pay_order_id,
-                        'nonce': payload.nonce,
-                    },
+                        'extra_data': {
+                            'nonce': payload.nonce,
+                        },
+                    }),
                     success: function (msg) {
                         var obj = $(".modal-body").text(
                             '交易代碼: ' + msg.data.transaction_id + "\n" +

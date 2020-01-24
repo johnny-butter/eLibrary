@@ -1,2 +1,2 @@
-from .views import *
-from .jwt_provider_view import jwtProvider
+from .v1 import *
+from .v2 import *

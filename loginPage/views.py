@@ -1,9 +1,8 @@
+import json
+import requests
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseBadRequest
-import requests
-import json
-# Create your views here.
 
 
 def loginPage(request):

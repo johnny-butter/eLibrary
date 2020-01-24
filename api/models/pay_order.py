@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django_fsm import FSMIntegerField, FSMField, transition
-from error_code import PayFail
+from shared.error_code import PayFail
+from api.utils.pay_strategy import payStrategy
 
 
 class payOrderStateEnum:
@@ -25,22 +26,16 @@ class payOrder(models.Model):
         db_table = 'pay_order'
 
     @transition(field=state, source=payOrderStateEnum.PENDING, target=payOrderStateEnum.PAID)
-    def pay(self, pay_method='braintree', braintree_gateway=None, braintree_nonce=None):
-        if pay_method == 'braintree':
-            result = braintree_gateway.transaction.sale({
-                "amount": str(self.total_price),
-                "payment_method_nonce": braintree_nonce,
-                "options": {
-                    "submit_for_settlement": True
-                }
-            })
-            if result.is_success:
-                return self, result
-            else:
-                e = []
-                for error in result.errors.deep_errors:
-                    e.append({
-                        'cade': error.code,
-                        'message': error.message
-                    })
-                raise PayFail(detail={'detail': e})
+    def pay(self, **kwargs):
+        kwargs.update({'amount': self.total_price})
+
+        pay_strategy = payStrategy(self.pay_type, **kwargs).strategy
+        pay_strategy.transaction()
+
+        if pay_strategy.success:
+            return self, pay_strategy.result
+        else:
+            resp = {
+                'detail': pay_strategy.error,
+            }
+            raise PayFail(detail=resp)

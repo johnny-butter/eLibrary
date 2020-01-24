@@ -18,7 +18,7 @@ $(document).ready(function () {
         console.info($("#username").attr('name'))
         $.ajax({
             type: "PUT",
-            url: "/api/v2/user/" + $("#username").attr('name') + '/',
+            url: "/api/v2/user/detail/",
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),

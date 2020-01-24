@@ -1,30 +1,35 @@
 from django.urls import path
-from ..views import jwtProvider, views_cbv, views_pay
+from api import views
 
 app_name = 'api_v2'
-urlpatterns = [
-    path('login/', jwtProvider.as_view(), name='login'),
-    path(
-        'user/', views_cbv.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
 
-    path('user/<int:pk>/', views_cbv.getUserDetail.as_view(
-        {'get': 'retrieve', 'put': 'update'}), name='getUserDetailCbv'),
+urlpatterns = [
+    path('login/', views.login.as_view(), name='login'),
+
+    path(
+        'user/', views.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
+
+    # path('user/<int:pk>/', views.getUserDetail.as_view(
+    #     {'get': 'retrieve', 'put': 'update'}), name='getUserDetailCbv'),
+
+    path('user/detail/', views.getUserDetail.as_view(
+        {'get': 'retrieve', 'put': 'partial_update'}), name='getUserDetailCbv'),
 
     path('getallbook/',
-         views_cbv.getAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
+         views.getAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
 
     path('favbook/',
-         views_cbv.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
+         views.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
 
-    path('paytoken/', views_pay.brainTreePayment.as_view(
-        {'get': 'getClientToken'}), name='brainTreePayment'),
+    path('braintree_client_token/', views.braintreeClientToken.as_view(
+        {'get': 'getClientToken'}), name='braintreeClientToken'),
 
-    path('pay-order/', views_pay.brainTreePayment.as_view(
+    path('pay_order/', views.payment.as_view(
         {'get': 'getPayOrderList', 'post': 'createPayOrder'}), name='payOrder'),
 
-    path('pay/', views_pay.brainTreePayment.as_view(
+    path('pay/', views.payment.as_view(
         {'post': 'createTransaction'}), name='pay'),
 
-    path('cart/', views_pay.shopCarManage.as_view(
+    path('cart/', views.shopCarManage.as_view(
         {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shopCar'),
 ]

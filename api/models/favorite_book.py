@@ -2,8 +2,8 @@ from django.db import models
 
 
 class favoriteQuerySet(models.QuerySet):
-    def favorited(self, user):
-        return self.filter(isFavorite=True).filter(username=user)
+    def favorited(self):
+        return self.filter(isFavorite=True)
 
     def not_favorited(self):
         return self.filter(isFavorite=False)
@@ -21,8 +21,8 @@ class favoriteManager(models.Manager):
 
 
 class favoriteBook(models.Model):
-    bookname = models.ForeignKey('Book', models.PROTECT)
-    username = models.ForeignKey('User', models.PROTECT)
+    book = models.ForeignKey('Book', models.PROTECT)
+    user = models.ForeignKey('User', models.PROTECT)
     isFavorite = models.BooleanField()
 
     # objects = favoriteManager()
@@ -30,4 +30,4 @@ class favoriteBook(models.Model):
 
     class Meta:
         db_table = 'favorite_book'
-        unique_together = (("bookname", "username"),)
+        unique_together = (("book", "user"),)

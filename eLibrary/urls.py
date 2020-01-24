@@ -14,27 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls.i18n import i18n_patterns
-from django.utils import translation
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from django.conf import settings
-from loginPage import views as loginView
-from pay import views as payView
-from . import views as elibView
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
 
+    path('api-auth/', include('rest_framework.urls')),
+
     url(r'^api/v1/', include('api.urls.v1', namespace='v1')),
+
     url(r'^api/v2/', include('api.urls.v2', namespace='v2')),
 
-    url(r'^elibrary/login/$', loginView.loginPage, name='loginPage'),
-    url(r'^elibrary/register/$', loginView.registerPage, name='registerPage'),
-    url(r'^elibrary/userinfo/$', elibView.userInfoPage, name='userInfoPage'),
-    url(r'^elibrary/booklist/', elibView.bookList, name='booklist'),
-    url(r'^elibrary/favbooklist/$', elibView.favBookList, name='favbooklist'),
-    url(r'^elibrary/purchase/$', payView.payPage, name='purchasePage'),
+    url(r'^elibrary/', include('bookList.urls')),
+
+    url(r'^elibrary/', include('loginPage.urls')),
+
+    url(r'^elibrary/', include('pay.urls')),
+
     prefix_default_language=False,
 )
 

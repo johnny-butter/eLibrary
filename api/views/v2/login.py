@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
 
-class jwtProvider(views.APIView):
+class login(views.APIView):
 
     def post(self, request, *args, **kwargs):
         try:
@@ -25,4 +25,6 @@ class jwtProvider(views.APIView):
         except:
             raise
 
-        return Response({'token': encoded_data}, status=status.HTTP_200_OK)
+        resp = {'token': encoded_data}
+
+        return Response(resp, status=status.HTTP_200_OK)

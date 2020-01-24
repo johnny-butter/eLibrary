@@ -7,12 +7,13 @@ class bookFavGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = favoriteBook
-        fields = ('bookname', 'bookinfo')
+        fields = ('book', 'bookinfo')
 
     def get_bookinfo(self, obj):
-        dict = {'name': obj.bookname.name,
-                'type_name': obj.bookname.type.name,
-                'author_name': obj.bookname.author.name if obj.bookname.author else 'unknow',
-                'price_origin': obj.bookname.price_origin,
-                'price_discount': obj.bookname.price_discount}
+        dict = {'name': obj.book.name,
+                'type_name': obj.book.type.name,
+                'author_name': obj.book.author.name if obj.book.author else 'unknow',
+                'price_origin': obj.book.price_origin,
+                'price_discount': obj.book.price_discount}
+
         return dict

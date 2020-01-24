@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import datetime
 import environ
 from django.utils.translation import gettext_lazy as _
 
@@ -27,7 +26,7 @@ env = environ.Env(
 environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -76,7 +75,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR + '/loginPage/template',
-            BASE_DIR + '/eLibrary/template',
+            BASE_DIR + '/bookList/template',
             BASE_DIR + '/pay/template',
         ],
         'APP_DIRS': True,
@@ -134,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Custom User model
 AUTH_USER_MODEL = 'api.User'
 
-AUTHENTICATION_BACKENDS = ['auth_backend.emailOrUsernameModelBackend']
+AUTHENTICATION_BACKENDS = ['shared.auth_backend.emailOrUsernameModelBackend']
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -167,9 +166,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'eLibrary/static/js/'),
-    os.path.join(BASE_DIR, 'eLibrary/static/css/'),
-    os.path.join(BASE_DIR, 'eLibrary/static/img/'),
+    os.path.join(BASE_DIR, 'bookList/static/js/'),
+    os.path.join(BASE_DIR, 'bookList/static/css/'),
+    os.path.join(BASE_DIR, 'bookList/static/img/'),
     os.path.join(BASE_DIR, 'loginPage/static/js/'),
     os.path.join(BASE_DIR, 'loginPage/static/css/'),
     os.path.join(BASE_DIR, 'loginPage/static/img/'),
@@ -180,7 +179,7 @@ CACHES = {
     "default": {
         "BACKEND": env('CACHE_BACKEND'),
         "LOCATION": env('CACHE_LOCATION'),
-        "OPTIONS": env('CACHE_OPTIONS')
+        "OPTIONS": env('CACHE_OPTIONS'),
     }
 }
 
@@ -191,8 +190,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
     'ORDERING_PARAM': 'order',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'api.views.jwt_validate_view.JWTAuthentication',
+        'shared.jwt_validate.JWTAuthentication',
     ),
+    'EXCEPTION_HANDLER': 'shared.error_code.exception_handler',
 }
 
 # for django-debug-toolbar using

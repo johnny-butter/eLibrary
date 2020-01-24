@@ -24,6 +24,7 @@ class bookSerializer(serializers.ModelSerializer):
                 return True
             else:
                 return False
+
         return False
 
     def get_i18n_test(self, obj):

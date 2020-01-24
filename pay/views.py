@@ -1,12 +1,7 @@
-import braintree
 import requests
-import json
-from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
-
-# Create your views here.
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 
 
 def payPage(request):
@@ -16,7 +11,7 @@ def payPage(request):
         result = requests.get(request.build_absolute_uri(
             reverse('api_v2:shopCar')), headers=headers)
 
-        books = json.loads(result.content).get('results', None)
+        books = result.json().get('results', None)
         amount = 0
         for book in books:
             quantity = book.get('quantity', 0)
@@ -26,4 +21,4 @@ def payPage(request):
             return render(request, 'payment.html', context={'books': books,
                                                             'amount': amount, })
         else:
-            return HttpResponseBadRequest('Error:' + str(json.loads(result.content)))
+            return HttpResponseBadRequest('Error: {}'.format(result.json()))

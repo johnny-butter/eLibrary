@@ -94,16 +94,13 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "POST",
-            url: "/api/v1/token/",
-            // dataType: "json",
-            // contentType: "application/json; charset=utf-8",
+            url: "/api/v2/login/",
             data: {
                 'username': $("#login_account").val(),
                 'password': $("#login_password").val()
             },
             success: function (msg) {
-                $.cookie("token", msg.access, { path: "/" });
-                $.cookie("token_r", msg.refresh, { path: "/" });
+                $.cookie("token", msg.token, { path: "/" });
                 $.unblockUI();
                 $('#status_msg').text("Success");
                 $('#status_msg').css({ "background-color": "#99CC66" });
