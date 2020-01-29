@@ -34,6 +34,8 @@ urlpatterns = i18n_patterns(
 
     url(r'^elibrary/', include('pay.urls')),
 
+    path('elibrary/', include('chat.urls')),
+
     prefix_default_language=False,
 )
 

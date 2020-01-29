@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <title>To: {{ chat_target }}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel=stylesheet type="text/css" href="{% static 'chat.css' %}">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="chat-target-info" class="row">
+            <div class="col">
+                <h2>
+                    <img src="{% static 'avatar.png' %}">
+                    {{ chat_target }}
+                </h2>
+            </div>
+        </div>
+
+        <div id="chat-box-area" class="row">
+            <div class="col">
+                <div id="chatBox">
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-send-area" class="row">
+            <div class="col">
+                <input id="chat-message-input" type="text" />
+                <input id="chat-message-submit" type="image" src="{% static 'send_message.png' %}">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var send_by_self = false
+
+        function appendChatMessage(message, username) {
+            if (send_by_self) {
+                send_by_self = false
+
+                document.getElementById("chatBox").innerHTML +=
+                    "<div class='rightMessage message'>" +
+                    "<p>" + message + "</p></div>"
+                // "<span class='time-right'>xx:xx</span></div>";
+            } else {
+                document.getElementById("chatBox").innerHTML +=
+                    "<div class='leftMessage message'>" +
+                    "<p'>" + username + "</p>" +
+                    "<p'>" + message + "</p></div>"
+                // "<span class='time-right'>xx:xx</span></div>";
+            }
+        }
+
+        var group = '{{ group }}';
+
+        // create new websocket url with name params
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/' + group + '/'
+        );
+
+        // while get message append to chat box
+        chatSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            var username = data['username'];
+
+            appendChatMessage(message, username);
+        };
+
+        // while close print log
+        chatSocket.onclose = function (e) {
+            console.error(e);
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        // click submit and send message to server by websocket
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            send_by_self = true
+
+            var messageInputDom = document.querySelector('#chat-message-input');
+            var message = messageInputDom.value;
+
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+
+            messageInputDom.value = '';
+        };
+    </script>
+</body>
+
+</html>

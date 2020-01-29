@@ -79,3 +79,11 @@ h1 {
 input {
   vertical-align:bottom;
 }
+#chatButton {
+  width: 100px;
+  float: right;
+  position: fixed;
+  right: 2%;
+  bottom: 5%;
+  z-index: 20;
+}

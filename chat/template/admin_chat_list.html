@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>回覆清單</title>
+</head>
+
+<body>
+    <table>
+        {% for user in users %}
+        <tr>
+            <td>
+                <a href="{{ user.username }}/">{{ user.username }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

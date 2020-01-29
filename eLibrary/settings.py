@@ -79,6 +79,7 @@ TEMPLATES = [
             BASE_DIR + '/loginPage/template',
             BASE_DIR + '/bookList/template',
             BASE_DIR + '/pay/template',
+            BASE_DIR + '/chat/template',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -185,6 +186,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'loginPage/static/css/'),
     os.path.join(BASE_DIR, 'loginPage/static/img/'),
     os.path.join(BASE_DIR, 'pay/static/js/'),
+    os.path.join(BASE_DIR, 'chat/static/css/'),
+    os.path.join(BASE_DIR, 'chat/static/img/'),
 )
 
 CACHES = {
