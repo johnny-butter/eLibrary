@@ -1,23 +1,23 @@
+.container {
+  padding-bottom:40px;
+}
 table.woodTable {
-  border: 2px solid #948473;
-  background-color: #FFE3C6;
+  border: 2px solid #ADADAD;
+  background-color: #FCFCFC;
   width: 60%;
   text-align: center;
   margin-left:auto;
   margin-right:auto;
 }
 table.woodTable td{
-  border: 1px solid #948473;
+  border: 1px solid #ADADAD;
   padding: 4px 4px;
 }
 /* table.woodTable tbody td {
   font-size: 13px;
 } */
 table.woodTable thead {
-  background: #948473;
-  background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-  background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-  background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+  background: #ADADAD;
   text-align: center;
 }
 table.woodTable thead th {
@@ -25,15 +25,15 @@ table.woodTable thead th {
   font-weight: bold;
   color: #F0F0F0;
   text-align: left;
-  border-left: 2px solid #948473;
+  border-left: 2px solid #ADADAD;
 }
 table.woodTable thead th a {
   text-decoration: none;
-  /* color: #948473;
+  /* color: #ADADAD;
   background: #F0F0F0; */
 }
 table.woodTable thead th a:hover {
-  color: #948473;
+  color: #ADADAD;
   background: #F0F0F0;
   text-decoration: none;
 }
@@ -44,10 +44,7 @@ table.woodTable tfoot {
   font-size: 16px;
   font-weight: bold;
   color: #F0F0F0;
-  background: #948473;
-  background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-  background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-  background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+  background: #ADADAD;
 }
 table.woodTable tfoot td {
   font-size: 16px;
@@ -58,7 +55,7 @@ table.woodTable tfoot .links {
 table.woodTable tfoot .links a {
   display: inline-block;
   background: #FFFFFF;
-  color: #948473;
+  color: #ADADAD;
   padding: 2px 8px;
   border-radius: 5px;
   text-decoration:none;
