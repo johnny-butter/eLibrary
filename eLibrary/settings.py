@@ -49,11 +49,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'werkzeug_debugger_runserver',
     'django_extensions',
     'debug_toolbar',
     'rest_framework',
     'api',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -93,6 +95,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eLibrary.wsgi.application'
 
+ASGI_APPLICATION = 'eLibrary.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': ['redis://127.0.0.1:6379/3'],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
