@@ -35,13 +35,11 @@ class bookPaging(PageNumberPagination):
 
 
 class getAllBook(mixins.ListModelMixin, GenericViewSet):
-    # queryset = Book.objects.all()
     serializer_class = bookSerializer
     pagination_class = bookPaging
     # permission_classes = (IsAuthenticated,)
     filter_backends = (OrderingFilter, SearchFilter)
     search_fields = ('name', 'type__name')
-    # ordering_fields = ('price_discount',)
     ordering = 'pk'
 
     def get_serializer_context(self):
@@ -56,7 +54,5 @@ class getAllBook(mixins.ListModelMixin, GenericViewSet):
         # print(getAllBook.__mro__)
         self.queryset = Book.objects.select_related(
             'type').select_related('author')
-        # order_field = request.GET.get(
-        #     'order') if 'order' in request.GET else 'pk'
 
         return super(getAllBook, self).list(request, *args, **kwargs)
