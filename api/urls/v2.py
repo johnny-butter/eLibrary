@@ -32,4 +32,7 @@ urlpatterns = [
 
     path('cart/', views.shopCarManage.as_view(
         {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shopCar'),
+
+    path('chat_check/',
+         views.chatCheck.as_view({'get': 'check'}), name='chatCheck'),
 ]
