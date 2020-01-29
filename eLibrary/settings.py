@@ -202,7 +202,7 @@ CACHES = {
 REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 9,
     'ORDERING_PARAM': 'order',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'shared.jwt_validate.JWTAuthentication',
