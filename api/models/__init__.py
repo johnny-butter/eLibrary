@@ -8,3 +8,4 @@ from .pay_order_detail import payOrderDetail
 from .publish_company import publishCompany
 from .shop_car import shopCar
 from .shop_history import shopHistory
+from .oauth_record import oauthRecord
