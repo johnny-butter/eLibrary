@@ -1,10 +1,8 @@
-import braintree
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
-from django.conf import settings
 from api.models import shopHistory, payOrder
-from api.serializers import payOrderSerializer
+from api.serializers import payOrderSerializer, shopHistorySerializer
 
 
 class payment(ViewSet):
@@ -30,15 +28,16 @@ class payment(ViewSet):
         pay_order_id = request.data['pay_order_id']
         extra_data = request.data.get('extra_data', None)
 
-        instance, result = payOrder.objects.get(
-            id=pay_order_id).pay(**extra_data)
+        pay_order = payOrder.objects.get(id=pay_order_id)
+
+        instance, result = pay_order.pay(**extra_data)
 
         instance.save()
 
         if result.is_success:
             t = result.transaction
 
-            shopHistory.objects.create(
+            shop_history = shopHistory.objects.create(
                 pay_order=payOrder.objects.get(id=pay_order_id),
                 transaction_id=str(t.id),
                 transaction_total_price=t.amount,
@@ -46,15 +45,6 @@ class payment(ViewSet):
                 transaction_pay_type=t.payment_instrument_type
             )
 
-            resp = {
-                'data': {
-                    'status': t.status,
-                    'transaction_id': t.id,
-                    'amount': t.amount,
-                    'currency': t.currency_iso_code,
-                    'date': t.created_at,
-                    'payment_type': t.payment_instrument_type,
-                }
-            }
+            serializer = shopHistorySerializer(shop_history)
 
-            return Response(resp)
+            return Response(serializer.data)

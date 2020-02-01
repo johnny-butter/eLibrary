@@ -64,13 +64,15 @@ function create_braintree_pay(pay_token) {
                     }),
                     success: function (msg) {
                         var obj = $(".modal-body").text(
-                            '交易代碼: ' + msg.data.transaction_id + "\n" +
-                            '金額: ' + msg.data.amount + " " + msg.data.currency + "\n" +
-                            '日期: ' + msg.data.date + "\n" +
-                            '付款方式: ' + msg.data.payment_type
+                            '交易代碼: ' + msg.transaction_id + "\n" +
+                            '金額: ' + msg.transaction_total_price + " " + msg.transaction_currency + "\n" +
+                            '日期: ' + msg.create_date + "\n" +
+                            '付款方式: ' + msg.transaction_pay_type
                         );
                         obj.html(obj.html().replace(/\n/g, '<br/>'));
+
                         $("#success-btn").click();
+
                         $.ajax({
                             type: "DELETE",
                             url: '/api/v2/cart/?del=all',
@@ -90,6 +92,7 @@ function create_braintree_pay(pay_token) {
                     error: function (error) {
                         $(".modal-title").text("Fail");
                         $(".modal-body").text(error.responseText);
+
                         $("#success-btn").click();
                     }
                 });
