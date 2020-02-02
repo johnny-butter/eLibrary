@@ -4,7 +4,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.models import User, Book, favoriteBook
 from api.serializers import userSerializer, bookSerializer, bookFavSerializer, bookFavGetSerializer
-from json_reader import JsonReader
 from rest_framework.exceptions import NotFound
 
 
@@ -17,7 +16,7 @@ def getUserList(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JsonReader.read_body(request)
+        data = request.POST
         serializer = userSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -40,7 +39,7 @@ def getUserDetail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JsonReader.read_body(request)
+        data = request.POST
         serializer = userSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()
@@ -115,9 +114,11 @@ def favBook(request):
         return Response(R, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
-        data = JsonReader.read_body(request).copy()
-        if 'username' not in data:
-            data['username'] = request.user.id
+        data = request.POST.copy()
+
+        if 'user' not in data:
+            data['user'] = request.user.id
+
         serializer = bookFavSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
