@@ -6,12 +6,8 @@ from api.models import favoriteBook
 class bookFavSerializer(serializers.ModelSerializer):
     class Meta:
         model = favoriteBook
-        # fields = '__all__'
         exclude = ('id', 'user')
         read_only_fields = ('isFavorite',)
-        # extra_kwargs = {
-        #     'user': {'write_only': True},
-        # }
 
     # avoid UniqueTogetherValidator fail cause by get_or_create
     def run_validators(self, value):

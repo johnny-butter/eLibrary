@@ -7,15 +7,12 @@ urlpatterns = [
     path('login/', views.login.as_view(), name='login'),
 
     path(
-        'user/', views.getUserList.as_view({'post': 'create'}), name='getUserListCbv'),
-
-    # path('user/<int:pk>/', views.getUserDetail.as_view(
-    #     {'get': 'retrieve', 'put': 'update'}), name='getUserDetailCbv'),
+        'user/', views.userCreate.as_view({'post': 'create'}), name='userCreateCbv'),
 
     path('user/detail/', views.getUserDetail.as_view(
-        {'get': 'retrieve', 'put': 'partial_update'}), name='getUserDetailCbv'),
+        {'get': 'retrieve', 'put': 'partial_update'}), name='userDetailCbv'),
 
-    path('getallbook/',
+    path('get_all_book/',
          views.getAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
 
     path('favbook/',

@@ -74,7 +74,7 @@ def favBookList(request):
 
 def userInfoPage(request):
     if request.method == 'GET':
-        url = request.build_absolute_uri(reverse('api_v2:getUserDetailCbv'))
+        url = request.build_absolute_uri(reverse('api_v2:userDetailCbv'))
 
         headers = {
             'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),
