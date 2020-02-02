@@ -1,4 +1,4 @@
-from .. import views
+from api.views.v1 import views
 from django.conf.urls import url
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
