@@ -19,10 +19,13 @@
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.3&appId=1347009465447844&autoLogAppEvents=1"></script>
-    <div id="status_msg">
+
+    <div id="status_msg" class="alert alert-danger fade show" role="alert">
         Success
     </div>
+
     <div id="tab_login" class="container">
+
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#login_tab">登入</a>
@@ -31,9 +34,10 @@
                 <a class="nav-link" data-toggle="tab" href="#register_tab">註冊</a>
             </li>
         </ul>
+
         <div class="tab-content">
-            <div id="login_tab" class="container tab-pane active tab_login_inner"><br>
-                {% csrf_token %}
+            <div id="login_tab" class="container tab-pane active tab_login_inner">
+                <br>
                 <table>
                     <tr>
                         <td>使用者名稱:</td>
@@ -43,25 +47,11 @@
                         <td>密碼:</td>
                         <td><input id="login_password" type="password" name="password"></td>
                     </tr>
-                    <!-- <tr> -->
-                    <!-- <td><input id="login_submit" class="btn btn-primary btn-block" type="submit" value="登入"></td> -->
-                    <!-- <td>
-                            <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with"
-                                data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
-                                onlogin="checkLoginState();">
-                            </div>
-                        </td> -->
-                    <!-- </tr> -->
-                    <!-- <tr>
-                        <td>
-                            <div class="g-signin2" data-onsuccess="onSignIn" onclick="(function(){gSuccessCount+=1}())"
-                                style="height:22px; width:73px;">
-                            </div>
-                        </td>
-                    </tr> -->
                 </table>
                 <br>
-                <td><input id="login_submit" class="btn btn-primary btn-block" type="submit" value="登入"></td>
+                <td>
+                    <input id="login_submit" class="btn btn-primary btn-block" type="submit" value="登入">
+                </td>
                 <br>
                 <div class="fb-login-button" data-width="290" data-size="large" data-button-type="login_with"
                     data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
@@ -73,29 +63,24 @@
                     onclick="(function(){gSuccessCount+=1}())">
                 </div>
             </div>
+
             <div id="register_tab" class="container tab-pane fade tab_login_inner"><br>
-                <form action="{% url 'api_v2:getUserListCbv' %}" method="POST" id="register_form">
-                    {% csrf_token %}
-                    <table>
-                        <tr>
-                            <td>使用者名稱:</td>
-                            <td><input type="text" name="username"></td>
-                        </tr>
-                        <tr>
-                            <td>密碼:</td>
-                            <td><input type="password" name="password"></td>
-                        </tr>
-                        <tr>
-                            <td>電子信箱:</td>
-                            <td><input type="email" name="email"></td>
-                        </tr>
-                        <!-- <tr>
-                            <td><input type="submit" class="btn btn-primary" value="註冊"></td>
-                        </tr> -->
-                    </table>
-                    <br>
-                    <td><input type="submit" class="btn btn-primary btn-block" value="註冊"></td>
-                </form>
+                <table>
+                    <tr>
+                        <td>使用者名稱:</td>
+                        <td><input id="register_username" type="text" name="username"></td>
+                    </tr>
+                    <tr>
+                        <td>密碼:</td>
+                        <td><input id="register_pwd" type="password" name="password"></td>
+                    </tr>
+                    <tr>
+                        <td>電子信箱:</td>
+                        <td><input id="register_email" type="email" name="email"></td>
+                    </tr>
+                </table>
+                <br>
+                <td><input id="register_submit" class="btn btn-primary btn-block" type="submit" value="註冊"></td>
             </div>
         </div>
     </div>
@@ -105,20 +90,18 @@
     <script>
         // This is called with the results from from FB.getLoginStatus().
         function statusChangeCallback(response) {
-            console.log('statusChangeCallback');
-            console.log(response);
             // The response object is returned with a status field that lets the
             // app know the current login status of the person.
             // Full docs on the response object can be found in the documentation
             // for FB.getLoginStatus().
             if (response.status === 'connected') {
                 // Logged into your app and Facebook.
-                fb_oauth_register(response);
+                fb_oauth_login(response);
                 // window.location.href = "/elibrary/booklist/?page=1";
             } else {
                 // The person is not logged into your app or we are unable to tell.
-                document.getElementById('status_msg').innerHTML = 'Please log ' +
-                    'into this app.';
+                document.getElementById('status_msg').innerHTML = 'Please log into this app.';
+
             }
         }
         function checkLoginState() {
@@ -150,15 +133,16 @@
         function onSignIn(googleUser) {
             if (gSuccessCount > 0) {
                 var profile = googleUser.getBasicProfile();
-                // console.log('Image URL: ' + profile.getImageUrl());
                 var id_token = googleUser.getAuthResponse().id_token;
-                console.log("ID Token: " + id_token);
+                // console.log('Image URL: ' + profile.getImageUrl());
+
                 var response = {
                     "id": profile.getId(),
                     "name": profile.getName(),
                     "email": profile.getEmail()
                 }
-                app_login("google_" + response.id, response.id, "google", response = response)
+
+                app_login(null, null, "google", response)
             } else {
                 gSuccessCount += 1;
             }

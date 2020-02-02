@@ -146,7 +146,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Custom User model
 AUTH_USER_MODEL = 'api.User'
 
-AUTHENTICATION_BACKENDS = ['shared.auth_backend.emailOrUsernameModelBackend']
+AUTHENTICATION_BACKENDS = [
+    'shared.auth_backend.emailOrUsernameModelBackend',
+    'shared.auth_backend.oauthModelBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

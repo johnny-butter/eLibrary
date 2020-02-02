@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from api.models import User
+from api.models import User, oauthRecord
+from .oauth_record import oauthRecordSerializer
 
 
 class userSerializer(serializers.Serializer):
@@ -13,15 +14,16 @@ class userSerializer(serializers.Serializer):
         required=True, allow_null=True, max_length=100, validators=[UniqueValidator(queryset=User.objects.all())])
     is_staff = serializers.BooleanField(required=False, default=False)
     is_superuser = serializers.BooleanField(required=False, default=False)
+    oauth_record = oauthRecordSerializer(required=False)
 
-    # def validate_username(self, value):
-    #     if User.objects.filter(username=value).exists():
-    #         raise serializers.ValidationError('The username has been used')
+    class Meta:
+        extra_kwargs = {
+            'oauth_record': {'write_only': True},
+        }
 
     def create(self, data):
-        """
-        Create and return a new `Snippet` instance, given the validated data.
-        """
+        oauth_record_data = data.get('oauth_record', {})
+
         instance = User.objects.create(
             username=data.get('username'),
             email=data.get('email'),
@@ -32,12 +34,15 @@ class userSerializer(serializers.Serializer):
 
         instance.save()
 
+        if oauth_record_data.get('provider', None):
+            oauthRecord.objects.create(
+                user=instance,
+                **oauth_record_data
+            )
+
         return instance
 
     def update(self, instance, data):
-        """
-        Update and return an existing `Snippet` instance, given the validated data.
-        """
         instance.username = data.get('username', instance.username)
         instance.email = data.get('email', instance.email)
         instance.is_staff = data.get('is_staff', instance.is_staff)

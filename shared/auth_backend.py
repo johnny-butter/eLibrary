@@ -1,4 +1,5 @@
 from django.contrib.auth.backends import ModelBackend, UserModel
+from api.models import oauthRecord
 
 
 class emailOrUsernameModelBackend(ModelBackend):
@@ -18,3 +19,20 @@ class emailOrUsernameModelBackend(ModelBackend):
         else:
             if user.check_password(password) and self.user_can_authenticate(user):
                 return user
+
+
+class oauthModelBackend(ModelBackend):
+
+    def authenticate(self, request, **kwargs):
+        provider = request.data.get('provider', None)
+        uid = request.data.get('uid', None)
+
+        if provider is None or uid is None:
+            return
+
+        try:
+            user = oauthRecord.objects.get(provider=provider, uid=uid).user
+        except oauthRecord.DoesNotExist:
+            pass
+        else:
+            return user

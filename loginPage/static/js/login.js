@@ -8,47 +8,118 @@ $(function () {
     });
 });
 
-function app_register(id, name, email, platform) {
+function app_register(username, pwd, email,
+    oauth_type = null, oauth_response = null) {
+    if (oauth_type != null && oauth_response != null) {
+        var data = JSON.stringify({
+            'email': oauth_response.email,
+            'oauth_record': {
+                'provider': oauth_type,
+                'uid': oauth_response.id,
+            },
+        })
+    } else {
+        var data = JSON.stringify({
+            'username': username,
+            'password': pwd,
+            'email': email,
+        })
+    }
+
+    $.blockUI({
+        message: "<img src='/static/loading.gif'/>",
+        css: { borderWidth: '0px', backgroundColor: 'transparent' }
+    });
+
     $.ajax({
         type: "POST",
         url: '/api/v2/user/',
-        data: {
-            // 'username': "fb_" + id,
-            'username': platform + "_" + id,
-            'password': id,
-            'email': email
-        },
-
+        contentType: 'application/json; charset=UTF-8',
+        data: data,
         success: function (msg) {
             $.unblockUI();
+
+            if (oauth_type != null && oauth_response != null) {
+                app_login(null, null, oauth_type, oauth_response);
+            };
+
             $('#status_msg').text("Success");
             $('#status_msg').css({ "background-color": "#99CC66" });
             $('#status_msg').slideDown();
-            $('#status_msg').delay(1500).slideUp("slow", "swing",
-                app_login(platform + '_' + id, id, platform)
-            );
+            $('#status_msg').delay(1500).slideUp("slow", "swing");
         },
         error: function (error) {
             $.unblockUI();
+
             $('#status_msg').text("Fail:" + error.responseText);
             $('#status_msg').css({ "background-color": "#FF6666" });
             $('#status_msg').slideDown();
             $('#status_msg').delay(3000).slideUp();
         }
     });
+}
+
+function app_login(username, pwd, oauth_type = null, oauth_response = null) {
+    $.blockUI({
+        message: "<img src='/static/loading.gif'/>",
+        css: { borderWidth: '0px', backgroundColor: 'transparent' }
+    });
+
+    if (oauth_response == null) {
+        var uid = "";
+    } else {
+        var uid = oauth_response.id;
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/api/v2/login/",
+        data: {
+            'username': username,
+            'password': pwd,
+            'provider': oauth_type,
+            'uid': uid
+        },
+        success: function (msg) {
+            $.cookie("token", msg.token, { path: "/" });
+
+            $.unblockUI();
+
+            $('#status_msg').text("Success");
+            $('#status_msg').css({ "background-color": "#99CC66" });
+            $('#status_msg').slideDown();
+            $('#status_msg').delay(1500).slideUp("slow", "swing", function () {
+                window.location.href = "/elibrary/booklist/?page=1";
+            });
+        },
+        error: function (error) {
+            if (oauth_type != null && oauth_response != null) {
+                app_register(null, null, null, oauth_type, oauth_response);
+            } else {
+                $.unblockUI();
+
+                $('#status_msg').text("Fail:" + error.responseText);
+                $('#status_msg').css({ "background-color": "#FF6666" });
+                $('#status_msg').slideDown();
+                $('#status_msg').delay(3000).slideUp();
+            };
+        }
+    });
 };
 
-function fb_oauth_register(fb_response) {
+function fb_oauth_login(fb_response) {
     var url = "https://graph.facebook.com/" + fb_response.authResponse.userID +
         "?access_token=" + fb_response.authResponse.accessToken + "&fields=name,email"
+
     $.ajax({
         type: "GET",
         url: url,
         success: function (response) {
-            app_login("fb_" + response.id, response.id, "fb", response = response);
+            app_login(null, null, "fb", response);
         },
         error: function (error) {
             $.unblockUI();
+
             $('#status_msg').text("Fail:" + error.responseText);
             $('#status_msg').css({ "background-color": "#FF6666" });
             $('#status_msg').slideDown();
@@ -56,27 +127,6 @@ function fb_oauth_register(fb_response) {
         }
     });
 
-};
-
-function app_login(user, pass, platform, response = null) {
-    $.ajax({
-        type: "POST",
-        url: "/api/v1/token/",
-        data: {
-            'username': user,
-            'password': pass
-        },
-        success: function (msg) {
-            $.cookie("token", msg.access, { path: "/" });
-            $.cookie("token_r", msg.refresh, { path: "/" });
-            window.location.href = "/elibrary/booklist/?page=1";
-        },
-        error: function (error) {
-            if (response != null) {
-                app_register(response.id, response.name, response.email, platform);
-            };
-        }
-    });
 };
 
 $(document).ready(function () {
@@ -87,72 +137,20 @@ $(document).ready(function () {
     });
 
     $("#login_submit").click(function () {
-        $.blockUI({
-            message: "<img src='/static/loading.gif'/>",
-            //no border and no background color
-            css: { borderWidth: '0px', backgroundColor: 'transparent' }
-        });
-        $.ajax({
-            type: "POST",
-            url: "/api/v2/login/",
-            data: {
-                'username': $("#login_account").val(),
-                'password': $("#login_password").val()
-            },
-            success: function (msg) {
-                $.cookie("token", msg.token, { path: "/" });
-                $.unblockUI();
-                $('#status_msg').text("Success");
-                $('#status_msg').css({ "background-color": "#99CC66" });
-                $('#status_msg').slideDown();
-                $('#status_msg').delay(1500).slideUp("slow", "swing",
-                    function () {
-                        window.location.href = "/elibrary/booklist/?page=1";
-                    });
+        var username = $("#login_account").val();
+        var password = $("#login_password").val();
 
-            },
-            error: function (error) {
-                $.unblockUI();
-                $('#status_msg').text("Fail:" + error.responseText);
-                $('#status_msg').css({ "background-color": "#FF6666" });
-                $('#status_msg').slideDown();
-                $('#status_msg').delay(3000).slideUp();
-            }
-        });
+        app_login(username, password);
     });
 
-    $('#register_form').submit(function (event) {
-        $.blockUI({
-            message: "<img src='/static/loading.gif'/>",
-            //no border and no background color
-            css: { borderWidth: '0px', backgroundColor: 'transparent' }
-        });
-        $.ajax({
-            type: "POST",
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            // timeout: 100,
-            success: function (msg) {
-                $.unblockUI();
-                $('#status_msg').text("Success");
-                $('#status_msg').css({ "background-color": "#99CC66" });
-                $('#status_msg').slideDown();
-                $('#status_msg').delay(1500).slideUp("slow", "swing",
-                    function () {
-                        location.reload();
-                    });
-            },
-            error: function (error) {
-                $.unblockUI();
-                $('#status_msg').text("Fail:" + error.responseText);
-                $('#status_msg').css({ "background-color": "#FF6666" });
-                $('#status_msg').slideDown();
-                $('#status_msg').delay(3000).slideUp();
-            }
-        });
-        // Notice "preventDefault" from the submit event,
-        // otherwise the form will be posted also.
-        event.preventDefault();
+    $('#register_submit').click(function (event) {
+        var username = $("#register_username").val();
+        var password = $("#register_pwd").val();
+        var email = $("#register_email").val();
+
+        if (email == "") { email = null };
+
+        app_register(username, password, email);
     });
 
 });

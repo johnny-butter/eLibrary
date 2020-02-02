@@ -1,14 +1,29 @@
 from api.models import User
 from api.serializers import userSerializer
+from rest_framework import status
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated
 
 
-class getUserList(mixins.CreateModelMixin, GenericViewSet):
-    # queryset = User.objects.all()
+class userCreate(GenericViewSet):
     serializer_class = userSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        if request.data.get('oauth_record', {}).get('provider', None):
+            data.update({
+                'username': User.random_username(),
+                'password': User.random_password(),
+            })
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class getUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
