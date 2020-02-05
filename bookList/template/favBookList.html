@@ -6,10 +6,10 @@
     <title>最愛書籍</title>
     {% load staticfiles %}
     <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -31,13 +31,6 @@
             <td>{{ favbook.bookinfo.author_name }}</td>
             <td>{{ favbook.bookinfo.price_origin }}</td>
             <td>{{ favbook.bookinfo.price_discount }}</td>
-            <!-- <td>
-                {% if book.favthis == True %}
-                <button type="button" class="fav" value="{{ book.id }}">fav already</button>
-                {% elif book.favthis == False %}
-                <button type="button" class="fav" value="{{ book.id }}">fav this</button>
-                {% endif %}
-            </td> -->
         </tr>
         {% endfor %}
     </table>
