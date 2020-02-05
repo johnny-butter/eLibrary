@@ -76,6 +76,10 @@ h1 {
 input {
   vertical-align:bottom;
 }
+.alert {
+  text-align:center;
+  display:none;
+}
 #chatButton {
   width: 100px;
   float: right;

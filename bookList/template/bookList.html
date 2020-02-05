@@ -34,6 +34,15 @@
                 </li>
             </ul>
         </nav>
+
+        <div id="add-success" class="alert alert-success fade show" role="alert">
+            商品成功加入購物車 <a href="/elibrary/purchase/" class="alert-link">前往察看</a>
+        </div>
+
+        <div id="remove-success" class="alert alert-danger fade show" role="alert">
+            商品成功移出購物車 <a href="/elibrary/purchase/" class="alert-link">前往察看</a>
+        </div>
+
         <h1>書籍清單</h1>
         <table class="woodTable">
             <thead>
@@ -71,14 +80,12 @@
                             {{ book.name }}
                         </div>
                         <div class="dropdown-menu">
-                            <div class="dropdown-item">
-                                <input class="shopplus" type="image" src="{% static 'plus.png' %}"
-                                    value="{{ book.id }}">
+                            <div class="dropdown-item shopplus" name="{{ book.id }}">
+                                <input type="image" src="{% static 'plus.png' %}">
                                 加入購物車
                             </div>
-                            <div class="dropdown-item">
-                                <input class="shopminus" type="image" src="{% static 'minus.png' %}"
-                                    value="{{ book.id }}">
+                            <div class="dropdown-item shopminus" name="{{ book.id }}">
+                                <input type="image" src="{% static 'minus.png' %}">
                                 移出購物車
                             </div>
                         </div>

@@ -55,13 +55,17 @@ $(document).ready(function () {
         window.location.href = "/elibrary/booklist/?search=" + $("#book").val();
     })
     $(".shopplus").click(function () {
-        $.post("/api/v2/cart/?action=add", { 'book': $(this).val() }, function (msg) {
-            console.log("+1")
+        var book_id = $(this).attr('name')
+        $.post("/api/v2/cart/?action=add", { 'book': book_id }, function (msg) {
+            $("#add-success").slideDown();
+            $("#add-success").delay(3000).slideUp();
         })
     })
     $(".shopminus").click(function () {
-        $.post("/api/v2/cart/?action=cut", { 'book': $(this).val() }, function (msg) {
-            console.log("-1")
+        var book_id = $(this).attr('name')
+        $.post("/api/v2/cart/?action=cut", { 'book': book_id }, function (msg) {
+            $("#remove-success").slideDown();
+            $("#remove-success").delay(3000).slideUp();
         })
     })
 });
