@@ -2,18 +2,25 @@
 
     Browse books, and mark them if there is any favorite
 
-### page *(function)*:
--   login *(JWT)*
-    -   username
-    -   e-mail
-    -   FB account
-    -   Gmail
+# How to start
+`docker-compose up`
 
--   register
--   book list *(show all the books)*
-    -   order by price
-    -   key word searching
-    -   mark favorite books
--   favorite book list *(show book(s) that user likes best)*
--   re-edit profile
--   logout
+# Index
+`Login / Register`
+- username
+- e-mail
+- oauth (FB / Gmail)
+
+`Edit Profile`
+
+`Books List`
+
+`Favorite Books List`
+
+`Shop Cart`
+
+`Payment`
+- braintree credit card
+
+`Chatroom`
+- channels
