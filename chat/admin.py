@@ -8,6 +8,7 @@ class chatRoom(models.Model):
 
     class Meta:
         app_label = 'chat'
+        managed = False
 
 
 class chatAdmin(admin.ModelAdmin):
