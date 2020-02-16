@@ -89,7 +89,7 @@ function app_login(username, pwd, oauth_type = null, oauth_response = null) {
             $('#status_msg').css({ "background-color": "#99CC66" });
             $('#status_msg').slideDown();
             $('#status_msg').delay(1500).slideUp("slow", "swing", function () {
-                window.location.href = "/elibrary/booklist/?page=1";
+                window.location.href = "/books/list/?page=1";
             });
         },
         error: function (error) {

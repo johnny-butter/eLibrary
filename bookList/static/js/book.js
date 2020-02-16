@@ -6,7 +6,7 @@ $.ajaxSetup({
 $(document).ready(function () {
     $("select").change(function () {
         $.get($(this).val());
-        if ($(this).val() == "/elibrary/login/") {
+        if ($(this).val() == "/login/") {
             $.removeCookie("token", { path: "/" });
             $.removeCookie("token_r", { path: "/" });
         }
@@ -52,7 +52,7 @@ $(document).ready(function () {
     });
 
     $(".find").click(function () {
-        window.location.href = "/elibrary/booklist/?search=" + $("#book").val();
+        window.location.href = "/books/list/?search=" + $("#book").val();
     })
     $(".shopplus").click(function () {
         var book_id = $(this).attr('name')

@@ -28,13 +28,13 @@ urlpatterns = i18n_patterns(
 
     url(r'^api/v2/', include('api.urls.v2', namespace='v2')),
 
-    url(r'^elibrary/', include('bookList.urls')),
+    url(r'^books/', include('bookList.urls')),
 
-    url(r'^elibrary/', include('loginPage.urls')),
+    url(r'^login/', include('loginPage.urls')),
 
-    url(r'^elibrary/', include('pay.urls')),
+    url(r'^payment/', include('pay.urls')),
 
-    path('elibrary/', include('chat.urls')),
+    path('chat/', include('chat.urls')),
 
     prefix_default_language=False,
 )

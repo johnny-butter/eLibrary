@@ -17,7 +17,7 @@
         <nav class="navbar navbar-expand-md bg-light">
             <ul class="navbar-nav ml-auto navbar-fixed-top">
                 <li class="nav-item navbar-right">
-                    <a class="btn btn-md px-3 btn-primary-outline" href="/elibrary/purchase/" role="button">
+                    <a class="btn btn-md px-3 btn-primary-outline" href="/payment/purchase/" role="button">
                         <img src="{% static 'shopcar.png' %}" class="d-inline-block">
                         購物車
                     </a>
@@ -28,19 +28,19 @@
                         帳號
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/elibrary/userinfo/">編輯</a>
-                        <a class="dropdown-item" href="/elibrary/login/">登出</a>
+                        <a class="dropdown-item" href="/books/userinfo/">編輯</a>
+                        <a class="dropdown-item" href="/login/">登出</a>
                     </div>
                 </li>
             </ul>
         </nav>
 
         <div id="add-success" class="alert alert-success fade show" role="alert">
-            商品成功加入購物車 <a href="/elibrary/purchase/" class="alert-link">前往察看</a>
+            商品成功加入購物車 <a href="/payment/purchase/" class="alert-link">前往察看</a>
         </div>
 
         <div id="remove-success" class="alert alert-danger fade show" role="alert">
-            商品成功移出購物車 <a href="/elibrary/purchase/" class="alert-link">前往察看</a>
+            商品成功移出購物車 <a href="/payment/purchase/" class="alert-link">前往察看</a>
         </div>
 
         <h1>書籍清單</h1>
@@ -66,7 +66,7 @@
                         </a>
                     </th>
                     <th>我的最愛
-                        <a rel="noopener" target="_blank" href="/elibrary/favbooklist/">
+                        <a rel="noopener" target="_blank" href="/books/favlist/">
                             <input id="book_fav" type="image" src="{% static 'book_fav.png' %}">
                         </a>
                     </th>
@@ -132,7 +132,7 @@
         </table>
 
         <div id="chatButton">
-            <a class="btn btn-md px-3 btn-primary-outline" href="/elibrary/chat/" rel="noopener" target="_blank"
+            <a class="btn btn-md px-3 btn-primary-outline" href="/chat/" rel="noopener" target="_blank"
                 role="button">
                 <img src="{% static 'customer_service.png' %}" class="d-inline-block">
             </a>
