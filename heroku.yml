@@ -1,0 +1,17 @@
+setup:
+    addons:
+      - plan: cleardb
+      - plan: heroku-redis
+build:
+  docker:
+    web: Dockerfile
+    # worker: Dockerfile
+    # beat: Dockerfile
+release:
+  command:
+    - bash deploy.sh
+  image: web
+run:
+  web: gunicorn --timeout=30 --workers=4 --bind :$PORT eLibrary.wsgi:application
+  # worker: celery -A eLibrary -l info worker
+  # beat: celery -A eLibrary beat
