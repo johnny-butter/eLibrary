@@ -19,3 +19,5 @@ COPY . /code/
 
 # Install lib from requirements.txt
 RUN pip install -r requirements.txt
+
+RUN python3 manage.py collectstatic --clear --no-input

@@ -13,13 +13,33 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import environ
 from django.utils.translation import gettext_lazy as _
+# https://stackoverflow.com/questions/59719175/
+from django.core.management.utils import get_random_secret_key
 
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
     ALLOWED_HOSTS=(list, []),
-    SECRET_KEY=(str, ''),
+    SECRET_KEY=(str, get_random_secret_key()),
+
+    EMAIL_BACKEND=(str, ''),
+    EMAIL_HOST_USER=(str, ''),
+    EMAIL_HOST_PASSWORD=(str, ''),
+
+    DB_ENGINE=(str, ''),
+    DB_NAME=(str, ''),
+    DB_USER=(str, ''),
+    DB_PASSWORD=(str, ''),
+    DB_HOST=(str, ''),
+    DB_PORT=(str, ''),
+
+    CACHE_BACKEND=(str, ''),
+    CACHE_LOCATION=(str, ''),
     CACHE_OPTIONS=(dict, {}),
+
+    BRAINTREE_MERCHANT_ID=(str, ''),
+    BRAINTREE_PUBLIC_KEY=(str, ''),
+    BRAINTREE_PRIVATE_KEY=(str, ''),
 )
 
 # reading .env file
