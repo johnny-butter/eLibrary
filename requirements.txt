@@ -44,3 +44,5 @@ django-redis == 4.10.0
 gunicorn == 19.9.0
 
 whitenoise == 5.0.1
+
+newrelic == 5.8.0.136

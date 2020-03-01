@@ -10,6 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+# https://docs.newrelic.com/docs/agents/python-agent/installation/python-agent-advanced-integration#more_help
+import newrelic.agent
+newrelic.agent.initialize()
+
 import os
 import environ
 from django.utils.translation import gettext_lazy as _
