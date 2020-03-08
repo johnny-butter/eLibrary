@@ -12,6 +12,7 @@ class braintreeStrategy(baseStrategy):
         braintree_env = braintree.Environment.Sandbox
 
     def __init__(self, **kwargs):
+        self.pay_order = kwargs['pay_order']
         self.amount = kwargs['amount']
         self.nonce = kwargs['nonce']
         self._result = None
@@ -36,6 +37,16 @@ class braintreeStrategy(baseStrategy):
                 "submit_for_settlement": True
             }
         })
+
+    def create_shop_history(self):
+        transaction = self.result.transaction
+
+        self.pay_order.create_shop_history(
+            transaction.id,
+            transaction.amount,
+            transaction.currency_iso_code,
+            transaction.payment_instrument_type
+        )
 
     @property
     def success(self):

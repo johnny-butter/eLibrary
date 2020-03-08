@@ -25,7 +25,7 @@ urlpatterns = [
         {'get': 'getPayOrderList', 'post': 'createPayOrder'}), name='payOrder'),
 
     path('pay/', views.payment.as_view(
-        {'post': 'createTransaction'}), name='pay'),
+        {'post': 'createPayment'}), name='pay'),
 
     path('cart/', views.shopCarManage.as_view(
         {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shopCar'),

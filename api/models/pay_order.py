@@ -3,6 +3,7 @@ from django.utils import timezone
 from django_fsm import FSMIntegerField, FSMField, transition
 from shared.error_code import PayFail
 from api.utils.pay_strategy import payStrategy
+from .shop_history import shopHistory
 
 
 class payOrderStateEnum:
@@ -25,15 +26,26 @@ class payOrder(models.Model):
     class Meta:
         db_table = 'pay_order'
 
+    def create_shop_history(self, transition_id, total_price, currency, pay_type):
+        return shopHistory.objects.create(
+            pay_order=self,
+            transaction_id=str(transition_id),
+            transaction_total_price=total_price,
+            transaction_currency=currency,
+            transaction_pay_type=pay_type
+        )
+
     @transition(field=state, source=payOrderStateEnum.PENDING, target=payOrderStateEnum.PAID)
     def pay(self, **kwargs):
         kwargs.update({'amount': self.total_price})
 
-        pay_strategy = payStrategy(self.pay_type, **kwargs).strategy
+        pay_strategy = payStrategy(self, **kwargs).strategy
         pay_strategy.transaction()
 
         if pay_strategy.success:
-            return self, pay_strategy.result
+            pay_strategy.create_shop_history()
+
+            return self
         else:
             resp = {
                 'detail': pay_strategy.error,

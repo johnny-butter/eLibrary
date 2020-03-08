@@ -1,6 +1,7 @@
 class baseStrategy:
 
     def __init__(self, **kwargs):
+        self.pay_order = kwargs['pay_order']
         self._result = None
         self._error = []
 
@@ -9,6 +10,9 @@ class baseStrategy:
         Assign transaction result to self._result
         '''
 
+        raise NotImplementedError
+
+    def create_shop_history(self):
         raise NotImplementedError
 
     @property
