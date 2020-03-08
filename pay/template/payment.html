@@ -41,6 +41,11 @@
             </tbody>
         </table>
         {% if amount > 0 %}
+        <select id="order-type-select" class="browser-default custom-select">
+            <option selected value="braintree">Braintree</option>
+            <option value="manual">手動轉帳/現場支付</option>
+        </select>
+        <br>
         <button id="order-create-button" class="btn btn-primary float-right">確認付款</button>
         <br>
         <div id="dropin-container"></div>

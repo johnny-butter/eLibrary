@@ -1,9 +1,11 @@
 from .braintree import braintreeStrategy
+from .manual import manualStrategy
 
 
 class payStrategy:
     strategyMappingDict = {
         'braintree': braintreeStrategy,
+        'manual': manualStrategy,
     }
 
     def __init__(self, pay_order, **kwargs):

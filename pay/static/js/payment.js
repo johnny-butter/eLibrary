@@ -1,6 +1,7 @@
 var pay_order_id = null;
 $("#order-create-button").click(function () {
     var books_info = [];
+    var pay_type = $("#order-type-select").val();
     create_books_info(books_info);
 
     $.ajax({
@@ -12,15 +13,22 @@ $("#order-create-button").click(function () {
         contentType: 'application/json; charset=UTF-8',
         data: JSON.stringify({
             'total_price': $("#cart_total_amount").text(),
-            'pay_type': "braintree",
+            'pay_type': pay_type,
             'item_list': books_info,
         }),
         success: function (msg) {
             pay_order_id = msg.id
-            $.get("/api/v2/braintree_client_token/", function (msg) {
-                var pay_token = msg.token;
-                create_braintree_pay(pay_token);
-            });
+            switch (pay_type) {
+                case "braintree":
+                    $.get("/api/v2/braintree_client_token/", function (msg) {
+                        var pay_token = msg.token;
+                        create_braintree_pay(pay_token);
+                    });
+                    break;
+                case "manual":
+                    alert("訂單已建立(id: " + pay_order_id + ")，付款完成後，請通知客服人員");
+                    break;
+            };
         },
         error: function (error) {
             console.warn(error);
