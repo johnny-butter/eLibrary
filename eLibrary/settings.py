@@ -16,6 +16,7 @@ newrelic.agent.initialize()
 
 import os
 import environ
+import rollbar
 from django.utils.translation import gettext_lazy as _
 # https://stackoverflow.com/questions/59719175/
 from django.core.management.utils import get_random_secret_key
@@ -44,6 +45,9 @@ env = environ.Env(
     BRAINTREE_MERCHANT_ID=(str, ''),
     BRAINTREE_PUBLIC_KEY=(str, ''),
     BRAINTREE_PRIVATE_KEY=(str, ''),
+
+    ROLLBAR_ACCESS_TOKEN=(str, ''),
+    ROLLBAR_ENV=(str, ''),
 )
 
 # reading .env file
@@ -93,6 +97,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
 ROOT_URLCONF = 'eLibrary.urls'
@@ -250,6 +255,14 @@ EMAIL_BACKEND = env('EMAIL_BACKEND')
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/2'
 CELERY_RESULT_SERIALIZER = 'json'
+
+if not DEBUG:
+    ROLLBAR = {
+        'access_token': env('ROLLBAR_ACCESS_TOKEN'),
+        'environment': env('ROLLBAR_ENV'),
+        'root': BASE_DIR,
+    }
+    rollbar.init(**ROLLBAR)
 
 LOGGING = {
     'version': 1,

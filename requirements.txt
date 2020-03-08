@@ -46,3 +46,5 @@ gunicorn == 19.9.0
 whitenoise == 5.0.1
 
 newrelic == 5.8.0.136
+
+rollbar == 0.14.7
