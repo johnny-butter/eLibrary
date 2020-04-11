@@ -1,4 +1,5 @@
 import requests
+from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
@@ -8,8 +9,7 @@ def payPage(request):
     if request.method == 'GET':
         headers = {'Authorization': 'JWT ' + request.COOKIES.get('token', '')}
 
-        result = requests.get(request.build_absolute_uri(
-            reverse('api_v2:shopCar')), headers=headers)
+        result = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:shopCar")}', headers=headers)
 
         books = result.json().get('results', None)
         amount = 0

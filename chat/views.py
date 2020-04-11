@@ -1,4 +1,5 @@
 import requests
+from django.conf import settings
 from django.views.generic import View
 from django.shortcuts import render
 from django.urls import reverse
@@ -9,7 +10,7 @@ from api.models import User
 class chatRoom(View):
 
     def get(self, request, *args, **kwargs):
-        url = request.build_absolute_uri(reverse('api_v2:chatCheck'))
+        url = f'{settings.API_END_POINT}{reverse("api_v2:chatCheck")}'
 
         headers = {
             'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),

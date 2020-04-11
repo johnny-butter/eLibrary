@@ -3,6 +3,7 @@ import aiohttp
 import requests
 import json
 import time
+from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
@@ -30,10 +31,8 @@ def bookList(request):
     loop = asyncio.get_event_loop()
 
     tasks = (
-        asyncio.ensure_future(asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('api_v2:getAllBookCbv')), params=qString, headers=headers))),
-        asyncio.ensure_future(get_response(request.build_absolute_uri(
-            reverse('api_v2:favBookCbv')), params=qString, headers=headers))
+        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:getAllBookCbv")}', params=qString, headers=headers)),
+        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}', params=qString, headers=headers))
     )
 
     # asyncio.wait(): accept list;
@@ -62,7 +61,7 @@ def bookList(request):
 
 
 def favBookList(request):
-    favbooks = requests.get(request.build_absolute_uri(reverse('api_v2:favBookCbv')),
+    favbooks = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}',
                             headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
 
     if favbooks.status_code >= 200 and favbooks.status_code < 400:
@@ -74,7 +73,7 @@ def favBookList(request):
 
 def userInfoPage(request):
     if request.method == 'GET':
-        url = request.build_absolute_uri(reverse('api_v2:userDetailCbv'))
+        url = f'{settings.API_END_POINT}{reverse("api_v2:userDetailCbv")}'
 
         headers = {
             'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),

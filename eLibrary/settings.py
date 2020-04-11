@@ -26,6 +26,7 @@ env = environ.Env(
     DEBUG=(bool, True),
     ALLOWED_HOSTS=(list, []),
     SECRET_KEY=(str, get_random_secret_key()),
+    API_END_POINT=(str, 'http://127.0.0.1:8000'),
 
     EMAIL_BACKEND=(str, ''),
     EMAIL_HOST_USER=(str, ''),
@@ -52,6 +53,8 @@ env = environ.Env(
 
 # reading .env file
 environ.Env.read_env()
+
+API_END_POINT = env('API_END_POINT')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
