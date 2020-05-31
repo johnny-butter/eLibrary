@@ -1,4 +1,6 @@
 import jwt
+import logging
+import json
 from django.conf import settings
 from rest_framework import status
 from rest_framework import views
@@ -6,10 +8,13 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
+logger = logging.getLogger('api')
+
 
 class login(views.APIView):
 
     def post(self, request, *args, **kwargs):
+        log_params = {}
         try:
             user = authenticate(
                 request,
@@ -25,6 +30,12 @@ class login(views.APIView):
         except:
             raise
 
-        resp = {'token': encoded_data}
+        resp = {'token': str(encoded_data, 'utf-8')}
+
+        log_params.update({
+            'response': resp,
+        })
+
+        logger.info(json.dumps(log_params))
 
         return Response(resp, status=status.HTTP_200_OK)

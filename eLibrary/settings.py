@@ -279,6 +279,9 @@ LOGGING = {
             'format': '{levelname} {asctime} {message}',
             'style': '{',
         },
+        'json_fmt': {
+            '()': 'json_log_formatter.JSONFormatter',
+        },
     },
     'handlers': {
         'logFile': {
@@ -287,8 +290,24 @@ LOGGING = {
             'filename': 'log/debug.log',
             'formatter': 'simple'
         },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'jsonLogFile': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'log/app.log',
+            'formatter': 'json_fmt',
+        },
     },
     'loggers': {
+        'api': {
+            'handlers': ['jsonLogFile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'django': {
             'handlers': ['logFile'],
             'level': 'INFO',
