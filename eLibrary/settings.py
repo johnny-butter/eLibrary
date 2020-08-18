@@ -59,6 +59,8 @@ API_END_POINT = env('API_END_POINT')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+FRONTEND_BASE_DIR = BASE_DIR + '/frontend'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -109,9 +111,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR + '/loginPage/template',
-            BASE_DIR + '/bookList/template',
-            BASE_DIR + '/pay/template',
+            FRONTEND_BASE_DIR + '/loginPage/template',
+            FRONTEND_BASE_DIR + '/bookList/template',
+            FRONTEND_BASE_DIR + '/pay/template',
             BASE_DIR + '/chat/template',
         ],
         'APP_DIRS': True,
@@ -215,13 +217,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'bookList/static/js/'),
-    os.path.join(BASE_DIR, 'bookList/static/css/'),
-    os.path.join(BASE_DIR, 'bookList/static/img/'),
-    os.path.join(BASE_DIR, 'loginPage/static/js/'),
-    os.path.join(BASE_DIR, 'loginPage/static/css/'),
-    os.path.join(BASE_DIR, 'loginPage/static/img/'),
-    os.path.join(BASE_DIR, 'pay/static/js/'),
+    os.path.join(FRONTEND_BASE_DIR, 'bookList/static/js/'),
+    os.path.join(FRONTEND_BASE_DIR, 'bookList/static/css/'),
+    os.path.join(FRONTEND_BASE_DIR, 'bookList/static/img/'),
+    os.path.join(FRONTEND_BASE_DIR, 'loginPage/static/js/'),
+    os.path.join(FRONTEND_BASE_DIR, 'loginPage/static/css/'),
+    os.path.join(FRONTEND_BASE_DIR, 'loginPage/static/img/'),
+    os.path.join(FRONTEND_BASE_DIR, 'pay/static/js/'),
     os.path.join(BASE_DIR, 'chat/static/css/'),
     os.path.join(BASE_DIR, 'chat/static/img/'),
 )

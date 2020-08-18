@@ -28,11 +28,11 @@ urlpatterns = i18n_patterns(
 
     url(r'^api/v2/', include('api.urls.v2', namespace='v2')),
 
-    url(r'^books/', include('bookList.urls')),
+    url(r'^books/', include('frontend.bookList.urls')),
 
-    url(r'^login/', include('loginPage.urls')),
+    url(r'^login/', include('frontend.loginPage.urls')),
 
-    url(r'^payment/', include('pay.urls')),
+    url(r'^payment/', include('frontend.pay.urls')),
 
     path('chat/', include('chat.urls')),
 
