@@ -15,7 +15,7 @@ async def get_response(url, params=None, headers=None):
             return response.status, await response.text()
 
 
-def bookList(request):
+def book_list(request):
     qString = {}
     for qKey in ['search', 'page', 'order']:
         if request.GET.get(qKey, None):
@@ -50,7 +50,7 @@ def bookList(request):
 
     if (books[0] >= 200 and books[0] < 400) and (fav[0] >= 200 and fav[0] < 400):
         favBooks = [info['book'] for info in fResponseData['data']]
-        return render(request, 'bookList.html', context={'books': bResponseData['data'],
+        return render(request, 'book_list.html', context={'books': bResponseData['data'],
                                                          'pages': bResponseData['total_page'],
                                                          'current_page': bResponseData['current_page'],
                                                          'has_previous': bResponseData['has_previous'],
@@ -60,18 +60,18 @@ def bookList(request):
         return HttpResponseBadRequest('Error:{}'.format(bResponseData))
 
 
-def favBookList(request):
+def fav_book_list(request):
     favbooks = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}',
                             headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
 
     if favbooks.status_code >= 200 and favbooks.status_code < 400:
-        return render(request, 'favBookList.html', context={'favbooks': favbooks.json()})
+        return render(request, 'fav_book_list.html', context={'favbooks': favbooks.json()})
     else:
         print(favbooks.status_code)
         return HttpResponseBadRequest('Error: {}'.format(favbooks.json()))
 
 
-def userInfoPage(request):
+def user_info_page(request):
     if request.method == 'GET':
         url = f'{settings.API_END_POINT}{reverse("api_v2:userDetailCbv")}'
 
@@ -82,6 +82,6 @@ def userInfoPage(request):
         userinfo = requests.get(url, headers=headers, verify=False)
 
         if userinfo.status_code >= 200 and userinfo.status_code < 400:
-            return render(request, 'userInfo.html', context={'user': userinfo.json()})
+            return render(request, 'user_info.html', context={'user': userinfo.json()})
         else:
             return HttpResponseBadRequest('Error: {}'.format(str(userinfo.json())))

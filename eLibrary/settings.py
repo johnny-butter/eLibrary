@@ -112,7 +112,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             FRONTEND_BASE_DIR + '/loginPage/template',
-            FRONTEND_BASE_DIR + '/bookList/template',
+            FRONTEND_BASE_DIR + '/book_list/template',
             FRONTEND_BASE_DIR + '/pay/template',
             BASE_DIR + '/chat/template',
         ],
@@ -217,9 +217,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 
 STATICFILES_DIRS = (
-    os.path.join(FRONTEND_BASE_DIR, 'bookList/static/js/'),
-    os.path.join(FRONTEND_BASE_DIR, 'bookList/static/css/'),
-    os.path.join(FRONTEND_BASE_DIR, 'bookList/static/img/'),
+    os.path.join(FRONTEND_BASE_DIR, 'book_list/static/js/'),
+    os.path.join(FRONTEND_BASE_DIR, 'book_list/static/css/'),
+    os.path.join(FRONTEND_BASE_DIR, 'book_list/static/img/'),
     os.path.join(FRONTEND_BASE_DIR, 'loginPage/static/js/'),
     os.path.join(FRONTEND_BASE_DIR, 'loginPage/static/css/'),
     os.path.join(FRONTEND_BASE_DIR, 'loginPage/static/img/'),
