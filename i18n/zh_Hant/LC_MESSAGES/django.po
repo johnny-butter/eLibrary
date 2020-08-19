@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-18 01:53+0800\n"
+"POT-Creation-Date: 2020-08-19 23:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,22 +17,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\api\serializers.py:118
-msgid "hello world"
-msgstr ""
-
-#: .\api\view\jwt_provider_view.py:20
+#: .\api\views\v2\login.py:25
 msgid "there is no vaild user, please check"
 msgstr "查無使用者，請重試"
 
-#: .\eLibrary\settings.py:162
+#: .\eLibrary\settings.py:203
 msgid "English"
 msgstr ""
 
-#: .\eLibrary\settings.py:163 .\eLibrary\settings.py:164
+#: .\eLibrary\settings.py:204 .\eLibrary\settings.py:205
 msgid "中文繁體"
 msgstr ""
 
-#: .\error_code.py:8
-msgid "Pay fail."
+#: .\shared\channel_jwt_validate.py:25 .\shared\jwt_validate.py:93
+msgid "Token contained no recognizable user identification"
+msgstr ""
+
+#: .\shared\channel_jwt_validate.py:32 .\shared\jwt_validate.py:100
+msgid "User not found"
+msgstr ""
+
+#: .\shared\channel_jwt_validate.py:36 .\shared\jwt_validate.py:104
+msgid "User is inactive"
+msgstr ""
+
+#: .\shared\error_code\error_code.py:14
+msgid "Pay fail"
+msgstr ""
+
+#: .\shared\error_code\error_code.py:20
+msgid "Invalid token"
+msgstr ""
+
+#: .\shared\error_code\error_code.py:26
+msgid "Auth fail"
+msgstr ""
+
+#: .\shared\jwt_validate.py:68
+msgid "Authorization header must contain two space-delimited values"
+msgstr ""
+
+#: .\shared\jwt_validate.py:83
+msgid "Given token not valid for any token type"
 msgstr ""
