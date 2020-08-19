@@ -58,10 +58,10 @@
                     <th>作者</th>
                     <th>原價</th>
                     <th>特價
-                        <a href="{% url 'booklist' %}?page=1&order=price_discount">
+                        <a href="{% url 'book_list' %}?page=1&order=price_discount">
                             <input id="up" type="image" src="{% static 'up.png' %}">
                         </a>
-                        <a href="{% url 'booklist' %}?page=1&order=-price_discount">
+                        <a href="{% url 'book_list' %}?page=1&order=-price_discount">
                             <input id="down" type="image" src="{% static 'down.png' %}">
                         </a>
                     </th>
@@ -109,7 +109,7 @@
                     <td colspan="6">
                         <div class="links">
                             {% if has_previous == True %}
-                            <a href="{% url 'booklist' %}?page={{ current_page|add:'-1' }}"
+                            <a href="{% url 'book_list' %}?page={{ current_page|add:'-1' }}"
                                 rel="keep-params">Previous</a>
                             {% endif %}
 
@@ -117,13 +117,13 @@
                             {% if forloop.counter == current_page %}
                             <a class="currentPage">{{ forloop.counter }}</a>
                             {% else %}
-                            <a href="{% url 'booklist' %}?page={{ forloop.counter }}"
+                            <a href="{% url 'book_list' %}?page={{ forloop.counter }}"
                                 rel="keep-params">{{ forloop.counter }}</a>
                             {% endif %}
                             {% endfor %}
 
                             {% if has_next == True %}
-                            <a href="{% url 'booklist' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
+                            <a href="{% url 'book_list' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
                             {% endif %}
                         </div>
                     </td>

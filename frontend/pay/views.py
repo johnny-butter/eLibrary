@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 
 
-def payPage(request):
+def pay_page(request):
     if request.method == 'GET':
         headers = {'Authorization': 'JWT ' + request.COOKIES.get('token', '')}
 

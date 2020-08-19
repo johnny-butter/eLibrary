@@ -4,6 +4,6 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 
 
-def loginPage(request):
+def login_page(request):
     if request.method == 'GET':
-        return render(request, 'loginPage.html')
+        return render(request, 'login_page.html')
