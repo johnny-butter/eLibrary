@@ -206,7 +206,7 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
+    os.path.join(BASE_DIR, 'i18n'),
 ]
 
 # Static files (CSS, JavaScript, Images)
