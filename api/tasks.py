@@ -1,27 +1,41 @@
-from celery import task
+from eLibrary.celery import app
 from django.core.mail import send_mail
-from .models import shopHistory
+from .models import payOrder
 
 
-@task
-def sent_transaction_mail(transaction_id, userName, userMail):
-    """
-    :param transaction_id: braintree id of the transaction
-    :return: mail_sent
-    """
+@app.task
+def sent_shopping_record_mail(pay_order_id):
+    pay_order = payOrder.objects.get(id=pay_order_id)
+    pay_order_detail = pay_order.payorderdetail_set.all().values('book__name', 'price', 'quantity')
+    shop_history = pay_order.shophistory_set.first()
+    user = pay_order.user
 
-    transaction = shopHistory.objects.filter(transaction_id=transaction_id)
+    bought_items = []
+    for detail in pay_order_detail:
+        bought_items.append(f"{detail['book__name']} ({detail['price']}x{detail['quantity']})")
 
-    items = []
-    for item in transaction:
-        items.append(item.book.name)
-
-    subject = 'Trading Successful! (id:{})'.format(transaction_id)
-    message = 'Dear {},\n\nYou have successfully got the book(s):\n{}.'.format(
-        userName, '\n'.join(items))
+    email_subject = 'eLibrary Shopping Record'
+    email_content = [
+        f'Dear {user.username},',
+        '',
+        f'Your transaction id: {shop_history.transaction_id}',
+        '',
+        'Items you bought:',
+        '\n'.join(bought_items),
+        '',
+        f'Total amount: {shop_history.transaction_total_price} {shop_history.transaction_currency}',
+        '',
+        'Thank you for visiting',
+        '',
+        'Best Regards,',
+        'eLibrary'
+    ]
 
     mail_sent = send_mail(
-        subject, message, 'service@elibrary.com', [userMail])
+        email_subject,
+        '\n'.join(email_content),
+        'service@elibrary.com',
+        [user.email]
+    )
 
-    print(mail_sent, type(mail_sent))
     return mail_sent
