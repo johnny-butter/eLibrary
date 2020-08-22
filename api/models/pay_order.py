@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django_fsm import FSMIntegerField, FSMField, transition
+from django_fsm import FSMIntegerField, transition
+
 from shared.error_code import PayFail
 from api.utils.pay_strategy import payStrategy
 from .shop_history import shopHistory
@@ -44,10 +45,5 @@ class payOrder(models.Model):
 
         if pay_strategy.success:
             pay_strategy.create_shop_history()
-
-            return self
         else:
-            resp = {
-                'detail': pay_strategy.error,
-            }
-            raise PayFail(detail=resp)
+            raise PayFail(detail={'detail': pay_strategy.error})
