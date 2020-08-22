@@ -13,6 +13,7 @@ class Book(models.Model):
     publish_date = models.DateTimeField(blank=True, null=True)
     price_origin = models.IntegerField()
     price_discount = models.IntegerField(blank=True, null=True)
+    stock = models.IntegerField(default=0)
     update_at = models.DateTimeField(null=True)
 
     def __str__(self):
