@@ -1,8 +1,10 @@
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
-from api.models import shopHistory, payOrder
+
+from api.models import payOrder
 from api.serializers import payOrderSerializer, shopHistorySerializer
+from api.tasks import sent_shopping_record_mail
 
 
 class payment(ViewSet):
@@ -34,5 +36,7 @@ class payment(ViewSet):
 
         shop_history = pay_order.shophistory_set.last()
         serializer = shopHistorySerializer(shop_history)
+
+        sent_shopping_record_mail.delay(pay_order.id)
 
         return Response(serializer.data)
