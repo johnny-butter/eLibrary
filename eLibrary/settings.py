@@ -34,6 +34,8 @@ env = environ.Env(
     EMAIL_HOST_USER=(str, ''),
     EMAIL_HOST_PASSWORD=(str, ''),
 
+    REDIS_URL=(str, 'redis://127.0.0.1:6379'),
+
     DB_ENGINE=(str, ''),
     DB_NAME=(str, ''),
     DB_USER=(str, ''),
@@ -139,7 +141,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': ['redis://127.0.0.1:6379/3'],
+            'hosts': [f"{env('REDIS_URL')}/3"],
         },
     },
 }
@@ -263,8 +265,8 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/2'
+CELERY_BROKER_URL = f"{env('REDIS_URL')}/1"
+CELERY_RESULT_BACKEND = f"{env('REDIS_URL')}/2"
 CELERY_RESULT_SERIALIZER = 'json'
 
 if not DEBUG:
