@@ -6,7 +6,14 @@ __all__ = [
     'PayFail',
     'InvalidToken',
     'AuthenticationFailed',
+    'StockNotEnough',
 ]
+
+
+class StockNotEnough(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_detail = _('Stock not enough')
+    default_code = 'book_001'
 
 
 class PayFail(APIException):

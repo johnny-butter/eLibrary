@@ -13,6 +13,7 @@ class bookSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'type_name', 'author_name',
             'price_origin', 'price_discount', 'favthis',
+            'stock',
         )
 
     def get_favthis(self, obj):

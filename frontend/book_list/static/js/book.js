@@ -56,16 +56,32 @@ $(document).ready(function () {
     })
     $(".shopplus").click(function () {
         var book_id = $(this).attr('name')
-        $.post("/api/v2/cart/?action=add", { 'book': book_id }, function (msg) {
-            $("#add-success").slideDown();
-            $("#add-success").delay(3000).slideUp();
-        })
+        $.ajax({
+            type: "POST",
+            url: "/api/v2/cart/?action=add",
+            data: {'book': book_id},
+            success: function (msg) {
+                $("#add-success").slideDown();
+                $("#add-success").delay(3000).slideUp();
+            },
+            error: function (error) {
+                alert("Fail:" + error.responseText);
+            }
+        });
     })
     $(".shopminus").click(function () {
         var book_id = $(this).attr('name')
-        $.post("/api/v2/cart/?action=cut", { 'book': book_id }, function (msg) {
-            $("#remove-success").slideDown();
-            $("#remove-success").delay(3000).slideUp();
-        })
+        $.ajax({
+            type: "POST",
+            url: "/api/v2/cart/?action=cut",
+            data: {'book': book_id},
+            success: function (msg) {
+                $("#remove-success").slideDown();
+                $("#remove-success").delay(3000).slideUp();
+            },
+            error: function (error) {
+                alert("Fail:" + error.responseText);
+            }
+        });
     })
 });
