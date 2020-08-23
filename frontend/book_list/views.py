@@ -2,7 +2,6 @@ import asyncio
 import aiohttp
 import requests
 import json
-import time
 from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
@@ -25,7 +24,6 @@ def book_list(request):
         'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),
     }
 
-    print('S:' + str(time.time()))
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop = asyncio.get_event_loop()
@@ -38,24 +36,27 @@ def book_list(request):
     # asyncio.wait(): accept list;
     # asyncio.gather(): accept many tasks;
 
-    # loop.run_until_complete(asyncio.wait(tasks))
+    # results = loop.run_until_complete(asyncio.wait(tasks))
     results = loop.run_until_complete(asyncio.gather(*tasks))
 
     books = results[0]
     fav = results[1]
-    print('F:' + str(time.time()))
 
     bResponseData = json.loads(books[1])
     fResponseData = json.loads(fav[1])
 
     if (books[0] >= 200 and books[0] < 400) and (fav[0] >= 200 and fav[0] < 400):
         favBooks = [info['book'] for info in fResponseData['data']]
-        return render(request, 'book_list.html', context={'books': bResponseData['data'],
-                                                         'pages': bResponseData['total_page'],
-                                                         'current_page': bResponseData['current_page'],
-                                                         'has_previous': bResponseData['has_previous'],
-                                                         'has_next': bResponseData['has_next'],
-                                                         'fav': favBooks})
+        context = {
+            'books': bResponseData['data'],
+            'pages': bResponseData['total_page'],
+            'current_page': bResponseData['current_page'],
+            'has_previous': bResponseData['has_previous'],
+            'has_next': bResponseData['has_next'],
+            'fav': favBooks,
+        }
+
+        return render(request, 'book_list.html', context=context)
     else:
         return HttpResponseBadRequest('Error:{}'.format(bResponseData))
 
