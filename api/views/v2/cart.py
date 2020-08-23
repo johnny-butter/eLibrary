@@ -6,10 +6,25 @@ from rest_framework.permissions import IsAuthenticated
 from api.serializers import cartSerializer
 
 
-class shopCarManage(mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet):
+class shopCarManage(mixins.ListModelMixin, GenericViewSet):
 
     serializer_class = cartSerializer
     permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        cart = serializer.save()
+
+        action = self.request.query_params.get('action', 'add')
+        if action == 'add':
+            cart.quantity += 1
+        elif action == 'cut':
+            cart.quantity = cart.quantity - 1 if cart.quantity > 0 else 0
+
+        cart.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request, *args, **kwargs):
         self.queryset = self.request.user.shopcar_set.exclude(quantity=0)

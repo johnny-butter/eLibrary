@@ -16,16 +16,10 @@ class cartSerializer(serializers.ModelSerializer):
         super(cartSerializer, self).run_validators(value)
 
     def create(self, data):
-        action = self.context['request'].query_params.get('action', 'add')
-        cart, created = shopCar.objects.get_or_create(user=self.context['request'].user,
-                                                      book=data['book'])
-        if not created:
-            if action == 'add':
-                cart.quantity += 1
-            elif action == 'cut':
-                cart.quantity = cart.quantity - 1 if cart.quantity > 0 else 0
-
-            cart.save()
+        cart, created = shopCar.objects.get_or_create(
+            user=self.context['request'].user,
+            book=data['book']
+        )
 
         return cart
 
