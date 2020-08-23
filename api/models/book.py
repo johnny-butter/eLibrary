@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from functools import wraps
+from shared.error_code import StockNotEnough
 
 
 class Book(models.Model):
@@ -21,6 +23,20 @@ class Book(models.Model):
 
     class Meta:
         db_table = 'book'
+
+    @staticmethod
+    def check_stock(func):
+
+        @wraps(func)
+        def executor(view_set_instance, request, *args, **kwargs):
+            if request.GET.get('action') == 'add':
+                book = Book.objects.get(id=request.POST['book'])
+                if book.stock < 1:
+                    raise StockNotEnough()
+
+            return func(view_set_instance, request, *args, **kwargs)
+
+        return executor
 
 
 @receiver(pre_save, sender=Book)
