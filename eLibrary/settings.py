@@ -141,7 +141,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [f"{env('REDIS_URL')}/3"],
+            'hosts': [env('REDIS_URL')],
         },
     },
 }
@@ -265,8 +265,8 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-CELERY_BROKER_URL = f"{env('REDIS_URL')}/1"
-CELERY_RESULT_BACKEND = f"{env('REDIS_URL')}/2"
+CELERY_BROKER_URL = env('REDIS_URL')
+CELERY_RESULT_BACKEND = env('REDIS_URL')
 CELERY_RESULT_SERIALIZER = 'json'
 
 if not DEBUG:
