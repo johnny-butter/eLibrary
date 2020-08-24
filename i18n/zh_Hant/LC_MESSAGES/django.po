@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-19 23:27+0800\n"
+"POT-Creation-Date: 2020-08-25 01:34+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,46 +17,53 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\api\views\v2\login.py:25
+#: .\api\views\v2\login.py:20
 msgid "there is no vaild user, please check"
 msgstr "查無使用者，請重試"
 
-#: .\eLibrary\settings.py:203
+#: .\eLibrary\settings.py:208
 msgid "English"
 msgstr ""
 
-#: .\eLibrary\settings.py:204 .\eLibrary\settings.py:205
+#: .\eLibrary\settings.py:209 .\eLibrary\settings.py:210
 msgid "中文繁體"
 msgstr ""
 
-#: .\shared\channel_jwt_validate.py:25 .\shared\jwt_validate.py:93
-msgid "Token contained no recognizable user identification"
+#: .\shared\errors\error_code.py:15
+msgid "Stock not enough"
 msgstr ""
 
-#: .\shared\channel_jwt_validate.py:32 .\shared\jwt_validate.py:100
-msgid "User not found"
-msgstr ""
-
-#: .\shared\channel_jwt_validate.py:36 .\shared\jwt_validate.py:104
-msgid "User is inactive"
-msgstr ""
-
-#: .\shared\error_code\error_code.py:14
+#: .\shared\errors\error_code.py:21
 msgid "Pay fail"
 msgstr ""
 
-#: .\shared\error_code\error_code.py:20
+#: .\shared\errors\error_code.py:27
 msgid "Invalid token"
 msgstr ""
 
-#: .\shared\error_code\error_code.py:26
+#: .\shared\errors\error_code.py:33
 msgid "Auth fail"
 msgstr ""
 
-#: .\shared\jwt_validate.py:68
+#: .\shared\validations\channel_jwt_validate.py:25
+#: .\shared\validations\jwt_validate.py:93
+msgid "Token contained no recognizable user identification"
+msgstr ""
+
+#: .\shared\validations\channel_jwt_validate.py:32
+#: .\shared\validations\jwt_validate.py:100
+msgid "User not found"
+msgstr ""
+
+#: .\shared\validations\channel_jwt_validate.py:36
+#: .\shared\validations\jwt_validate.py:104
+msgid "User is inactive"
+msgstr ""
+
+#: .\shared\validations\jwt_validate.py:68
 msgid "Authorization header must contain two space-delimited values"
 msgstr ""
 
-#: .\shared\jwt_validate.py:83
+#: .\shared\validations\jwt_validate.py:83
 msgid "Given token not valid for any token type"
 msgstr ""

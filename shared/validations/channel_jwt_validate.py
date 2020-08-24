@@ -4,7 +4,7 @@ from channels.auth import AuthMiddleware
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from shared.error_code import AuthenticationFailed, InvalidToken
+from shared.errors import AuthenticationFailed, InvalidToken
 
 
 class JWTAuthMiddleware:

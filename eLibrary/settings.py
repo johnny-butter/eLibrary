@@ -187,8 +187,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'api.User'
 
 AUTHENTICATION_BACKENDS = [
-    'shared.auth_backend.emailOrUsernameModelBackend',
-    'shared.auth_backend.oauthModelBackend',
+    'shared.backends.emailOrUsernameModelBackend',
+    'shared.backends.oauthModelBackend',
 ]
 
 # Internationalization
@@ -248,9 +248,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 9,
     'ORDERING_PARAM': 'order',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'shared.jwt_validate.JWTAuthentication',
+        'shared.validations.JWTAuthentication',
     ),
-    'EXCEPTION_HANDLER': 'shared.error_code.exception_handler',
+    'EXCEPTION_HANDLER': 'shared.errors.exception_handler',
 }
 
 # for django-debug-toolbar using
