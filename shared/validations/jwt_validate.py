@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status, HTTP_HEADER_ENCODING, authentication
 from rest_framework.response import Response
-from shared.error_code import AuthenticationFailed, InvalidToken
+from shared.errors import AuthenticationFailed, InvalidToken
 
 
 AUTH_HEADER_TYPES = ['Bearer', 'JWT']

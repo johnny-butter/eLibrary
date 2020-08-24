@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django_fsm import FSMIntegerField, transition
 
-from shared.error_code import PayFail
+from shared.errors import PayFail
 from api.utils.pay_strategy import payStrategy
 from .shop_history import shopHistory
 

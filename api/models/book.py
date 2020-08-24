@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from functools import wraps
-from shared.error_code import StockNotEnough
+from shared.errors import StockNotEnough
 
 
 class Book(models.Model):
