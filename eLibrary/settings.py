@@ -106,6 +106,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'shared.middlewares.ApiLoggingMiddleware',
     'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
@@ -291,7 +292,7 @@ LOGGING = {
             'style': '{',
         },
         'json_fmt': {
-            '()': 'json_log_formatter.JSONFormatter',
+            'format': '{"message": %(message)s, "time":"%(asctime)s", "level": "%(levelname)s"}',
         },
     },
     'handlers': {

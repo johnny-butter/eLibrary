@@ -48,5 +48,3 @@ whitenoise == 5.0.1
 newrelic == 5.8.0.136
 
 rollbar == 0.14.7
-
-JSON-log-formatter == 0.3.0
