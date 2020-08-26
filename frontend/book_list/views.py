@@ -4,7 +4,7 @@ import requests
 from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 
 
 async def get_response(url, params=None, headers=None):
@@ -14,13 +14,12 @@ async def get_response(url, params=None, headers=None):
 
 
 def book_list(request):
-    qString = {}
-    for qKey in ['search', 'page', 'order']:
-        if request.GET.get(qKey, None):
-            qString[qKey] = request.GET.get(qKey)
+    q_string = {}
+    for k in request.GET:
+        q_string[k] = request.GET[k]
 
     headers = {
-        'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),
+        'Authorization': f"JWT {request.COOKIES.get('token', '')}",
     }
 
     loop = asyncio.new_event_loop()
@@ -28,8 +27,8 @@ def book_list(request):
     loop = asyncio.get_event_loop()
 
     tasks = (
-        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:getAllBookCbv")}', params=qString, headers=headers)),
-        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}', params=qString, headers=headers))
+        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:getAllBookCbv")}', params=q_string, headers=headers)),
+        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}', params=q_string, headers=headers)),
         asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:book_top3")}', headers=headers)),
     )
 
@@ -58,14 +57,16 @@ def book_list(request):
 
 
 def fav_book_list(request):
-    favbooks = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}',
-                            headers={'Authorization': 'JWT ' + request.COOKIES.get('token', '')}, verify=False)
+    fav_books = requests.get(
+        f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}',
+        headers={'Authorization': f"JWT {request.COOKIES.get('token', '')}"},
+        verify=False
+    )
 
-    if favbooks.status_code >= 200 and favbooks.status_code < 400:
-        return render(request, 'fav_book_list.html', context={'favbooks': favbooks.json()})
+    if 200 <= fav_books.status_code < 400:
+        return render(request, 'fav_book_list.html', context={'favbooks': fav_books.json()})
     else:
-        print(favbooks.status_code)
-        return HttpResponseBadRequest('Error: {}'.format(favbooks.json()))
+        return HttpResponseBadRequest(f'Error: {fav_books.json()}')
 
 
 def user_info_page(request):
@@ -73,12 +74,12 @@ def user_info_page(request):
         url = f'{settings.API_END_POINT}{reverse("api_v2:userDetailCbv")}'
 
         headers = {
-            'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),
+            'Authorization': f"JWT {request.COOKIES.get('token', '')}",
         }
 
         userinfo = requests.get(url, headers=headers, verify=False)
 
-        if userinfo.status_code >= 200 and userinfo.status_code < 400:
+        if 200 <= userinfo.status_code < 400:
             return render(request, 'user_info.html', context={'user': userinfo.json()})
         else:
-            return HttpResponseBadRequest('Error: {}'.format(str(userinfo.json())))
+            return HttpResponseBadRequest(f'Error: {str(userinfo.json())}')
