@@ -1,6 +1,8 @@
+from datetime import datetime
 from eLibrary.celery import app
 from django.core.mail import send_mail
-from .models import payOrder
+from django.db.models import Sum
+from .models import payOrder, payOrderDetail, BookTop3
 
 
 @app.task
@@ -39,3 +41,23 @@ def sent_shopping_record_mail(pay_order_id):
     )
 
     return mail_sent
+
+
+@app.task
+def get_top3_books():
+    top3_query = payOrderDetail.objects. \
+        filter(pay_order__state=1). \
+        values('book'). \
+        annotate(Sum('quantity')). \
+        order_by('-quantity__sum')[:3]
+
+    count_time = datetime.now().strftime('%Y%m%d%H')
+
+    BookTop3.objects.bulk_create([
+        BookTop3(
+            book_id=item['book'],
+            book_count=item['quantity__sum'],
+            count_time=count_time
+        )
+        for item in top3_query
+    ])
