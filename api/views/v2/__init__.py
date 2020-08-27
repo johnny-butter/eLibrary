@@ -6,3 +6,4 @@ from .login import login
 from .payment import payment
 from .braintree_client_token import braintreeClientToken
 from .chat_check import chatCheck
+from .book_top3 import GetBookTop3

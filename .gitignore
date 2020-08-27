@@ -1,15 +1,16 @@
+# [python]
 __pycache__/
 
+# [config files]
 .env
-
 .vscode
-
-staticFile
-
 server.crt
-
 server.key
 
+# [django]
+staticFile
 *.mo
 
+# [log files]
 log/
+celerybeat*

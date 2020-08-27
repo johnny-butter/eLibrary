@@ -32,4 +32,6 @@ urlpatterns = [
 
     path('chat_check/',
          views.chatCheck.as_view({'get': 'check'}), name='chatCheck'),
+
+    path('book_top3/', views.GetBookTop3.as_view({'get': 'list'}), name='book_top3'),
 ]

@@ -78,6 +78,9 @@
                 <td>
                     <div class="dropright">
                         <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if book.name in book_top3 %}
+                            <input type="image" src="{% static 'star.png' %}">
+                            {% endif %}
                             {{ book.name }}
                         </div>
                         <div class="dropdown-menu">
