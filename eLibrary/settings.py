@@ -116,6 +116,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+            BASE_DIR + '/eLibrary/template',
             FRONTEND_BASE_DIR + '/login_page/template',
             FRONTEND_BASE_DIR + '/book_list/template',
             FRONTEND_BASE_DIR + '/pay/template',
@@ -222,6 +223,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 
 STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'eLibrary/static/img/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/js/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/css/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/img/'),

@@ -1,37 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>最愛書籍</title>
-    {% load staticfiles %}
-    <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
+{% block title %}
+最愛書籍
+{% endblock %}
 
-<body>
-    <h1>{{ favbooks.username }}的最愛</h1>
-    <table class="woodTable">
-        <thead>
-            <tr>
-                <th>書名</th>
-                <th>分類</th>
-                <th>作者</th>
-                <th>原價</th>
-                <th>特價</th>
-            </tr>
-        </thead>
-        {% for favbook in favbooks.data %}
+{% block head %}
+<link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
+{% endblock %}
+
+{% block body %}
+<h1>{{ favbooks.username }}的最愛</h1>
+<table class="woodTable">
+    <thead>
         <tr>
-            <td>{{ favbook.bookinfo.name }}</td>
-            <td>{{ favbook.bookinfo.type_name }}</td>
-            <td>{{ favbook.bookinfo.author_name }}</td>
-            <td>{{ favbook.bookinfo.price_origin }}</td>
-            <td>{{ favbook.bookinfo.price_discount }}</td>
+            <th>書名</th>
+            <th>分類</th>
+            <th>作者</th>
+            <th>原價</th>
+            <th>特價</th>
         </tr>
-        {% endfor %}
-    </table>
-</body>
+    </thead>
+    {% for favbook in favbooks.data %}
+    <tr>
+        <td>{{ favbook.bookinfo.name }}</td>
+        <td>{{ favbook.bookinfo.type_name }}</td>
+        <td>{{ favbook.bookinfo.author_name }}</td>
+        <td>{{ favbook.bookinfo.price_origin }}</td>
+        <td>{{ favbook.bookinfo.price_discount }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

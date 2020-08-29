@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load staticfiles %}
+
+    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-light">
+        <a class="navbar-brand btn btn-md px-3 btn-primary-outline" href="/books/list/" role="button">
+            <img src="{% static 'library.png' %}" class="d-inline-block">
+            eLibrary
+        </a>
+
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="navb" class="navbar-collapse collapse hide">
+            <ul class="navbar-nav ml-auto navbar-fixed-top">
+                <li class="nav-item navbar-right">
+                    <a class="btn btn-md px-3 btn-primary-outline" href="/payment/purchase/" role="button">
+                        <img src="{% static 'shopcar.png' %}" class="d-inline-block">
+                        購物車
+                    </a>
+                </li>
+                <li class="nav-item dropdown navbar-right">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" style="color:black;">
+                        <img src="{% static 'profile.png' %}" class="d-inline-block">
+                        帳號
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/books/userinfo/">編輯</a>
+                        <a class="dropdown-item" href="/login/">登出</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block body %}{% endblock %}
+</body>
+
+</html>
