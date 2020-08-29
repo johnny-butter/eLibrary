@@ -1,55 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>使用者</title>
-    {% load staticfiles %}
-    <link rel=stylesheet type="text/css" href="{% static 'info.css' %}">
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
+{% block title %}
+使用者資訊
+{% endblock %}
 
-<body>
-    <div class="divTable" style="width: 25%;">
-        <h2>使用者資訊</h2>
-        <br>
-        <div class="divTableBody">
-            <div class="divTableRow">
-                <div class="divTableCell">使用者名稱</div>
-                <div class="divTableCell">
-                    <input id="username" name="{{ user.id }}" type="text" value="{{ user.username }}">
-                </div>
-            </div>
-            <div class="divTableRow">
-                <div class="divTableCell">密碼</div>
-                <div class="divTableCell">
-                    <input id=pass1 type="password" placeholder="請輸入新密碼">
-                </div>
-            </div>
-            <div class="divTableRow">
-                <div class="divTableCell"></div>
-                <div class="divTableCell">
-                    <input id=pass2 type="password" placeholder="請再輸入新密碼">
-                </div>
-            </div>
-            <div class="divTableRow">
-                <div class="divTableCell">E-mail</div>
-                <div class="divTableCell">
-                    <input id="useremail" type="email" value="{{ user.email }}">
-                </div>
-            </div>
-            <div class="divTableRow">
-                <div class="divTableCell">確認更新?</div>
-                <div class="divTableCell">
-                    <input class="btn btn-primary" id="updateinfo" type="button" value="確認">
-                </div>
+{% block head %}
+<link rel=stylesheet type="text/css" href="{% static 'info.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="divTable" style="width: 30%;">
+    <h2>使用者資訊</h2>
+    <br/>
+    <form role="form">
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label">使用者名稱</label>
+            <div class="col-lg-9">
+                <input class="form-control" id="username" name="{{ user.id }}" type="text" value="{{ user.username }}">
             </div>
         </div>
-    </div>
-    <script src="//apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
-    <script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="{% static 'info.js' %}"></script>
-</body>
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label">密碼</label>
+            <div class="col-lg-9">
+                <input class="form-control" id=pass1 type="password" placeholder="請輸入新密碼">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label"></label>
+            <div class="col-lg-9">
+                <input class="form-control" id=pass2 type="password" placeholder="請再輸入新密碼">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label">電子信箱</label>
+            <div class="col-lg-9">
+                <input class="form-control" id="useremail" type="email" value="{{ user.email }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label"></label>
+            <div class="col-lg-9">
+                <input class="btn btn-secondary" type="reset"  value="取消">
+                <input class="btn btn-primary" id="updateinfo" type="button" value="更新">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="//apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
+<script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+<script src="{% static 'info.js' %}"></script>
+{% endblock %}

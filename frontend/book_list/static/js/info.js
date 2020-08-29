@@ -4,7 +4,7 @@ $.ajaxSetup({
     }
 });
 $(document).ready(function () {
-    $(".divTableCell :button").click(function () {
+    $("#updateinfo").click(function () {
         var data = {
             'username': $("#username").val(),
             'email': $("#useremail").val(),

@@ -1,153 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>書籍清單</title>
-    {% load staticfiles %}
-    <link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
+{% block title %}
+書籍清單
+{% endblock %}
 
-<body>
-    <div class="container" style="max-width: 100%;">
-        <nav class="navbar navbar-expand-md bg-light">
-            <ul class="navbar-nav ml-auto navbar-fixed-top">
-                <li class="nav-item navbar-right">
-                    <a class="btn btn-md px-3 btn-primary-outline" href="/payment/purchase/" role="button">
-                        <img src="{% static 'shopcar.png' %}" class="d-inline-block">
-                        購物車
-                    </a>
-                </li>
-                <li class="nav-item dropdown navbar-right">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" style="color:black;">
-                        <img src="{% static 'profile.png' %}" class="d-inline-block">
-                        帳號
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/books/userinfo/">編輯</a>
-                        <a class="dropdown-item" href="/login/">登出</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+{% block head %}
+<link rel=stylesheet type="text/css" href="{% static 'book.css' %}">
+{% endblock %}
 
-        <div id="add-success" class="alert alert-success fade show" role="alert">
-            商品成功加入購物車 <a href="/payment/purchase/" class="alert-link">前往察看</a>
-        </div>
+{% block body %}
+<div id="add-success" class="alert alert-success fade show" role="alert">
+    商品成功加入購物車 <a href="/payment/purchase/" class="alert-link">前往察看</a>
+</div>
 
-        <div id="remove-success" class="alert alert-danger fade show" role="alert">
-            商品成功移出購物車 <a href="/payment/purchase/" class="alert-link">前往察看</a>
-        </div>
+<div id="remove-success" class="alert alert-danger fade show" role="alert">
+    商品成功移出購物車 <a href="/payment/purchase/" class="alert-link">前往察看</a>
+</div>
 
-        <h1>書籍清單</h1>
-        <table class="woodTable">
-            <thead>
-                <tr>
-                    <th colspan="7">
-                        <input id="book" type="text">
-                        <input class="find" type="image" src="{% static 'search.png' %}">
-                    </th>
-                </tr>
-                <tr>
-                    <th>書名</th>
-                    <th>分類</th>
-                    <th>作者</th>
-                    <th>原價</th>
-                    <th>特價
-                        <a href="{% url 'book_list' %}?page=1&order=price_discount">
-                            <input id="up" type="image" src="{% static 'up.png' %}">
-                        </a>
-                        <a href="{% url 'book_list' %}?page=1&order=-price_discount">
-                            <input id="down" type="image" src="{% static 'down.png' %}">
-                        </a>
-                    </th>
-                    <th>庫存</th>
-                    <th>我的最愛
-                        <a rel="noopener" target="_blank" href="/books/favlist/">
-                            <input id="book_fav" type="image" src="{% static 'book_fav.png' %}">
-                        </a>
-                    </th>
-                </tr>
-            </thead>
-            {% for book in books %}
-            <tr>
-                <td>
-                    <div class="dropright">
-                        <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {% if book.name in book_top3 %}
-                            <input type="image" src="{% static 'star.png' %}">
-                            {% endif %}
-                            {{ book.name }}
-                        </div>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-item shopplus" name="{{ book.id }}">
-                                <input type="image" src="{% static 'plus.png' %}">
-                                加入購物車
-                            </div>
-                            <div class="dropdown-item shopminus" name="{{ book.id }}">
-                                <input type="image" src="{% static 'minus.png' %}">
-                                移出購物車
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>{{ book.type_name }}</td>
-                <td>{{ book.author_name }}</td>
-                <td>{{ book.price_origin }}</td>
-                <td>{{ book.price_discount }}</td>
-                <td>{{ book.stock }}</td>
-                <td>
-                    {% if book.id in fav %}
-                    <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_fav.png' %}">
-                    {% elif book.favthis == False %}
-                    <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_unfav.png' %}">
+<h1>書籍清單</h1>
+<table class="woodTable">
+    <thead>
+        <tr>
+            <th colspan="7">
+                <input id="book" type="text">
+                <input class="find" type="image" src="{% static 'search.png' %}">
+            </th>
+        </tr>
+        <tr>
+            <th>書名</th>
+            <th>分類</th>
+            <th>作者</th>
+            <th>原價</th>
+            <th>特價
+                <a href="{% url 'book_list' %}?page=1&order=price_discount">
+                    <input id="up" type="image" src="{% static 'up.png' %}">
+                </a>
+                <a href="{% url 'book_list' %}?page=1&order=-price_discount">
+                    <input id="down" type="image" src="{% static 'down.png' %}">
+                </a>
+            </th>
+            <th>庫存</th>
+            <th>我的最愛
+                <a rel="noopener" target="_blank" href="/books/favlist/">
+                    <input id="book_fav" type="image" src="{% static 'book_fav.png' %}">
+                </a>
+            </th>
+        </tr>
+    </thead>
+    {% for book in books %}
+    <tr>
+        <td>
+            <div class="dropright">
+                <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if book.name in book_top3 %}
+                    <input type="image" src="{% static 'star.png' %}">
                     {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-            <tfoot>
-                <tr>
-                    <td colspan="7">
-                        <div class="links">
-                            {% if has_previous == True %}
-                            <a href="{% url 'book_list' %}?page={{ current_page|add:'-1' }}"
-                                rel="keep-params">Previous</a>
-                            {% endif %}
+                    {{ book.name }}
+                </div>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item shopplus" name="{{ book.id }}">
+                        <input type="image" src="{% static 'plus.png' %}">
+                        加入購物車
+                    </div>
+                    <div class="dropdown-item shopminus" name="{{ book.id }}">
+                        <input type="image" src="{% static 'minus.png' %}">
+                        移出購物車
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>{{ book.type_name }}</td>
+        <td>{{ book.author_name }}</td>
+        <td>{{ book.price_origin }}</td>
+        <td>{{ book.price_discount }}</td>
+        <td>{{ book.stock }}</td>
+        <td>
+            {% if book.id in fav %}
+            <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_fav.png' %}">
+            {% elif book.favthis == False %}
+            <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_unfav.png' %}">
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    <tfoot>
+        <tr>
+            <td colspan="7">
+                <div class="links">
+                    {% if has_previous == True %}
+                    <a href="{% url 'book_list' %}?page={{ current_page|add:'-1' }}"
+                        rel="keep-params">Previous</a>
+                    {% endif %}
 
-                            {% for page in "x"|ljust:pages %}
-                            {% if forloop.counter == current_page %}
-                            <a class="currentPage">{{ forloop.counter }}</a>
-                            {% else %}
-                            <a href="{% url 'book_list' %}?page={{ forloop.counter }}"
-                                rel="keep-params">{{ forloop.counter }}</a>
-                            {% endif %}
-                            {% endfor %}
+                    {% for page in "x"|ljust:pages %}
+                    {% if forloop.counter == current_page %}
+                    <a class="currentPage">{{ forloop.counter }}</a>
+                    {% else %}
+                    <a href="{% url 'book_list' %}?page={{ forloop.counter }}"
+                        rel="keep-params">{{ forloop.counter }}</a>
+                    {% endif %}
+                    {% endfor %}
 
-                            {% if has_next == True %}
-                            <a href="{% url 'book_list' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
-                            {% endif %}
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+                    {% if has_next == True %}
+                    <a href="{% url 'book_list' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
 
-        <div id="chatButton">
-            <a class="btn btn-md px-3 btn-primary-outline" href="/chat/" rel="noopener" target="_blank"
-                role="button">
-                <img src="{% static 'customer_service.png' %}" class="d-inline-block">
-            </a>
-        </div>
+<div id="chatButton">
+    <a class="btn btn-md px-3 btn-primary-outline" href="/chat/" rel="noopener" target="_blank"
+        role="button">
+        <img src="{% static 'customer_service.png' %}" class="d-inline-block">
+    </a>
+</div>
 
-    </div>
-    <script src="//apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
-    <script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="//malsup.github.io/min/jquery.blockUI.min.js"></script>
-    <script src="{% static 'book.js' %}"></script>
-</body>
-
-</html>
+<script src="//apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"> </script>
+<script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
+<script src="//malsup.github.io/min/jquery.blockUI.min.js"></script>
+<script src="{% static 'book.js' %}"></script>
+{% endblock %}
