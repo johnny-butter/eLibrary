@@ -1,5 +1,5 @@
 from .user import userSerializer
-from .book import bookSerializer
+from .book import BookSerializer
 from .book_fav import bookFavSerializer
 from .book_fav_get import bookFavGetSerializer
 from .cart import cartSerializer

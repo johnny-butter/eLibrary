@@ -6,14 +6,17 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated
 
 
-class favBook(mixins.CreateModelMixin, GenericViewSet):
+class FavBook(mixins.CreateModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if self.request.method == 'GET':
 
-            queryset = self.request.user.favoritebook_set.select_related(
-                'book').select_related('book__author').select_related('book__type').favorited()
+            queryset = self.request.user.favoritebook_set. \
+                select_related('book'). \
+                select_related('book__author'). \
+                select_related('book__type'). \
+                favorited()
 
         return queryset
 

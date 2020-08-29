@@ -13,10 +13,10 @@ urlpatterns = [
         {'get': 'retrieve', 'put': 'partial_update'}), name='userDetailCbv'),
 
     path('get_all_book/',
-         views.getAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
+         views.GetAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
 
     path('favbook/',
-         views.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
+         views.FavBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
 
     path('braintree_client_token/', views.braintreeClientToken.as_view(
         {'get': 'getClientToken'}), name='braintreeClientToken'),

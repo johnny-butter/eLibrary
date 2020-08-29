@@ -1,7 +1,7 @@
 from .user import userCreate, getUserDetail
-from .book import getAllBook
+from .book import GetAllBook
 from .cart import shopCarManage
-from .fav_book import favBook
+from .fav_book import FavBook
 from .login import login
 from .payment import payment
 from .braintree_client_token import braintreeClientToken

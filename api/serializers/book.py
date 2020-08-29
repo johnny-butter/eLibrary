@@ -3,25 +3,23 @@ from api.models import Book
 from django.utils.translation import gettext_lazy as _
 
 
-class bookSerializer(serializers.ModelSerializer):
+class BookSerializer(serializers.ModelSerializer):
     type_name = serializers.CharField(allow_null=True, source='type.name')
     author_name = serializers.CharField(allow_null=True, source='author.name')
-    favthis = serializers.SerializerMethodField()
+    is_fav = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
         fields = (
             'id', 'name', 'type_name', 'author_name',
-            'price_origin', 'price_discount', 'favthis',
+            'price_origin', 'price_discount', 'is_fav',
             'stock',
         )
 
-    def get_favthis(self, obj):
-        favQuery = self.context.get('favQuery')
-        if favQuery:
-            if obj.id in favQuery:
-                return True
-            else:
-                return False
+    def get_is_fav(self, obj):
+        fav_books = self.context.get('fav_books')
 
-        return False
+        if not fav_books:
+            return False
+
+        return obj.id in fav_books
