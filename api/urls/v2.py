@@ -13,7 +13,7 @@ urlpatterns = [
          views.GetAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
 
     path('favbook/',
-         views.FavBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
+         views.FavBook.as_view({'get': 'list', 'post': 'create'}), name='fav_book_cbv'),
 
     path('braintree_client_token/', views.braintreeClientToken.as_view(
         {'get': 'getClientToken'}), name='braintreeClientToken'),

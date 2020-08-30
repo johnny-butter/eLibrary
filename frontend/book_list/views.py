@@ -55,16 +55,16 @@ def book_list(request):
 
 
 def fav_book_list(request):
-    fav_books = requests.get(
-        f'{settings.API_END_POINT}{reverse("api_v2:favBookCbv")}',
+    fav_data = requests.get(
+        f'{settings.API_END_POINT}{reverse("api_v2:fav_book_cbv")}',
         headers={'Authorization': f"JWT {request.COOKIES.get('token', '')}"},
         verify=False
     )
 
-    if fav_books.status_code >= 400:
-        return HttpResponseBadRequest(f'Error: {fav_books.json()}')
+    if fav_data.status_code >= 400:
+        return HttpResponseBadRequest(f'Error: {fav_data.json()}')
 
-    return render(request, 'fav_book_list.html', context={'favbooks': fav_books.json()})
+    return render(request, 'fav_book_list.html', context={'fav_data': fav_data.json()})
 
 
 def user_info_page(request):

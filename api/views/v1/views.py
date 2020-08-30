@@ -1,10 +1,12 @@
 from django.core.paginator import Paginator
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.models import User, Book, favoriteBook
-from api.serializers import UserSerializer, BookSerializer, bookFavSerializer, bookFavGetSerializer
 from rest_framework.exceptions import NotFound
+
+from api.models import User, Book, favoriteBook
+from api.serializers import UserSerializer, BookSerializer, BookFavSerializer, BookFavGetSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -107,7 +109,7 @@ def fav_book(request):
         favbooklist = favoriteBook.objects.filter(username=request.user.id).filter(isFavorite=True).select_related(
             'book').select_related('book__author').select_related('book__type')
 
-        serializer = bookFavGetSerializer(favbooklist, many=True)
+        serializer = BookFavGetSerializer(favbooklist, many=True)
 
         R = [{'username': request.user.username, 'data': serializer.data}]
 
@@ -119,7 +121,7 @@ def fav_book(request):
         if 'user' not in data:
             data['user'] = request.user.id
 
-        serializer = bookFavSerializer(data=data)
+        serializer = BookFavSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
 
