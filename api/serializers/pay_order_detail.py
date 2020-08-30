@@ -2,7 +2,7 @@ from rest_framework import serializers
 from api.models import payOrderDetail
 
 
-class payOrderDetailSerializer(serializers.ModelSerializer):
+class PayOrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = payOrderDetail

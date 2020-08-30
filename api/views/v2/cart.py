@@ -3,13 +3,14 @@ from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
-from api.serializers import cartSerializer
+
+from api.serializers import CartSerializer
 from api.models import Book
 
 
-class shopCarManage(mixins.ListModelMixin, GenericViewSet):
+class ShopCarManager(mixins.ListModelMixin, GenericViewSet):
 
-    serializer_class = cartSerializer
+    serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
     @Book.check_stock
@@ -36,7 +37,7 @@ class shopCarManage(mixins.ListModelMixin, GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         self.queryset = self.request.user.shopcar_set.exclude(quantity=0)
-        return super(shopCarManage, self).list(request, *args, **kwargs)
+        return super(ShopCarManager, self).list(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         action = self.request.query_params.get('del', 'one')

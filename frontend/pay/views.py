@@ -9,7 +9,7 @@ def pay_page(request):
     if request.method == 'GET':
         headers = {'Authorization': f"JWT {request.COOKIES.get('token', '')}"}
 
-        result = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:shopCar")}', headers=headers)
+        result = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:shop_car")}', headers=headers)
 
         if not result.ok:
             return HttpResponseBadRequest(f'Error: {result.json()}')

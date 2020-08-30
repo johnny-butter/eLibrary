@@ -1,12 +1,12 @@
 import random
 import string
-from .base import baseStrategy
+from .base import BaseStrategy
 
 
-class manualStrategy(baseStrategy):
+class ManualStrategy(BaseStrategy):
 
     def __init__(self, **kwargs):
-        super(manualStrategy, self).__init__(**kwargs)
+        super(ManualStrategy, self).__init__(**kwargs)
         self.amount = kwargs['amount']
 
     def transaction(self):

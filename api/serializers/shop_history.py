@@ -2,7 +2,7 @@ from rest_framework import serializers
 from api.models import shopHistory
 
 
-class shopHistorySerializer(serializers.ModelSerializer):
+class ShopHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = shopHistory

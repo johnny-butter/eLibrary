@@ -1,11 +1,11 @@
-from .braintree import braintreeStrategy
-from .manual import manualStrategy
+from .braintree import BraintreeStrategy
+from .manual import ManualStrategy
 
 
-class payStrategy:
+class PayStrategy:
     strategyMappingDict = {
-        'braintree': braintreeStrategy,
-        'manual': manualStrategy,
+        'braintree': BraintreeStrategy,
+        'manual': ManualStrategy,
     }
 
     def __init__(self, pay_order, **kwargs):
