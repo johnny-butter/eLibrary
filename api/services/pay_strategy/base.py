@@ -1,4 +1,4 @@
-class baseStrategy:
+class BaseStrategy:
 
     def __init__(self, **kwargs):
         self.pay_order = kwargs['pay_order']

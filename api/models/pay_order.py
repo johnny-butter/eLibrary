@@ -3,7 +3,7 @@ from django.utils import timezone
 from django_fsm import FSMIntegerField, transition
 
 from shared.errors import PayFail
-from api.utils.pay_strategy import payStrategy
+from api.services.pay_strategy import PayStrategy
 from .shop_history import shopHistory
 
 
@@ -40,7 +40,7 @@ class payOrder(models.Model):
     def pay(self, **kwargs):
         kwargs.update({'amount': self.total_price})
 
-        pay_strategy = payStrategy(self, **kwargs).strategy
+        pay_strategy = PayStrategy(self, **kwargs).strategy
         pay_strategy.transaction()
 
         if pay_strategy.success:

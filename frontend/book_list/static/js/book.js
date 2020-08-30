@@ -26,7 +26,6 @@ $(document).ready(function () {
                 that.attr("src", "/static/m_fav.png");
             } else {
                 that.attr("src", "/static/m_unfav.png");
-                // that.text("fav this");
             }
         })
     });

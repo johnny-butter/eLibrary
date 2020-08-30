@@ -4,31 +4,28 @@ from api import views
 app_name = 'api_v2'
 
 urlpatterns = [
-    path('login/', views.login.as_view(), name='login'),
+    path('login/', views.Login.as_view(), name='login'),
 
     path(
-        'user/', views.userCreate.as_view({'post': 'create'}), name='userCreateCbv'),
-
-    path('user/detail/', views.getUserDetail.as_view(
-        {'get': 'retrieve', 'put': 'partial_update'}), name='userDetailCbv'),
+        'user/', views.User.as_view({'get': 'retrieve', 'post': 'create', 'put': 'partial_update'}), name='user_cbv'),
 
     path('get_all_book/',
-         views.getAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
+         views.GetAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),
 
     path('favbook/',
-         views.favBook.as_view({'get': 'list', 'post': 'create'}), name='favBookCbv'),
+         views.FavBook.as_view({'get': 'list', 'post': 'create'}), name='fav_book_cbv'),
 
-    path('braintree_client_token/', views.braintreeClientToken.as_view(
-        {'get': 'getClientToken'}), name='braintreeClientToken'),
+    path('braintree_client_token/', views.BraintreeClientToken.as_view(
+        {'get': 'get_client_token'}), name='braintree_client_token'),
 
-    path('pay_order/', views.payment.as_view(
-        {'get': 'getPayOrderList', 'post': 'createPayOrder'}), name='payOrder'),
+    path('pay_order/', views.Payment.as_view(
+        {'get': 'get_pay_order_list', 'post': 'create_pay_order'}), name='pay_order'),
 
-    path('pay/', views.payment.as_view(
-        {'post': 'createPayment'}), name='pay'),
+    path('pay/', views.Payment.as_view(
+        {'post': 'create_payment'}), name='pay'),
 
-    path('cart/', views.shopCarManage.as_view(
-        {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shopCar'),
+    path('cart/', views.ShopCarManager.as_view(
+        {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shop_car'),
 
     path('chat_check/',
          views.chatCheck.as_view({'get': 'check'}), name='chatCheck'),

@@ -1,27 +1,29 @@
 from rest_framework import status
 from rest_framework.response import Response
-from api.serializers import bookFavSerializer, bookFavGetSerializer
+from api.models import Book
+from api.serializers import BookFavSerializer, BookSerializer, BookFavGetSerializer
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated
 
 
-class favBook(mixins.CreateModelMixin, GenericViewSet):
+class FavBook(mixins.CreateModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if self.request.method == 'GET':
 
-            queryset = self.request.user.favoritebook_set.select_related(
-                'book').select_related('book__author').select_related('book__type').favorited()
+            fav_books_q = self.request.user.favoritebook_set.favorited()
+
+            queryset = Book.objects.filter(id__in=fav_books_q)
 
         return queryset
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            serializer_class = bookFavGetSerializer
+            serializer_class = BookSerializer
         elif self.request.method == 'POST':
-            serializer_class = bookFavSerializer
+            serializer_class = BookFavSerializer
 
         return serializer_class
 
@@ -29,7 +31,7 @@ class favBook(mixins.CreateModelMixin, GenericViewSet):
         serializer = self.get_serializer(self.get_queryset(), many=True)
         resp = {
             'username': self.request.user.username,
-            'data': serializer.data,
+            'books': serializer.data,
         }
 
         return Response(resp, status=status.HTTP_200_OK)

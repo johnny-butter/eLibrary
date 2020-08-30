@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from api.models import User, oauthRecord
-from .oauth_record import oauthRecordSerializer
+from .oauth_record import OauthRecordSerializer
 
 
-class userSerializer(serializers.Serializer):
+class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(
         required=True, allow_blank=False, max_length=100, min_length=5,
@@ -14,7 +14,7 @@ class userSerializer(serializers.Serializer):
         required=True, allow_null=True, max_length=100, validators=[UniqueValidator(queryset=User.objects.all())])
     is_staff = serializers.BooleanField(required=False, default=False)
     is_superuser = serializers.BooleanField(required=False, default=False)
-    oauth_record = oauthRecordSerializer(required=False)
+    oauth_record = OauthRecordSerializer(required=False)
 
     class Meta:
         extra_kwargs = {

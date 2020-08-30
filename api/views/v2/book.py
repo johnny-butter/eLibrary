@@ -1,5 +1,5 @@
 from api.models import Book
-from api.serializers import bookSerializer
+from api.serializers import BookSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_extensions.cache.decorators import cache_response
 
 
-def bookListRedisKeys(view_instance, view_method, request, args, kwargs):
+def BookListRedisKeys(view_instance, view_method, request, args, kwargs):
     total = Book.objects.all().count()
 
     page = request.query_params.get(
@@ -24,7 +24,7 @@ def bookListRedisKeys(view_instance, view_method, request, args, kwargs):
     return 'books_{}_p{}_s{}_o{}'.format(total, page, search, order)
 
 
-class bookPaging(PageNumberPagination):
+class BookPaging(PageNumberPagination):
     def get_paginated_response(self, data):
         nowPage = int(self.request.query_params.get(self.page_query_param, 1))
         return Response({'total_page': self.page.paginator.num_pages,
@@ -34,25 +34,26 @@ class bookPaging(PageNumberPagination):
                          'data': data})
 
 
-class getAllBook(mixins.ListModelMixin, GenericViewSet):
-    serializer_class = bookSerializer
-    pagination_class = bookPaging
+class GetAllBook(mixins.ListModelMixin, GenericViewSet):
+    serializer_class = BookSerializer
+    pagination_class = BookPaging
     # permission_classes = (IsAuthenticated,)
     filter_backends = (OrderingFilter, SearchFilter)
     search_fields = ('name', 'type__name')
     ordering = 'pk'
 
     def get_serializer_context(self):
-        fav = self.request.user.favoritebook_set.favorited().values_list('book', flat=True)
-        context = super(getAllBook, self).get_serializer_context()
-        context.update({'favQuery': [favBook for favBook in fav]})
+        fav_books_q = self.request.user.favoritebook_set.favorited().values_list('book', flat=True)
+        context = super(GetAllBook, self).get_serializer_context()
+        context.update({'fav_books': [b for b in fav_books_q]})
 
         return context
 
-    # @cache_response(timeout=60 * 5, key_func=bookListRedisKeys)
+    # @cache_response(timeout=60 * 5, key_func=BookListRedisKeys)
     def list(self, request, *args, **kwargs):
-        # print(getAllBook.__mro__)
-        self.queryset = Book.objects.select_related(
-            'type').select_related('author')
+        # print(GetAllBook.__mro__)
+        self.queryset = Book.objects. \
+            select_related('type'). \
+            select_related('author')
 
-        return super(getAllBook, self).list(request, *args, **kwargs)
+        return super(GetAllBook, self).list(request, *args, **kwargs)

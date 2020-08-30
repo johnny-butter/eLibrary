@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from api.models import payOrder, payOrderDetail
-from .pay_order_detail import payOrderDetailSerializer
+from .pay_order_detail import PayOrderDetailSerializer
 
 
-class payOrderSerializer(serializers.ModelSerializer):
+class PayOrderSerializer(serializers.ModelSerializer):
 
-    item_list = payOrderDetailSerializer(
+    item_list = PayOrderDetailSerializer(
         many=True, source='payorderdetail_set')
 
     def create(self, data):

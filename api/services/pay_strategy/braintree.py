@@ -1,9 +1,9 @@
 import braintree
 from django.conf import settings
-from .base import baseStrategy
+from .base import BaseStrategy
 
 
-class braintreeStrategy(baseStrategy):
+class BraintreeStrategy(BaseStrategy):
 
     if settings.DEBUG:
         # self.braintree_env = braintree.Environment.Production

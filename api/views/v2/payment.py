@@ -3,30 +3,30 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet
 
 from api.models import payOrder
-from api.serializers import payOrderSerializer, shopHistorySerializer
+from api.serializers import PayOrderSerializer, ShopHistorySerializer
 from api.tasks import sent_shopping_record_mail
 
 
-class payment(ViewSet):
+class Payment(ViewSet):
 
-    def getPayOrderList(self, request):
+    def get_pay_order_list(self, request):
         query_set = request.user.payorder_set.filter(state=0)
-        serializer = payOrderSerializer(query_set, many=True)
+        serializer = PayOrderSerializer(query_set, many=True)
         resp = {
             'data': serializer.data,
         }
 
         return Response(resp)
 
-    def createPayOrder(self, request):
+    def create_pay_order(self, request):
         context = {'request': request}
-        serializer = payOrderSerializer(data=request.data, context=context)
+        serializer = PayOrderSerializer(data=request.data, context=context)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def createPayment(self, request):
+    def create_payment(self, request):
         pay_order_id = request.data['pay_order_id']
         extra_data = request.data.get('extra_data', None)
 
@@ -35,7 +35,7 @@ class payment(ViewSet):
         pay_order.save()
 
         shop_history = pay_order.shophistory_set.last()
-        serializer = shopHistorySerializer(shop_history)
+        serializer = ShopHistorySerializer(shop_history)
 
         sent_shopping_record_mail.delay(pay_order.id)
 

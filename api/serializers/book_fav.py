@@ -3,7 +3,7 @@ from rest_framework.validators import UniqueTogetherValidator
 from api.models import favoriteBook
 
 
-class bookFavSerializer(serializers.ModelSerializer):
+class BookFavSerializer(serializers.ModelSerializer):
     class Meta:
         model = favoriteBook
         exclude = ('id', 'user')
@@ -15,16 +15,19 @@ class bookFavSerializer(serializers.ModelSerializer):
             if isinstance(validator, UniqueTogetherValidator):
                 self.validators.remove(validator)
 
-        super(bookFavSerializer, self).run_validators(value)
+        super(BookFavSerializer, self).run_validators(value)
 
     def create(self, data):
-        user = self.context['request'].user
+        fav_book_data = {
+            'book': data['book'],
+            'user': self.context['request'].user,
+            'defaults': {'isFavorite': True},
+        }
 
-        favorite, created = favoriteBook.objects.get_or_create(book=data['book'],
-                                                               user=user,
-                                                               defaults={'isFavorite': True})
+        fav_book, created = favoriteBook.objects.get_or_create(**fav_book_data)
+
         if not created:
-            favorite.isFavorite = not favorite.isFavorite
-            favorite.save()
+            fav_book.isFavorite = not fav_book.isFavorite
+            fav_book.save()
 
-        return favorite
+        return fav_book

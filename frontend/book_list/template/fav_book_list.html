@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>{{ favbooks.username }}的最愛</h1>
+<h1>{{ fav_data.username }}的最愛</h1>
 <table class="woodTable">
     <thead>
         <tr>
@@ -21,13 +21,13 @@
             <th>特價</th>
         </tr>
     </thead>
-    {% for favbook in favbooks.data %}
+    {% for book in fav_data.books %}
     <tr>
-        <td>{{ favbook.bookinfo.name }}</td>
-        <td>{{ favbook.bookinfo.type_name }}</td>
-        <td>{{ favbook.bookinfo.author_name }}</td>
-        <td>{{ favbook.bookinfo.price_origin }}</td>
-        <td>{{ favbook.bookinfo.price_discount }}</td>
+        <td>{{ book.name }}</td>
+        <td>{{ book.type_name }}</td>
+        <td>{{ book.author_name }}</td>
+        <td>{{ book.price_origin }}</td>
+        <td>{{ book.price_discount }}</td>
     </tr>
     {% endfor %}
 </table>
