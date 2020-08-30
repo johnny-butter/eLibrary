@@ -69,7 +69,7 @@ def fav_book_list(request):
 
 def user_info_page(request):
     if request.method == 'GET':
-        url = f'{settings.API_END_POINT}{reverse("api_v2:userDetailCbv")}'
+        url = f'{settings.API_END_POINT}{reverse("api_v2:user_cbv")}'
 
         headers = {
             'Authorization': f"JWT {request.COOKIES.get('token', '')}",

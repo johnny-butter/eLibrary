@@ -4,7 +4,7 @@ from api.models import User, oauthRecord
 from .oauth_record import oauthRecordSerializer
 
 
-class userSerializer(serializers.Serializer):
+class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(
         required=True, allow_blank=False, max_length=100, min_length=5,

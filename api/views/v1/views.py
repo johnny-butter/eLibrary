@@ -3,21 +3,21 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.models import User, Book, favoriteBook
-from api.serializers import userSerializer, BookSerializer, bookFavSerializer, bookFavGetSerializer
+from api.serializers import UserSerializer, BookSerializer, bookFavSerializer, bookFavGetSerializer
 from rest_framework.exceptions import NotFound
 
 
 @api_view(['GET', 'POST'])
-def getUserList(request):
+def get_user_list(request):
     if request.method == 'GET':
 
-        serializer = userSerializer(User.objects.all(), many=True)
+        serializer = UserSerializer(User.objects.all(), many=True)
 
         return Response(serializer.data)
 
     elif request.method == 'POST':
         data = request.POST
-        serializer = userSerializer(data=data)
+        serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
 
@@ -27,20 +27,20 @@ def getUserList(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def getUserDetail(request, pk):
+def get_user_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response({'error': "User " + pk + " does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = userSerializer(user)
+        serializer = UserSerializer(user)
 
         return Response(serializer.data)
 
     elif request.method == 'PUT':
         data = request.POST
-        serializer = userSerializer(user, data=data)
+        serializer = UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()
 

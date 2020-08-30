@@ -1,4 +1,4 @@
-from .user import userSerializer
+from .user import UserSerializer
 from .book import BookSerializer
 from .book_fav import bookFavSerializer
 from .book_fav_get import bookFavGetSerializer

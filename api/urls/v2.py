@@ -4,13 +4,10 @@ from api import views
 app_name = 'api_v2'
 
 urlpatterns = [
-    path('login/', views.login.as_view(), name='login'),
+    path('login/', views.Login.as_view(), name='login'),
 
     path(
-        'user/', views.userCreate.as_view({'post': 'create'}), name='userCreateCbv'),
-
-    path('user/detail/', views.getUserDetail.as_view(
-        {'get': 'retrieve', 'put': 'partial_update'}), name='userDetailCbv'),
+        'user/', views.User.as_view({'get': 'retrieve', 'post': 'create', 'put': 'partial_update'}), name='user_cbv'),
 
     path('get_all_book/',
          views.GetAllBook.as_view({'get': 'list'}), name='getAllBookCbv'),

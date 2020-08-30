@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
 
-class login(views.APIView):
+class Login(views.APIView):
 
     def post(self, request, *args, **kwargs):
         try:
