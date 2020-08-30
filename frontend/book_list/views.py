@@ -39,19 +39,19 @@ def book_list(request):
 
     (books_status, books_resp), (book_top3_status, book_top3_resp) = results
 
-    if 200 <= books_status < 400:
-        context = {
-            'books': books_resp['data'],
-            'pages': books_resp['total_page'],
-            'current_page': books_resp['current_page'],
-            'has_previous': books_resp['has_previous'],
-            'has_next': books_resp['has_next'],
-            'book_top3': book_top3_resp,
-        }
-
-        return render(request, 'book_list.html', context=context)
-    else:
+    if books_status >= 400:
         return HttpResponseBadRequest(f'Error:{books_resp}')
+
+    context = {
+        'books': books_resp['data'],
+        'pages': books_resp['total_page'],
+        'current_page': books_resp['current_page'],
+        'has_previous': books_resp['has_previous'],
+        'has_next': books_resp['has_next'],
+        'book_top3': book_top3_resp,
+    }
+
+    return render(request, 'book_list.html', context=context)
 
 
 def fav_book_list(request):
@@ -61,10 +61,10 @@ def fav_book_list(request):
         verify=False
     )
 
-    if 200 <= fav_books.status_code < 400:
-        return render(request, 'fav_book_list.html', context={'favbooks': fav_books.json()})
-    else:
+    if fav_books.status_code >= 400:
         return HttpResponseBadRequest(f'Error: {fav_books.json()}')
+
+    return render(request, 'fav_book_list.html', context={'favbooks': fav_books.json()})
 
 
 def user_info_page(request):
@@ -77,7 +77,7 @@ def user_info_page(request):
 
         userinfo = requests.get(url, headers=headers, verify=False)
 
-        if 200 <= userinfo.status_code < 400:
-            return render(request, 'user_info.html', context={'user': userinfo.json()})
-        else:
+        if userinfo.status_code >= 400:
             return HttpResponseBadRequest(f'Error: {str(userinfo.json())}')
+
+        return render(request, 'user_info.html', context={'user': userinfo.json()})
