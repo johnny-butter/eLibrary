@@ -2,7 +2,7 @@ from rest_framework import serializers
 from api.models import oauthRecord
 
 
-class oauthRecordSerializer(serializers.ModelSerializer):
+class OauthRecordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = oauthRecord

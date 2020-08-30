@@ -1,5 +1,5 @@
 from .user import UserSerializer
-from .oauth_record import oauthRecordSerializer
+from .oauth_record import OauthRecordSerializer
 
 from .book import BookSerializer
 from .book_fav import BookFavSerializer
