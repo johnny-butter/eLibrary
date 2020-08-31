@@ -1,16 +1,16 @@
 import factory
 from api import models
-from api.factory import bookTypeFactory, authorFactory
-from api.factory.publish_company import publishCompanyFactory
+from api.factory import BookTypeFactory, AuthorFactory
+from api.factory.publish_company import PublishCompanyFactory
 
 
-class bookFactory(factory.django.DjangoModelFactory):
+class BookFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Book
 
     name = 'test_book'
-    type = factory.SubFactory(bookTypeFactory)
-    author = factory.SubFactory(authorFactory)
-    publish_company = factory.SubFactory(publishCompanyFactory)
+    type = factory.SubFactory(BookTypeFactory)
+    author = factory.SubFactory(AuthorFactory)
+    publish_company = factory.SubFactory(PublishCompanyFactory)
     price_origin = 100
     price_discount = 50

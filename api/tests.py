@@ -1,20 +1,22 @@
 from rest_framework.test import APITestCase
 from api import factory
-# from rest_framework.test import APIRequestFactory
-# from rest_framework.test import RequestsClient
 
 
-class apiTests(APITestCase):
+class ApiTests(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.user = factory.userFactory.create()
-        factory.bookFactory.create()
+        cls.user = factory.UserFactory.create()
+        factory.BookFactory.create()
 
     def test_create_user(self):
-        response = self.client.post(
-            '/api/v2/user/',
-            data={'username': 'test2', 'password': 'test2', 'email': 'test2@test.com'})
+        user_data = {
+            'username': 'test2',
+            'password': 'test2',
+            'email': 'test2@test.com',
+        }
+
+        response = self.client.post('/api/v2/user/', data=user_data)
 
         self.assertEqual(response.status_code, 201, response.data)
         self.assertEqual(response.data.get(
@@ -28,14 +30,14 @@ class apiTests(APITestCase):
             'is_superuser', None), response.data)
 
     def test_get_user_without_jwt(self):
-        response = self.client.get('/api/v2/user/detail/')
+        response = self.client.get('/api/v2/user/')
 
         self.assertEqual(
             response.data['detail']['code'], 'not_authenticated', response.data)
 
     def test_get_user_with_jwt(self):
         self.client.force_authenticate(user=self.user)
-        response = self.client.get('/api/v2/user/detail/')
+        response = self.client.get('/api/v2/user/')
 
         self.assertEqual(response.data.get('id', None), 1, response.data)
         self.assertEqual(response.data.get('username', None), 'test_user')
@@ -49,8 +51,7 @@ class apiTests(APITestCase):
         }
 
         self.client.force_authenticate(user=self.user)
-        response = self.client.put(
-            '/api/v2/user/detail/', data=data, format='json')
+        response = self.client.put('/api/v2/user/', data=data, format='json')
 
         self.assertEqual(response.status_code, 200, response.data)
         self.assertEqual(response.data.get(

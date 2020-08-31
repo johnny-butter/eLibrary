@@ -1,5 +1,5 @@
-from .user import userFactory, adminUserFactory
-from .author import authorFactory
-from .book_type import bookTypeFactory
-from .book import bookFactory
-from .publish_company import publishCompanyFactory
+from .user import UserFactory, AdminUserFactory
+from .author import AuthorFactory
+from .book_type import BookTypeFactory
+from .book import BookFactory
+from .publish_company import PublishCompanyFactory
