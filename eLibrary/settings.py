@@ -43,8 +43,8 @@ env = environ.Env(
     DB_HOST=(str, ''),
     DB_PORT=(str, ''),
 
-    CACHE_BACKEND=(str, ''),
-    CACHE_LOCATION=(str, ''),
+    CACHE_BACKEND=(str, 'django_redis.cache.RedisCache'),
+    CACHE_LOCATION=(str, 'redis://127.0.0.1:6379'),
     CACHE_OPTIONS=(dict, {}),
 
     BRAINTREE_MERCHANT_ID=(str, ''),
