@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class publishCompany(models.Model):
+class PublishCompany(models.Model):
     name = models.CharField(max_length=30)
 
     class Meta:

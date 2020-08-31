@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='payOrder',
+            name='PayOrder',
             fields=[
                 ('id', models.AutoField(auto_created=True,
                                         primary_key=True, serialize=False, verbose_name='ID')),
@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 2019, 8, 31, 4, 43, 51, 566166, tzinfo=utc)),
         ),
         migrations.CreateModel(
-            name='payOrderDetail',
+            name='PayOrderDetail',
             fields=[
                 ('id', models.AutoField(auto_created=True,
                                         primary_key=True, serialize=False, verbose_name='ID')),
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ('book', models.ForeignKey(
                     on_delete=django.db.models.deletion.DO_NOTHING, to='api.Book')),
                 ('pay_order', models.ForeignKey(
-                    on_delete=django.db.models.deletion.DO_NOTHING, to='api.payOrder')),
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='api.PayOrder')),
             ],
             options={
                 'db_table': 'pay_order_detail',
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
             model_name='shophistory',
             name='pay_order',
             field=models.ForeignKey(
-                default=99999, on_delete=django.db.models.deletion.DO_NOTHING, to='api.payOrder'),
+                default=99999, on_delete=django.db.models.deletion.DO_NOTHING, to='api.PayOrder'),
             preserve_default=False,
         ),
     ]

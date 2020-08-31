@@ -1,5 +1,5 @@
 from django.contrib.auth.backends import ModelBackend, UserModel
-from api.models import oauthRecord
+from api.models import OauthRecord
 
 
 class emailOrUsernameModelBackend(ModelBackend):
@@ -31,8 +31,8 @@ class oauthModelBackend(ModelBackend):
             return
 
         try:
-            user = oauthRecord.objects.get(provider=provider, uid=uid).user
-        except oauthRecord.DoesNotExist:
+            user = OauthRecord.objects.get(provider=provider, uid=uid).user
+        except OauthRecord.DoesNotExist:
             pass
         else:
             return user

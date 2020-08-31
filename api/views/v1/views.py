@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 
-from api.models import User, Book, favoriteBook
+from api.models import User, Book, FavoriteBook
 from api.serializers import UserSerializer, BookSerializer, BookFavSerializer, BookFavGetSerializer
 
 
@@ -62,7 +62,7 @@ def get_all_book(request):
         orderItem = request.GET.get(
             'order') if 'order' in request.GET else 'pk'
 
-        fav_books_q = favoriteBook.objects.filter(user=request.user.id).filter(
+        fav_books_q = FavoriteBook.objects.filter(user=request.user.id).filter(
             isFavorite=True).values_list('book', flat=True)
 
         def paginF(queryset, itemPerPage=5):
@@ -106,7 +106,7 @@ def get_all_book(request):
 @api_view(['GET', 'POST'])
 def fav_book(request):
     if request.method == 'GET':
-        favbooklist = favoriteBook.objects.filter(username=request.user.id).filter(isFavorite=True).select_related(
+        favbooklist = FavoriteBook.objects.filter(username=request.user.id).filter(isFavorite=True).select_related(
             'book').select_related('book__author').select_related('book__type')
 
         serializer = BookFavGetSerializer(favbooklist, many=True)

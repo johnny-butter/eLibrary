@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import payOrder, payOrderDetail
+from api.models import PayOrder, PayOrderDetail
 from .pay_order_detail import PayOrderDetailSerializer
 
 
@@ -12,13 +12,13 @@ class PayOrderSerializer(serializers.ModelSerializer):
         items_data = data.pop('payorderdetail_set', None)
         user = self.context['request'].user
 
-        instance = payOrder.objects.create(
+        instance = PayOrder.objects.create(
             user=user,
             **data
         )
 
         for item_data in items_data:
-            payOrderDetail.objects.create(
+            PayOrderDetail.objects.create(
                 pay_order=instance,
                 **item_data
             )
@@ -26,7 +26,7 @@ class PayOrderSerializer(serializers.ModelSerializer):
         return instance
 
     class Meta:
-        model = payOrder
+        model = PayOrder
         fields = ['id', 'user', 'state', 'total_price',
                   'pay_type', 'create_date', 'item_list']
         read_only_fields = ('user',)

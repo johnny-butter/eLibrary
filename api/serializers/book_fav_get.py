@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from api.models import favoriteBook
+from api.models import FavoriteBook
 
 
 class BookFavGetSerializer(serializers.ModelSerializer):
     book_info = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = favoriteBook
+        model = FavoriteBook
         fields = ('book', 'book_info')
 
     def get_book_info(self, obj):

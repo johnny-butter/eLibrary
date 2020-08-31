@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from api.models import payOrderDetail
+from api.models import PayOrderDetail
 
 
 class PayOrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = payOrderDetail
+        model = PayOrderDetail
         exclude = ('id', 'pay_order')

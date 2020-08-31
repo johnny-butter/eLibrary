@@ -2,12 +2,12 @@ from datetime import datetime
 from eLibrary.celery import app
 from django.core.mail import send_mail
 from django.db.models import Sum
-from .models import payOrder, payOrderDetail, BookTop3
+from .models import PayOrder, PayOrderDetail, BookTop3
 
 
 @app.task
 def sent_shopping_record_mail(pay_order_id):
-    pay_order = payOrder.objects.get(id=pay_order_id)
+    pay_order = PayOrder.objects.get(id=pay_order_id)
     pay_order_detail = pay_order.payorderdetail_set.all().values('book__name', 'price', 'quantity')
     shop_history = pay_order.shophistory_set.first()
     user = pay_order.user
@@ -45,7 +45,7 @@ def sent_shopping_record_mail(pay_order_id):
 
 @app.task
 def get_top3_books():
-    top3_query = payOrderDetail.objects. \
+    top3_query = PayOrderDetail.objects. \
         filter(pay_order__state=1). \
         values('book'). \
         annotate(Sum('quantity')). \

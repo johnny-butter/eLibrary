@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from api.models import User, oauthRecord
+from api.models import User, OauthRecord
 from .oauth_record import OauthRecordSerializer
 
 
@@ -35,7 +35,7 @@ class UserSerializer(serializers.Serializer):
         instance.save()
 
         if oauth_record_data.get('provider', None):
-            oauthRecord.objects.create(
+            OauthRecord.objects.create(
                 user=instance,
                 **oauth_record_data
             )
