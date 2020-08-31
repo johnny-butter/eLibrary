@@ -43,10 +43,13 @@ function app_register(username, pwd, email,
                 app_login(null, null, oauth_type, oauth_response);
             };
 
-            $('#status_msg').text("Success");
+            $('#status_msg').text("Register Success");
             $('#status_msg').css({ "background-color": "#99CC66" });
             $('#status_msg').slideDown();
-            $('#status_msg').delay(1500).slideUp("slow", "swing");
+            $('#status_msg').delay(1500).slideUp("slow", "swing", function() {
+                data = $.parseJSON(data);
+                app_login(data.username, data.password);
+            });
         },
         error: function (error) {
             $.unblockUI();
@@ -85,7 +88,7 @@ function app_login(username, pwd, oauth_type = null, oauth_response = null) {
 
             $.unblockUI();
 
-            $('#status_msg').text("Success");
+            $('#status_msg').text("Login Success");
             $('#status_msg').css({ "background-color": "#99CC66" });
             $('#status_msg').slideDown();
             $('#status_msg').delay(1500).slideUp("slow", "swing", function () {
