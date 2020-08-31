@@ -10,7 +10,7 @@ from api.models import User
 class chatRoom(View):
 
     def get(self, request, *args, **kwargs):
-        url = f'{settings.API_END_POINT}{reverse("api_v2:chatCheck")}'
+        url = f'{settings.API_END_POINT}{reverse("api_v2:chat_check")}'
 
         headers = {
             'Authorization': 'JWT {}'.format(request.COOKIES.get('token', '')),
