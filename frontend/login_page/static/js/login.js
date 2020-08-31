@@ -43,18 +43,19 @@ function app_register(username, pwd, email,
                 app_login(null, null, oauth_type, oauth_response);
             };
 
-            $('#status_msg').text("Success");
-            $('#status_msg').css({ "background-color": "#99CC66" });
-            $('#status_msg').slideDown();
-            $('#status_msg').delay(1500).slideUp("slow", "swing");
+            $('#status-msg-g').text("Register Success");
+            $('#status-msg-g').slideDown();
+            $('#status-msg-g').delay(1500).slideUp("slow", "swing", function() {
+                data = $.parseJSON(data);
+                app_login(data.username, data.password);
+            });
         },
         error: function (error) {
             $.unblockUI();
 
-            $('#status_msg').text("Fail:" + error.responseText);
-            $('#status_msg').css({ "background-color": "#FF6666" });
-            $('#status_msg').slideDown();
-            $('#status_msg').delay(3000).slideUp();
+            $('#status-msg-r').text("Fail:" + error.responseText);
+            $('#status-msg-r').slideDown();
+            $('#status-msg-r').delay(3000).slideUp();
         }
     });
 }
@@ -85,10 +86,9 @@ function app_login(username, pwd, oauth_type = null, oauth_response = null) {
 
             $.unblockUI();
 
-            $('#status_msg').text("Success");
-            $('#status_msg').css({ "background-color": "#99CC66" });
-            $('#status_msg').slideDown();
-            $('#status_msg').delay(1500).slideUp("slow", "swing", function () {
+            $('#status-msg-g').text("Login Success");
+            $('#status-msg-g').slideDown();
+            $('#status-msg-g').delay(1500).slideUp("slow", "swing", function () {
                 window.location.href = "/books/list/?page=1";
             });
         },
@@ -98,10 +98,9 @@ function app_login(username, pwd, oauth_type = null, oauth_response = null) {
             } else {
                 $.unblockUI();
 
-                $('#status_msg').text("Fail:" + error.responseText);
-                $('#status_msg').css({ "background-color": "#FF6666" });
-                $('#status_msg').slideDown();
-                $('#status_msg').delay(3000).slideUp();
+                $('#status-msg-r').text("Fail:" + error.responseText);
+                $('#status-msg-r').slideDown();
+                $('#status-msg-r').delay(3000).slideUp();
             };
         }
     });
@@ -120,10 +119,9 @@ function fb_oauth_login(fb_response) {
         error: function (error) {
             $.unblockUI();
 
-            $('#status_msg').text("Fail:" + error.responseText);
-            $('#status_msg').css({ "background-color": "#FF6666" });
-            $('#status_msg').slideDown();
-            $('#status_msg').delay(3000).slideUp();
+            $('#status-msg-r').text("Fail:" + error.responseText);
+            $('#status-msg-r').slideDown();
+            $('#status-msg-r').delay(3000).slideUp();
         }
     });
 

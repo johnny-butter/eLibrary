@@ -12,7 +12,9 @@ $(document).ready(function () {
         if ($("#pass1").val() != "" && $("#pass1").val() == $("#pass2").val()) {
             data["password"] = $("#pass1").val();
         } else if ($("#pass1").val() != "") {
-            alert("請確認密碼一致");
+            $('#status-msg-r').text("請確認密碼一致");
+            $('#status-msg-r').slideDown();
+            $('#status-msg-r').delay(1500).slideUp();
             return;
         }
         console.info($("#username").attr('name'))
@@ -23,10 +25,16 @@ $(document).ready(function () {
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (msg) {
-                window.location.reload();
+                $('#status-msg-g').text("Update Success");
+                $('#status-msg-g').slideDown();
+                $('#status-msg-g').delay(1500).slideUp("slow", "swing", function() {
+                    window.location.reload();
+                });
             },
             error: function (error) {
-                alert("Fail:" + error.responseText);
+                $('#status-msg-r').text("Fail:" + error.responseText);
+                $('#status-msg-r').slideDown();
+                $('#status-msg-r').delay(1500).slideUp();
             }
         });
     });
