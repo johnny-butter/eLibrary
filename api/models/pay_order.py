@@ -4,10 +4,10 @@ from django_fsm import FSMIntegerField, transition
 
 from shared.errors import PayFail
 from api.services.pay_strategy import PayStrategy
-from .shop_history import shopHistory
+from .shop_history import ShopHistory
 
 
-class payOrderStateEnum:
+class PayOrderStateEnum:
     PENDING = 0
     PAID = 1
     SHIPPING = 2
@@ -16,9 +16,9 @@ class payOrderStateEnum:
     REFUNDED = 5
 
 
-class payOrder(models.Model):
+class PayOrder(models.Model):
     user = models.ForeignKey('User', models.CASCADE)
-    state = FSMIntegerField(default=payOrderStateEnum.PENDING)
+    state = FSMIntegerField(default=PayOrderStateEnum.PENDING)
     total_price = models.DecimalField(
         max_digits=10, decimal_places=3)
     pay_type = models.CharField(max_length=30)
@@ -28,7 +28,7 @@ class payOrder(models.Model):
         db_table = 'pay_order'
 
     def create_shop_history(self, transition_id, total_price, currency, pay_type):
-        return shopHistory.objects.create(
+        return ShopHistory.objects.create(
             pay_order=self,
             transaction_id=str(transition_id),
             transaction_total_price=total_price,
@@ -36,7 +36,7 @@ class payOrder(models.Model):
             transaction_pay_type=pay_type
         )
 
-    @transition(field=state, source=payOrderStateEnum.PENDING, target=payOrderStateEnum.PAID)
+    @transition(field=state, source=PayOrderStateEnum.PENDING, target=PayOrderStateEnum.PAID)
     def pay(self, **kwargs):
         kwargs.update({'amount': self.total_price})
 

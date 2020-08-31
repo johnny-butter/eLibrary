@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(default=datetime.datetime(2019, 7, 16, 9, 32, 28, 798074, tzinfo=utc)),
         ),
         migrations.CreateModel(
-            name='shopHistory',
+            name='ShopHistory',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('quantity', models.IntegerField()),

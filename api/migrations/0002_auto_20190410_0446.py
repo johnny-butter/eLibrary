@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='bookType',
+            name='BookType',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=20)),
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='publishCompany',
+            name='PublishCompany',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=30)),
@@ -58,11 +58,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='book',
             name='publish_company',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.publishCompany'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.PublishCompany'),
         ),
         migrations.AddField(
             model_name='book',
             name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.bookType'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.BookType'),
         ),
     ]

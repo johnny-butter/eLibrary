@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class oauthRecord(models.Model):
+class OauthRecord(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     provider = models.CharField(max_length=32)
     uid = models.CharField(max_length=32)

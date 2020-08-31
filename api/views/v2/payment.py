@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 
-from api.models import payOrder
+from api.models import PayOrder
 from api.serializers import PayOrderSerializer, ShopHistorySerializer
 from api.tasks import sent_shopping_record_mail
 
@@ -30,7 +30,7 @@ class Payment(ViewSet):
         pay_order_id = request.data['pay_order_id']
         extra_data = request.data.get('extra_data', None)
 
-        pay_order = payOrder.objects.get(id=pay_order_id)
+        pay_order = PayOrder.objects.get(id=pay_order_id)
         pay_order.pay(**extra_data)
         pay_order.save()
 

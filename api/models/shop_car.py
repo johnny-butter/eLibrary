@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class shopCar(models.Model):
+class ShopCar(models.Model):
     user = models.ForeignKey('User', models.CASCADE)
     book = models.ForeignKey('Book', models.CASCADE)
     quantity = models.IntegerField(default=0)

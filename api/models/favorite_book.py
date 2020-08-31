@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class favoriteQuerySet(models.QuerySet):
+class FavoriteQuerySet(models.QuerySet):
     def favorited(self):
         return self.filter(isFavorite=True)
 
@@ -9,9 +9,9 @@ class favoriteQuerySet(models.QuerySet):
         return self.filter(isFavorite=False)
 
 
-class favoriteManager(models.Manager):
+class FavoriteManager(models.Manager):
     def get_queryset(self):
-        return favoriteQuerySet(self.model, using=self._db)
+        return FavoriteQuerySet(self.model, using=self._db)
 
     def favorited(self):
         return self.get_queryset().favorited()
@@ -20,13 +20,13 @@ class favoriteManager(models.Manager):
         return self.get_queryset().not_favorited()
 
 
-class favoriteBook(models.Model):
+class FavoriteBook(models.Model):
     book = models.ForeignKey('Book', models.PROTECT)
     user = models.ForeignKey('User', models.PROTECT)
     isFavorite = models.BooleanField()
 
-    # objects = favoriteManager()
-    objects = favoriteQuerySet.as_manager()
+    # objects = FavoriteManager()
+    objects = FavoriteQuerySet.as_manager()
 
     class Meta:
         db_table = 'favorite_book'

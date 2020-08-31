@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from api.models import favoriteBook
+from api.models import FavoriteBook
 
 
 class BookFavSerializer(serializers.ModelSerializer):
     class Meta:
-        model = favoriteBook
+        model = FavoriteBook
         exclude = ('id', 'user')
         read_only_fields = ('isFavorite',)
 
@@ -24,7 +24,7 @@ class BookFavSerializer(serializers.ModelSerializer):
             'defaults': {'isFavorite': True},
         }
 
-        fav_book, created = favoriteBook.objects.get_or_create(**fav_book_data)
+        fav_book, created = FavoriteBook.objects.get_or_create(**fav_book_data)
 
         if not created:
             fav_book.isFavorite = not fav_book.isFavorite

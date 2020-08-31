@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import shopCar
+from api.models import ShopCar
 from rest_framework.validators import UniqueTogetherValidator
 
 
@@ -17,10 +17,10 @@ class CartSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         user = self.context['request'].user
-        cart, created = shopCar.objects.get_or_create(user=user, book=data['book'])
+        cart, created = ShopCar.objects.get_or_create(user=user, book=data['book'])
 
         return cart
 
     class Meta:
-        model = shopCar
+        model = ShopCar
         exclude = ('id', 'user')

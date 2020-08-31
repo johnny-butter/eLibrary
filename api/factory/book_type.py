@@ -4,6 +4,6 @@ from api import models
 
 class bookTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.bookType
+        model = models.BookType
 
     name = 'test'
