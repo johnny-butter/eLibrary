@@ -2,7 +2,7 @@ import factory
 from api import models
 
 
-class publishCompanyFactory(factory.django.DjangoModelFactory):
+class PublishCompanyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PublishCompany
 

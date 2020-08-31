@@ -2,7 +2,7 @@ import factory
 from api import models
 
 
-class authorFactory(factory.django.DjangoModelFactory):
+class AuthorFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Author
 
