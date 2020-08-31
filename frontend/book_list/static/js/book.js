@@ -30,18 +30,19 @@ $(document).ready(function () {
         })
     });
 
+    // Reference: https://stackoverflow.com/a/15579157
     $("a[rel~='keep-params']").click(function (event) {
         event.preventDefault();
 
         var params = window.location.search.split("&");
         params.splice(0, 1);
-        // console.info(params)
+
         if (params.length > 0) {
             params = "&" + params.join("&");
         } else {
             params = "";
         }
-        // console.info(params)
+
         var dest = $(this).attr('href') + params;
 
         // A short timeout has helped overcome browser bugs
@@ -60,8 +61,11 @@ $(document).ready(function () {
             url: "/api/v2/cart/?action=add",
             data: {'book': book_id},
             success: function (msg) {
-                $("#add-success").slideDown();
-                $("#add-success").delay(3000).slideUp();
+                $("#status-msg-g").html(
+                    "商品成功加入購物車 <a href=\"/payment/purchase/\" class=\"alert-link\">前往察看</a>"
+                );
+                $("#status-msg-g").slideDown();
+                $("#status-msg-g").delay(3000).slideUp();
             },
             error: function (error) {
                 alert("Fail:" + error.responseText);
@@ -75,8 +79,11 @@ $(document).ready(function () {
             url: "/api/v2/cart/?action=cut",
             data: {'book': book_id},
             success: function (msg) {
-                $("#remove-success").slideDown();
-                $("#remove-success").delay(3000).slideUp();
+                $("#status-msg-r").html(
+                    "商品成功移出購物車 <a href=\"/payment/purchase/\" class=\"alert-link\">前往察看</a>"
+                );
+                $("#status-msg-r").slideDown();
+                $("#status-msg-r").delay(3000).slideUp();
             },
             error: function (error) {
                 alert("Fail:" + error.responseText);

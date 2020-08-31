@@ -6,12 +6,15 @@
     <meta name="google-signin-client_id"
         content="151257872007-476ikj03u91toet3mvdshtpnjk9p44af.apps.googleusercontent.com">
     <title>登入</title>
+
     {% load staticfiles %}
-    <link rel=stylesheet type="text/css" href="{% static 'login.css' %}">
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel=stylesheet type="text/css" href="{% static 'login.css' %}">
 </head>
 
 <body>
@@ -19,9 +22,7 @@
     <script async defer crossorigin="anonymous"
         src="//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.3&appId=1347009465447844&autoLogAppEvents=1"></script>
 
-    <div id="status_msg" class="alert alert-danger fade show" role="alert">
-        Success
-    </div>
+    {% include 'status_message.html' %}
 
     <div id="tab_login" class="container">
 
@@ -96,11 +97,9 @@
             if (response.status === 'connected') {
                 // Logged into your app and Facebook.
                 fb_oauth_login(response);
-                // window.location.href = "/books/list/?page=1";
             } else {
                 // The person is not logged into your app or we are unable to tell.
-                document.getElementById('status_msg').innerHTML = 'Please log into this app.';
-
+                document.getElementById('status-msg-r').innerHTML = 'Please log into this app.';
             }
         }
         function checkLoginState() {
