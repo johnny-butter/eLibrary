@@ -4,6 +4,8 @@ from api import views
 app_name = 'api_v2'
 
 urlpatterns = [
+    path('/', views.Login.as_view()),
+
     path('login/', views.Login.as_view(), name='login'),
 
     path('user/', views.User.as_view(
