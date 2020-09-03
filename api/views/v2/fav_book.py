@@ -13,7 +13,7 @@ class FavBook(mixins.CreateModelMixin, GenericViewSet):
     def get_queryset(self):
         if self.request.method == 'GET':
 
-            fav_books_q = self.request.user.favoritebook_set.favorited()
+            fav_books_q = self.request.user.favoritebook_set.favorited().values('book_id')
 
             queryset = Book.objects.filter(id__in=fav_books_q)
 
