@@ -13,98 +13,117 @@
 
 {% include 'status_message.html' %}
 
-<h1>書籍清單</h1>
-<table class="woodTable">
-    <thead>
-        <tr>
-            <th colspan="7">
-                <input id="book" type="text">
-                <input class="find" type="image" src="{% static 'search.png' %}">
-            </th>
-        </tr>
-        <tr>
-            <th>書名</th>
-            <th>分類</th>
-            <th>作者</th>
-            <th>原價</th>
-            <th>特價
-                <a href="{% url 'book_list' %}?page=1&order=price_discount">
-                    <input id="up" type="image" src="{% static 'up.png' %}">
-                </a>
-                <a href="{% url 'book_list' %}?page=1&order=-price_discount">
-                    <input id="down" type="image" src="{% static 'down.png' %}">
-                </a>
-            </th>
-            <th>庫存</th>
-            <th>我的最愛
-                <a rel="noopener" target="_blank" href="/books/favlist/">
-                    <input id="book_fav" type="image" src="{% static 'book_fav.png' %}">
-                </a>
-            </th>
-        </tr>
-    </thead>
-    {% for book in books %}
-    <tr>
-        <td>
-            <div class="dropright">
-                <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {% if book.name in book_top3 %}
-                    <input type="image" src="{% static 'star.png' %}">
-                    {% endif %}
-                    {{ book.name }}
-                </div>
-                <div class="dropdown-menu">
-                    <div class="dropdown-item shopplus" name="{{ book.id }}">
-                        <input type="image" src="{% static 'plus.png' %}">
-                        加入購物車
-                    </div>
-                    <div class="dropdown-item shopminus" name="{{ book.id }}">
-                        <input type="image" src="{% static 'minus.png' %}">
-                        移出購物車
-                    </div>
+<div class="container table-responsive">
+    <div class="row mb-3 pt-3">
+	    <div class="col-12">
+    	    <div id="custom-search-input">
+                <div class="input-group">
+                    <input id="searchText" type="text" class="search-query form-control"/>
+                    <input id="searchEnter" type="image" src="{% static 'search.png' %}">
                 </div>
             </div>
-        </td>
-        <td>{{ book.type_name }}</td>
-        <td>{{ book.author_name }}</td>
-        <td>{{ book.price_origin }}</td>
-        <td>{{ book.price_discount }}</td>
-        <td>{{ book.stock }}</td>
-        <td>
-            {% if book.is_fav == True %}
-            <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_fav.png' %}">
-            {% else %}
-            <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_unfav.png' %}">
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-    <tfoot>
-        <tr>
-            <td colspan="7">
-                <div class="links">
-                    {% if has_previous == True %}
-                    <a href="{% url 'book_list' %}?page={{ current_page|add:'-1' }}"
-                        rel="keep-params">Previous</a>
-                    {% endif %}
-
-                    {% for page in "x"|ljust:pages %}
-                    {% if forloop.counter == current_page %}
-                    <a class="currentPage">{{ forloop.counter }}</a>
-                    {% else %}
-                    <a href="{% url 'book_list' %}?page={{ forloop.counter }}"
-                        rel="keep-params">{{ forloop.counter }}</a>
-                    {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <table class="table table-borderless card-1 p-4">
+                <thead>
+                    <tr class="border-bottom">
+                        <th><span class="ml-2">書名</span></th>
+                        <th><span class="ml-2">分類</span></th>
+                        <th><span class="ml-2">作者</span></th>
+                        <th><span class="ml-2">原價</span></th>
+                        <th>
+                            <span class="ml-2">特價</span>
+                            <a href="{% url 'book_list' %}?page=1&order=price_discount">
+                                <input id="up" type="image" src="{% static 'up.png' %}">
+                            </a>
+                            <a href="{% url 'book_list' %}?page=1&order=-price_discount">
+                                <input id="down" type="image" src="{% static 'down.png' %}">
+                            </a>
+                        </th>
+                        <th><span class="ml-2">庫存</span></th>
+                        <th><span class="ml-4">動作</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    <tr class="border-bottom">
+                        <td>
+                            <div class="p-2">
+                                {% if book.name in book_top3 %}
+                                <input type="image" src="{% static 'star.png' %}">
+                                {% endif %}
+                                <span class="d-block">{{ book.name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.type_name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.author_name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.price_origin }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.price_discount }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.stock }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2 icons">
+                                {% if book.is_fav == True %}
+                                <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_fav.png' %}">
+                                {% else %}
+                                <input type="image" class="fav" value="{{ book.id }}" src="{% static 'm_unfav.png' %}">
+                                {% endif %}
+                                <input type="image" class="shopplus" value="{{ book.id }}" src="{% static 'plus.png' %}">
+                            </div>
+                        </td>
+                    </tr>
                     {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <div class="links">
+                                {% if has_previous == True %}
+                                <a href="{% url 'book_list' %}?page={{ current_page|add:'-1' }}"
+                                    rel="keep-params">Previous</a>
+                                {% endif %}
 
-                    {% if has_next == True %}
-                    <a href="{% url 'book_list' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
-                    {% endif %}
-                </div>
-            </td>
-        </tr>
-    </tfoot>
-</table>
+                                {% for page in "x"|ljust:pages %}
+                                {% if forloop.counter == current_page %}
+                                <a class="currentPage">{{ forloop.counter }}</a>
+                                {% else %}
+                                <a href="{% url 'book_list' %}?page={{ forloop.counter }}"
+                                    rel="keep-params">{{ forloop.counter }}</a>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if has_next == True %}
+                                <a href="{% url 'book_list' %}?page={{ current_page|add:'1' }}" rel="keep-params">Next</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div id="chatButton">
     <a class="btn btn-md px-3 btn-primary-outline" href="/chat/" rel="noopener" target="_blank"

@@ -1,86 +1,28 @@
-.container {
-  padding-bottom:40px;
+.card-1 {
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #FFFFFF;
 }
-table.woodTable {
-  border: 2px solid #ADADAD;
-  background-color: #FCFCFC;
-  width: 60%;
-  text-align: center;
-  margin-left:auto;
-  margin-right:auto;
+
+.container table {
+    background-color: #FCFCFC;
 }
-table.woodTable td{
-  border: 1px solid #ADADAD;
-  padding: 4px 4px;
+
+tfoot .links {
+    text-align: right;
 }
-/* table.woodTable tbody td {
-  font-size: 13px;
-} */
-table.woodTable thead {
-  background: #ADADAD;
-  text-align: center;
+
+tfoot .links a {
+    display: inline-block;
+    padding: 2px 8px;
 }
-table.woodTable thead th {
-  font-size: 17px;
-  font-weight: bold;
-  color: #F0F0F0;
-  text-align: left;
-  border-left: 2px solid #ADADAD;
-}
-table.woodTable thead th a {
-  text-decoration: none;
-  /* color: #ADADAD;
-  background: #F0F0F0; */
-}
-table.woodTable thead th a:hover {
-  color: #ADADAD;
-  background: #F0F0F0;
-  text-decoration: none;
-}
-table.woodTable thead th:first-child {
-  border-left: none;
-}
-table.woodTable tfoot {
-  font-size: 16px;
-  font-weight: bold;
-  color: #F0F0F0;
-  background: #ADADAD;
-}
-table.woodTable tfoot td {
-  font-size: 16px;
-}
-table.woodTable tfoot .links {
-  text-align: right;
-}
-table.woodTable tfoot .links a {
-  display: inline-block;
-  background: #FFFFFF;
-  color: #ADADAD;
-  padding: 2px 8px;
-  border-radius: 5px;
-  text-decoration:none;
-}
-table.woodTable tfoot .links a:hover {
-  color: #FFFFFF;
-  background: none;;
-}
-table.woodTable tfoot .links a.currentPage {
-  color: #FFFFFF;
-  background: none;
-}
-h1 {
-  font-size: 17px;
-  font-weight: bold;
-  text-align: center;
-}
-input {
-  vertical-align:bottom;
-}
+
 #chatButton {
-  width: 100px;
-  float: right;
-  position: fixed;
-  right: 2%;
-  bottom: 5%;
-  z-index: 20;
+    width: 100px;
+    float: right;
+    position: fixed;
+    right: 2%;
+    bottom: 5%;
+    z-index: 20;
 }
