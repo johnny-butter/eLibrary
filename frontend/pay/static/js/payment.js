@@ -36,6 +36,24 @@ $("#order-create-button").click(function () {
     });
 });
 
+function clear_cart() {
+    $.ajax({
+        type: "DELETE",
+        url: '/api/v2/cart/?del=all',
+        headers: {
+            'Authorization': "JWT " + $.cookie("token")
+        },
+        success: function (msg) {
+            console.log("Success");
+            console.log(msg.data.delete_count);
+        },
+        error: function (error) {
+            console.log("Fail");
+            console.log(error.responseText);
+        }
+    });
+}
+
 function create_books_info(books_info) {
     $('#cart-table tbody tr').each(function () {
         var book_info = {};
@@ -71,31 +89,20 @@ function create_braintree_pay(pay_token) {
                         },
                     }),
                     success: function (msg) {
-                        var obj = $(".modal-body").text(
-                            '交易代碼: ' + msg.transaction_id + "\n" +
-                            '金額: ' + msg.transaction_total_price + " " + msg.transaction_currency + "\n" +
-                            '日期: ' + msg.create_date + "\n" +
-                            '付款方式: ' + msg.transaction_pay_type
-                        );
+                        messageBody = [
+                            "交易代碼: ".concat(msg.transaction_id),
+                            "金額: ".concat(msg.transaction_total_price, " ", msg.transaction_currency),
+                            "日期: ".concat(msg.create_date),
+                            "付款方式: ".concat(msg.transaction_pay_type)
+                        ]
+
+                        var obj = $(".modal-body").text(messageBody.join("\n"));
+
                         obj.html(obj.html().replace(/\n/g, '<br/>'));
 
                         $("#success-btn").click();
 
-                        $.ajax({
-                            type: "DELETE",
-                            url: '/api/v2/cart/?del=all',
-                            headers: {
-                                'Authorization': "JWT " + $.cookie("token")
-                            },
-                            success: function (msg) {
-                                console.log("Success");
-                                console.log(msg.data.delete_count);
-                            },
-                            error: function (error) {
-                                console.log("Fail");
-                                console.log(error.responseText);
-                            }
-                        });
+                        clear_cart();
                     },
                     error: function (error) {
                         $(".modal-title").text("Fail");
@@ -108,3 +115,27 @@ function create_braintree_pay(pay_token) {
         });
     });
 }
+
+$(".shopminus").click(function () {
+    var book_id = $(this).val()
+    $.ajax({
+        type: "POST",
+        url: "/api/v2/cart/?action=cut",
+        headers: {
+            'Authorization': "JWT " + $.cookie("token")
+        },
+        data: {'book': book_id},
+        success: function (msg) {
+            $("#status-msg-r").html(
+                "商品成功移出購物車"
+            );
+            $("#status-msg-r").slideDown();
+            $("#status-msg-r").delay(3000).slideUp("slow", "swing", function() {
+                window.location.reload();
+            });
+        },
+        error: function (error) {
+            alert("Fail:" + error.responseText);
+        }
+    });
+})
