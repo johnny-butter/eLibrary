@@ -224,6 +224,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'eLibrary/static/img/'),
+    os.path.join(BASE_DIR, 'eLibrary/static/js/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/js/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/css/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/img/'),
