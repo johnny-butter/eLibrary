@@ -46,9 +46,11 @@ class GetAllBook(mixins.ListModelMixin, GenericViewSet):
     ordering = 'pk'
 
     def get_serializer_context(self):
-        fav_books_q = self.request.user.favoritebook_set.favorited().values_list('book', flat=True)
         context = super(GetAllBook, self).get_serializer_context()
-        context.update({'fav_books': [b for b in fav_books_q]})
+
+        if self.request.user.is_authenticated:
+            fav_books_q = self.request.user.favoritebook_set.favorited().values_list('book', flat=True)
+            context.update({'fav_books': [b for b in fav_books_q]})
 
         return context
 
