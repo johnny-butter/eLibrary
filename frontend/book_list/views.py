@@ -18,9 +18,11 @@ def book_list(request):
     for k in request.GET:
         q_string[k] = request.GET[k]
 
-    headers = {
-        'Authorization': f"JWT {request.COOKIES.get('token', '')}",
-    }
+    headers = {}
+    if request.COOKIES.get('token', ''):
+        headers = {
+            'Authorization': f"JWT {request.COOKIES.get('token', '')}",
+        }
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
