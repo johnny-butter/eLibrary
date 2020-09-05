@@ -26,12 +26,15 @@ def BookListRedisKeys(view_instance, view_method, request, args, kwargs):
 
 class BookPaging(PageNumberPagination):
     def get_paginated_response(self, data):
-        nowPage = int(self.request.query_params.get(self.page_query_param, 1))
-        return Response({'total_page': self.page.paginator.num_pages,
-                         'current_page': nowPage,
-                         'has_previous': self.page.has_previous(),
-                         'has_next': self.page.has_next(),
-                         'data': data})
+        current_page = int(self.request.query_params.get(self.page_query_param, 1))
+
+        return Response({
+            'total_page': self.page.paginator.num_pages,
+            'current_page': current_page,
+            'has_previous': self.page.has_previous(),
+            'has_next': self.page.has_next(),
+            'data': data
+        })
 
 
 class GetAllBook(mixins.ListModelMixin, GenericViewSet):

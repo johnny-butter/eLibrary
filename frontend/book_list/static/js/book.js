@@ -51,11 +51,11 @@ $(document).ready(function () {
         }, 100);
     });
 
-    $(".find").click(function () {
-        window.location.href = "/books/list/?search=" + $("#book").val();
+    $("#searchEnter").click(function () {
+        window.location.href = "/books/list/?search=" + $("#searchText").val();
     })
     $(".shopplus").click(function () {
-        var book_id = $(this).attr('name')
+        var book_id = $(this).val()
         $.ajax({
             type: "POST",
             url: "/api/v2/cart/?action=add",
@@ -66,24 +66,6 @@ $(document).ready(function () {
                 );
                 $("#status-msg-g").slideDown();
                 $("#status-msg-g").delay(3000).slideUp();
-            },
-            error: function (error) {
-                alert("Fail:" + error.responseText);
-            }
-        });
-    })
-    $(".shopminus").click(function () {
-        var book_id = $(this).attr('name')
-        $.ajax({
-            type: "POST",
-            url: "/api/v2/cart/?action=cut",
-            data: {'book': book_id},
-            success: function (msg) {
-                $("#status-msg-r").html(
-                    "商品成功移出購物車 <a href=\"/payment/purchase/\" class=\"alert-link\">前往察看</a>"
-                );
-                $("#status-msg-r").slideDown();
-                $("#status-msg-r").delay(3000).slideUp();
             },
             error: function (error) {
                 alert("Fail:" + error.responseText);

@@ -10,47 +10,73 @@
 {% endblock %}
 
 {% block body %}
-<div class="container" style="max-width: 60%;">
-    <h1>購物車</h1>
-    <br>
-    <table id="cart-table" class="table table-bordered table-striped table-hover">
 
-        <thead>
-            <tr>
-                <th>書名</th>
-                <th>數量</th>
-                <th>金額</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                <th class="cart_book_name" data-value="{{ book.book }}" scope="row">
-                    {{ book.book_name }}
-                    &nbsp;
-                    <input class="shopminus" type="image" src="{% static 'minus.png' %}" value="{{ book.book }}">
-                </th>
-                <td class="cart_book_quantity">{{ book.quantity }}</td>
-                <td class="cart_book_price">{{ book.book_price }}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <th colspan="2" scope="row">總金額</th>
-                <td id="cart_total_amount">{{ amount }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% include 'status_message.html' %}
+
+<div class="container" style="max-width: 60%;">
+    <div class="row mb-3 pt-3">
+        <div class="col-12">
+            <h1 style="text-align: center;">購物車</h1>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <table id="cart-table" class="table table-borderless" style="background-color: #FCFCFC;">
+                <thead>
+                    <tr>
+                        <th>書名</th>
+                        <th>數量</th>
+                        <th>金額</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    <tr>
+                        <td class="cart_book_name" data-value="{{ book.book }}" scope="row">{{ book.book_name }}</td>
+                        <td class="cart_book_quantity">{{ book.quantity }}</td>
+                        <td class="cart_book_price">{{ book.book_price }}</td>
+                        <td><input class="shopminus" type="image" src="{% static 'minus.png' %}" value="{{ book.book }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     {% if amount > 0 %}
-    <select id="order-type-select" class="browser-default custom-select">
-        <option selected value="braintree">Braintree</option>
-        <option value="manual">手動轉帳/現場支付</option>
-    </select>
-    <br>
-    <button id="order-create-button" class="btn btn-primary float-right">確認付款</button>
-    <br>
-    <div id="dropin-container"></div>
-    <button id="submit-button" class="btn btn-primary float-right" style="display:none;">付款</button>
+    <div class="row mb-3">
+        <div class="col-6">
+            總金額:
+            <span id="cart_total_amount">{{ amount }}</span>
+        </div>
+        <div class="col-6">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <select id="order-type-select" class="browser-default custom-select">
+                        <option selected value="braintree">Braintree</option>
+                        <option value="manual">手動轉帳/現場支付</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button id="order-create-button" class="btn btn-primary float-right">確認付款</button>
+                    <br>
+                    <div id="dropin-container"></div>
+                    <button id="submit-button" class="btn btn-primary float-right" style="display:none;">付款</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+
+        </div>
+    </div>
     {% endif %}
+
     <!-- Button trigger modal -->
     <button id="success-btn" type="button" class="btn btn-primary" data-toggle="modal"
         data-target="#exampleModalCenter" style="display:none;">

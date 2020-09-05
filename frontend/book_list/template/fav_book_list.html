@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-最愛書籍
+收藏書籍
 {% endblock %}
 
 {% block head %}
@@ -10,25 +10,64 @@
 {% endblock %}
 
 {% block body %}
-<h1>{{ fav_data.username }}的最愛</h1>
-<table class="woodTable">
-    <thead>
-        <tr>
-            <th>書名</th>
-            <th>分類</th>
-            <th>作者</th>
-            <th>原價</th>
-            <th>特價</th>
-        </tr>
-    </thead>
-    {% for book in fav_data.books %}
-    <tr>
-        <td>{{ book.name }}</td>
-        <td>{{ book.type_name }}</td>
-        <td>{{ book.author_name }}</td>
-        <td>{{ book.price_origin }}</td>
-        <td>{{ book.price_discount }}</td>
-    </tr>
-    {% endfor %}
-</table>
+
+<div class="container table-responsive">
+    <div class="row mb-3 pt-3">
+	    <div class="col-12">
+            <h1 style="text-align: center;">{{ fav_data.username }}的收藏</h1>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <table class="table table-borderless card-1 p-4">
+                <thead>
+                    <tr class="border-bottom">
+                        <th><span class="ml-2">書名</span></th>
+                        <th><span class="ml-2">分類</span></th>
+                        <th><span class="ml-2">作者</span></th>
+                        <th><span class="ml-2">原價</span></th>
+                        <th><span class="ml-2">特價</span></th>
+                        <th><span class="ml-2">庫存</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in fav_data.books %}
+                    <tr class="border-bottom">
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.type_name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.author_name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.price_origin }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.price_discount }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-2">
+                                <span class="d-block">{{ book.stock }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
