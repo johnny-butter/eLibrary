@@ -19,7 +19,11 @@ from django.urls import path
 from django.conf.urls import url, include
 from django.conf import settings
 
+from frontend.book_list.views import book_list
+
 urlpatterns = i18n_patterns(
+    path('', book_list),
+
     path('admin/', admin.site.urls),
 
     path('api-auth/', include('rest_framework.urls')),
