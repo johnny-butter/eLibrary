@@ -1,6 +1,6 @@
 # eLibrary
 
-Online book store project. Visit it [eLibrary](https://elibrary-2019.herokuapp.com/login/).
+Online book store project. Visit it [eLibrary](https://elibrary-2019.herokuapp.com).
 
 ## Features
 
@@ -10,7 +10,7 @@ Online book store project. Visit it [eLibrary](https://elibrary-2019.herokuapp.c
 - Sort books by specific column
 - Add books to favorite list
 - Add books to cart
-- Buy books by credit card
+- Buy books by credit card (`Braintree sandbox`)
 - Send shopping record email
 
 ## Tools
@@ -56,11 +56,17 @@ python3 manage.py runserver
 gunicorn --timeout=30 --workers=4 eLibrary.wsgi:application
 ```
 
+## Unittest
+
+```shell
+python3 manage.py test
+```
+
 ## Test Account
 
 - Normal user
-  - username: `test_guest`
+  - account: `test_guest`
   - password: `test_guest`
-- Braintree test credit card
+- `Braintree` credit card for test
   - card number: `4111 1111 1111 1111`
-  - date: `02/22`
+  - expiration date: `02/22`
