@@ -6,7 +6,7 @@ app_name = 'api_v2'
 urlpatterns = [
     path('login/', views.Login.as_view(), name='login'),
 
-    path('user/', views.User.as_view(
+    path('user/', views.UserViewSet.as_view(
         {'get': 'retrieve', 'post': 'create', 'put': 'partial_update'}), name='user_cbv'),
 
     path('get_all_book/', views.GetAllBook.as_view({'get': 'list'}), name='get_all_book_cbv'),
