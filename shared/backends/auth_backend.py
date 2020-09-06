@@ -24,6 +24,9 @@ class EmailOrUsernameModelBackend(ModelBackend):
 class OauthModelBackend(ModelBackend):
 
     def authenticate(self, request, **kwargs):
+        if not hasattr(request, 'data'):
+            return
+
         provider = request.data.get('provider', None)
         uid = request.data.get('uid', None)
 
@@ -33,6 +36,6 @@ class OauthModelBackend(ModelBackend):
         try:
             user = OauthRecord.objects.get(provider=provider, uid=uid).user
         except OauthRecord.DoesNotExist:
-            pass
+            return
         else:
             return user
