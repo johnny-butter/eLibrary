@@ -34,7 +34,7 @@ urlpatterns = i18n_patterns(
 
     url(r'^books/', include('frontend.book_list.urls')),
 
-    url(r'^login/', include('frontend.login_page.urls')),
+    url(r'^login/', include('frontend.login.urls')),
 
     url(r'^payment/', include('frontend.pay.urls')),
 

@@ -1,14 +1,4 @@
-$(function () {
-    var $li = $('ul.tab_login_title li');
-    $($li.eq(0).addClass('active').find('a').attr('href')).siblings('.tab_login_inner').hide();
-
-    $li.click(function () {
-        $($(this).find('a').attr('href')).show().siblings('.tab_login_inner').hide();
-        $(this).addClass('active').siblings('.active').removeClass('active');
-    });
-});
-
-function app_register(username, pwd, email,
+function appRegister(username, pwd, email,
     oauth_type = null, oauth_response = null) {
     if (oauth_type != null && oauth_response != null) {
         var data = JSON.stringify({
@@ -40,14 +30,14 @@ function app_register(username, pwd, email,
             $.unblockUI();
 
             if (oauth_type != null && oauth_response != null) {
-                app_login(null, null, oauth_type, oauth_response);
+                appLogin(null, null, oauth_type, oauth_response);
             };
 
             $('#status-msg-g').text("Register Success");
             $('#status-msg-g').slideDown();
             $('#status-msg-g').delay(1500).slideUp("slow", "swing", function() {
                 data = $.parseJSON(data);
-                app_login(data.username, data.password);
+                appLogin(data.username, data.password);
             });
         },
         error: function (error) {
@@ -60,7 +50,7 @@ function app_register(username, pwd, email,
     });
 }
 
-function app_login(username, pwd, oauth_type = null, oauth_response = null) {
+function appLogin(username, pwd, oauth_type = null, oauth_response = null) {
     $.blockUI({
         message: "<img src='/static/loading.gif'/>",
         css: { borderWidth: '0px', backgroundColor: 'transparent' }
@@ -94,7 +84,7 @@ function app_login(username, pwd, oauth_type = null, oauth_response = null) {
         },
         error: function (error) {
             if (oauth_type != null && oauth_response != null) {
-                app_register(null, null, null, oauth_type, oauth_response);
+                appRegister(null, null, null, oauth_type, oauth_response);
             } else {
                 $.unblockUI();
 
@@ -106,7 +96,7 @@ function app_login(username, pwd, oauth_type = null, oauth_response = null) {
     });
 };
 
-function fb_oauth_login(fb_response) {
+function fbOauthLogin(fb_response) {
     var url = "https://graph.facebook.com/" + fb_response.authResponse.userID +
         "?access_token=" + fb_response.authResponse.accessToken + "&fields=name,email"
 
@@ -114,7 +104,7 @@ function fb_oauth_login(fb_response) {
         type: "GET",
         url: url,
         success: function (response) {
-            app_login(null, null, "fb", response);
+            appLogin(null, null, "fb", response);
         },
         error: function (error) {
             $.unblockUI();
@@ -127,28 +117,31 @@ function fb_oauth_login(fb_response) {
 
 };
 
+function googleOauthLogin(google_response) {
+    appLogin(null, null, "google", google_response)
+}
+
 $(document).ready(function () {
-    $("#login_tab input").keypress(function (event) {
+    $("#pills-home input").keypress(function (event) {
         if (event.keyCode == 13) {
-            $('#login_submit').click();
+            $('#login-submit').click();
         }
     });
 
-    $("#login_submit").click(function () {
-        var username = $("#login_account").val();
-        var password = $("#login_password").val();
+    $("#login-submit").click(function () {
+        var username = $("#login-account").val();
+        var password = $("#login-password").val();
 
-        app_login(username, password);
+        appLogin(username, password);
     });
 
-    $('#register_submit').click(function (event) {
-        var username = $("#register_username").val();
-        var password = $("#register_pwd").val();
-        var email = $("#register_email").val();
+    $('#register-submit').click(function () {
+        var username = $("#register-username").val();
+        var password = $("#register-pwd").val();
+        var email = $("#register-email").val();
 
         if (email == "") { email = null };
 
-        app_register(username, password, email);
+        appRegister(username, password, email);
     });
-
 });

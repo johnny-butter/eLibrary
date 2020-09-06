@@ -117,7 +117,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR + '/eLibrary/template',
-            FRONTEND_BASE_DIR + '/login_page/template',
+            FRONTEND_BASE_DIR + '/login/template',
             FRONTEND_BASE_DIR + '/book_list/template',
             FRONTEND_BASE_DIR + '/pay/template',
             BASE_DIR + '/chat/template',
@@ -188,8 +188,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'api.User'
 
 AUTHENTICATION_BACKENDS = [
-    'shared.backends.emailOrUsernameModelBackend',
-    'shared.backends.oauthModelBackend',
+    'shared.backends.EmailOrUsernameModelBackend',
+    'shared.backends.OauthModelBackend',
 ]
 
 # Internationalization
@@ -228,9 +228,9 @@ STATICFILES_DIRS = (
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/js/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/css/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/img/'),
-    os.path.join(FRONTEND_BASE_DIR, 'login_page/static/js/'),
-    os.path.join(FRONTEND_BASE_DIR, 'login_page/static/css/'),
-    os.path.join(FRONTEND_BASE_DIR, 'login_page/static/img/'),
+    os.path.join(FRONTEND_BASE_DIR, 'login/static/js/'),
+    os.path.join(FRONTEND_BASE_DIR, 'login/static/css/'),
+    os.path.join(FRONTEND_BASE_DIR, 'login/static/img/'),
     os.path.join(FRONTEND_BASE_DIR, 'pay/static/js/'),
     os.path.join(BASE_DIR, 'chat/static/css/'),
     os.path.join(BASE_DIR, 'chat/static/img/'),

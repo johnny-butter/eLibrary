@@ -1,1 +1,1 @@
-from .auth_backend import emailOrUsernameModelBackend, oauthModelBackend
+from .auth_backend import EmailOrUsernameModelBackend, OauthModelBackend
