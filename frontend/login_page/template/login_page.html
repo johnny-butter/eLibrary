@@ -104,7 +104,7 @@
             // for FB.getLoginStatus().
             if (response.status === 'connected') {
                 // Logged into your app and Facebook.
-                fb_oauth_login(response);
+                fbOauthLogin(response);
             } else {
                 // The person is not logged into your app or we are unable to tell.
                 document.getElementById('status-msg-r').innerHTML = 'Please log into this app.';
@@ -151,7 +151,7 @@
                     "email": profile.getEmail()
                 }
 
-                app_login(null, null, "google", response)
+                googleOauthLogin(response);
             } else {
                 gSuccessCount += 1;
             }

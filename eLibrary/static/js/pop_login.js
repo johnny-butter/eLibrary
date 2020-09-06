@@ -5,7 +5,7 @@ function isLogin() {
     return true
 }
 
-function appLogin(username, pwd, oauth_type = null, oauth_response = null) {
+function appPopLogin(username, pwd, oauth_type = null, oauth_response = null) {
     $.blockUI({
         message: "<img src='/static/loading.gif'/>",
         css: { borderWidth: '0px', backgroundColor: 'transparent' }
@@ -63,6 +63,6 @@ $(document).ready(function () {
         var username = $("#pop-login-account").val();
         var password = $("#pop-login-password").val();
 
-        appLogin(username, password);
+        appPopLogin(username, password);
     });
 })
