@@ -57,7 +57,7 @@ function clear_cart() {
 function create_books_info(books_info) {
     $('#cart-table tbody tr').each(function () {
         var book_info = {};
-        book_info["book"] = $(this).find('th.cart_book_name').data('value');
+        book_info["book"] = $(this).find('td.cart_book_name').data('value');
         book_info["quantity"] = $(this).find('td.cart_book_quantity').text();
         book_info["price"] = $(this).find('td.cart_book_price').text();
 
