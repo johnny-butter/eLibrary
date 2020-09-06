@@ -1,0 +1,52 @@
+<!-- Modal -->
+<div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content form-elegant">
+            <!--Header-->
+            <div class="modal-header text-center">
+                <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Sign
+                        in</strong></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body mx-4">
+                <div id="modal-msg-g" class="alert alert-success fade show" role="alert" style="text-align: center; display: none;">
+                </div>
+
+                <div id="modal-msg-r" class="alert alert-danger fade show" role="alert" style="text-align: center; display: none;">
+                </div>
+                <!--Body-->
+                <div class="md-form mb-3">
+                    <input id="pop-login-account" type="text" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="Form-email1">帳號 / E-MAIL</label>
+                </div>
+
+                <div class="md-form mb-3">
+                    <input id="pop-login-password" type="password" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="Form-pass1">密碼</label>
+                </div>
+
+                <div class="text-center mb-3">
+                    <button id="pop-login-submit" type="button" class="btn btn-primary btn-block btn-rounded">登入</button>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer mx-5 pt-3 mb-1">
+                <p class="font-small grey-text d-flex justify-content-end">
+                    尚未加入?
+                    <a href="/login/" class="blue-text ml-1">註冊</a>
+                </p>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Modal -->
+
+<div class="text-center" style="display: none;">
+    <a id="popLoginToggle" href="" data-toggle="modal" data-target="#elegantModalForm"></a>
+</div>

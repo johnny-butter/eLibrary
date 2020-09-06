@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <script src="{% static 'base.js' %}"></script>
+    <script src="{% static 'pop_login.js' %}"></script>
 
     {% block head %}{% endblock %}
 </head>
@@ -32,19 +33,19 @@
         <div id="navb" class="navbar-collapse collapse hide">
             <ul class="navbar-nav ml-auto navbar-fixed-top">
                 <li class="nav-item navbar-right">
-                    <a class="btn btn-md px-3 btn-primary-outline" href="/books/favlist/" role="button">
+                    <a class="btn btn-md px-3 btn-primary-outline el-navbar-item" href="/books/favlist/" role="button">
                         <img src="{% static 'book_fav.png' %}" class="d-inline-block">
                         收藏
                     </a>
                 </li>
                 <li class="nav-item navbar-right">
-                    <a class="btn btn-md px-3 btn-primary-outline" href="/payment/purchase/" role="button">
+                    <a class="btn btn-md px-3 btn-primary-outline el-navbar-item" href="/payment/purchase/" role="button">
                         <img src="{% static 'shopcar.png' %}" class="d-inline-block">
                         購物車
                     </a>
                 </li>
                 <li class="nav-item dropdown navbar-right">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" style="color:black;">
+                    <a class="nav-link dropdown-toggle el-navbar-item" href="#" data-toggle="dropdown" style="color:black;">
                         <img src="{% static 'profile.png' %}" class="d-inline-block">
                         帳號
                     </a>
@@ -56,6 +57,8 @@
             </ul>
         </div>
     </nav>
+
+    {% include 'pop_login.html' %}
 
     {% block body %}{% endblock %}
 </body>
