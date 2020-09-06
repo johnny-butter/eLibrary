@@ -188,8 +188,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'api.User'
 
 AUTHENTICATION_BACKENDS = [
-    'shared.backends.emailOrUsernameModelBackend',
-    'shared.backends.oauthModelBackend',
+    'shared.backends.EmailOrUsernameModelBackend',
+    'shared.backends.OauthModelBackend',
 ]
 
 # Internationalization

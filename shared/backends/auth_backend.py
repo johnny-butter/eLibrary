@@ -2,7 +2,7 @@ from django.contrib.auth.backends import ModelBackend, UserModel
 from api.models import OauthRecord
 
 
-class emailOrUsernameModelBackend(ModelBackend):
+class EmailOrUsernameModelBackend(ModelBackend):
 
     def authenticate(self, request, username=None, password=None, **kwargs):
         if username is None:
@@ -21,7 +21,7 @@ class emailOrUsernameModelBackend(ModelBackend):
                 return user
 
 
-class oauthModelBackend(ModelBackend):
+class OauthModelBackend(ModelBackend):
 
     def authenticate(self, request, **kwargs):
         provider = request.data.get('provider', None)
