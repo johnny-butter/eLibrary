@@ -9,15 +9,29 @@ $(document).ready(function () {
             message: "<img src='/static/fav_load.gif'/>",
             css: { borderWidth: '0px', backgroundColor: 'transparent' }
         });
+
         var that = $(this);
-        $.post("/api/v2/favbook/", { 'book': $(this).val() }, function (msg) {
-            that.parent().unblock();
-            if (msg.isFavorite) {
-                that.attr("src", "/static/m_fav.png");
-            } else {
-                that.attr("src", "/static/m_unfav.png");
+        $.ajax({
+            type: "POST",
+            url: "/api/v2/favbook/",
+            data: { 'book': $(this).val() },
+            success: function (msg) {
+                that.parent().unblock();
+
+                if (msg.isFavorite) {
+                    that.attr("src", "/static/m_fav.png");
+                } else {
+                    that.attr("src", "/static/m_unfav.png");
+                }
+            },
+            error: function (error) {
+                that.parent().unblock();
+
+                $("#status-msg-r").html(error.responseText);
+                $("#status-msg-r").slideDown();
+                $("#status-msg-r").delay(3000).slideUp();
             }
-        })
+        });
     });
 
     // Reference: https://stackoverflow.com/a/15579157
