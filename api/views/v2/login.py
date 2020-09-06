@@ -5,6 +5,7 @@ from rest_framework import views
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
+from shared.errors import AuthenticationFailed
 
 
 class Login(views.APIView):
@@ -17,7 +18,7 @@ class Login(views.APIView):
                 password=request.data.get('password', None),
             )
             if user is None or not user.is_active:
-                raise ValueError(_('there is no vaild user, please check'))
+                raise AuthenticationFailed(detail=_('User not found'))
 
             encoded_data = jwt.encode({'user_id': user.id}, settings.SECRET_KEY, algorithm='HS256')
         except Exception:
