@@ -1,40 +1,57 @@
-#tab_login {
-  width:350px;
-  height:200px;
-  margin-left:auto;
-  margin-right:auto;
-  padding-top:10%;
+.card {
+    width: 400px;
+    border: none;
 }
-#tab_login > ul {
-  display:block;
-  margin:0;list-style:none;
+
+.btr {
+    border-top-right-radius: 5px !important
 }
-.tab_login_title {
-  list-style:none;
+
+.btl {
+    border-top-left-radius: 5px !important
 }
-#tab_login > ul > li {
-  display:inline-block;
-  margin:0 -1px -1px 0 ;
-  /* border:1px solid #BCBCBC; */
-  height:25px; line-height:25px;
-  /* background:#cdcdcd; */
-  padding:0 15px;
-  list-style:none;
-  /* box-sizing:border-box; */
+
+.btn-dark {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd
 }
-#tab_login >  ul > li a {
-  /* color:#000; */
-  text-decoration:none;
+
+.btn-dark:hover {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd
 }
-#tab_login > ul > li.active {
-  /* border-bottom:1px solid #fff; */
-  /* background:#fff; */
+
+.nav-pills {
+    display: table !important;
+    width: 100%
 }
-#tab_login > .tab_login_inner {
-  /* clear:both; color:#000; */
-  /* border:1px #BCBCBC solid; */
+
+.nav-pills .nav-link {
+    border-radius: 0px;
+    border-bottom: 1px solid #0d6efd40
 }
-.tab_login_inner {
-  padding:15px;
-  height:100px;
+
+.nav-item {
+    display: table-cell;
+    background: #0d6efd2e
+}
+
+.form {
+    padding: 10px;
+    height: 300px
+}
+
+.form input {
+    margin-bottom: 12px;
+    border-radius: 3px
+}
+
+.form input:focus {
+    box-shadow: none
+}
+
+.form button {
+    margin-top: 20px
 }

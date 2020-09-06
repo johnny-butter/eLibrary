@@ -1,13 +1,3 @@
-$(function () {
-    var $li = $('ul.tab_login_title li');
-    $($li.eq(0).addClass('active').find('a').attr('href')).siblings('.tab_login_inner').hide();
-
-    $li.click(function () {
-        $($(this).find('a').attr('href')).show().siblings('.tab_login_inner').hide();
-        $(this).addClass('active').siblings('.active').removeClass('active');
-    });
-});
-
 function app_register(username, pwd, email,
     oauth_type = null, oauth_response = null) {
     if (oauth_type != null && oauth_response != null) {
@@ -128,23 +118,23 @@ function fb_oauth_login(fb_response) {
 };
 
 $(document).ready(function () {
-    $("#login_tab input").keypress(function (event) {
+    $("#pills-home input").keypress(function (event) {
         if (event.keyCode == 13) {
-            $('#login_submit').click();
+            $('#login-submit').click();
         }
     });
 
-    $("#login_submit").click(function () {
-        var username = $("#login_account").val();
-        var password = $("#login_password").val();
+    $("#login-submit").click(function () {
+        var username = $("#login-account").val();
+        var password = $("#login-password").val();
 
         app_login(username, password);
     });
 
-    $('#register_submit').click(function (event) {
-        var username = $("#register_username").val();
-        var password = $("#register_pwd").val();
-        var email = $("#register_email").val();
+    $('#register-submit').click(function () {
+        var username = $("#register-username").val();
+        var password = $("#register-pwd").val();
+        var email = $("#register-email").val();
 
         if (email == "") { email = null };
 

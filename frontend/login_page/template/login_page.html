@@ -18,75 +18,83 @@
 </head>
 
 <body>
+    <!-- FB initial -->
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-        src="//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.3&appId=1347009465447844&autoLogAppEvents=1"></script>
+    <script async defer crossorigin="anonymous" src="//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.3&appId=1347009465447844&autoLogAppEvents=1"></script>
+
+    <!-- Google initial -->
+    <script src="//apis.google.com/js/platform.js" async defer></script>
 
     {% include 'status_message.html' %}
 
-    <div id="tab_login" class="container">
-
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#login_tab">登入</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#register_tab">註冊</a>
-            </li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="login_tab" class="container tab-pane active tab_login_inner">
-                <br>
-                <table>
-                    <tr>
-                        <td>使用者名稱:</td>
-                        <td><input id="login_account" type="text" name="username"></td>
-                    </tr>
-                    <tr>
-                        <td>密碼:</td>
-                        <td><input id="login_password" type="password" name="password"></td>
-                    </tr>
-                </table>
-                <br>
-                <td>
-                    <input id="login_submit" class="btn btn-primary btn-block" type="submit" value="登入">
-                </td>
-                <br>
-                <div class="fb-login-button" data-width="290" data-size="large" data-button-type="login_with"
-                    data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
-                    onlogin="checkLoginState();">
-                </div>
-                <br>
-                <br>
-                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-width="290" data-height="40"
-                    onclick="(function(){gSuccessCount+=1}())">
-                </div>
+    <div class="container">
+        <div class="row mb-3 pt-3">
+            <div class="col-12">
+                <h1 style="text-align: center;">
+                    <strong>eLibrary</strong>
+                </h1>
             </div>
-
-            <div id="register_tab" class="container tab-pane fade tab_login_inner"><br>
-                <table>
-                    <tr>
-                        <td>使用者名稱:</td>
-                        <td><input id="register_username" type="text" name="username"></td>
-                    </tr>
-                    <tr>
-                        <td>密碼:</td>
-                        <td><input id="register_pwd" type="password" name="password"></td>
-                    </tr>
-                    <tr>
-                        <td>電子信箱:</td>
-                        <td><input id="register_email" type="email" name="email"></td>
-                    </tr>
-                </table>
-                <br>
-                <td><input id="register_submit" class="btn btn-primary btn-block" type="submit" value="註冊"></td>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="d-flex justify-content-center align-items-center mt-5">
+                    <div class="card">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item text-center">
+                                <a class="nav-link active btl" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
+                                    註冊
+                                </a>
+                            </li>
+                            <li class="nav-item text-center">
+                                <a class="nav-link btr" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">
+                                    登入
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                <div class="form px-4">
+                                    <input id="register-username" type="text" name="" class="form-control" placeholder="使用者名稱">
+                                    <input id="register-pwd" type="password" name="" class="form-control" placeholder="密碼">
+                                    <input id="register-email" type="email" name="" class="form-control" placeholder="電子信箱">
+                                    <button id="register-submit" class="btn btn-dark btn-block">註冊</button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                <div class="form px-4 pt-5">
+                                    <!-- eLibrary sign in -->
+                                    <input id="login-account" type="text" name="" class="form-control" placeholder="使用者名稱 or 電子信箱">
+                                    <input id="login-password" type="password" name="" class="form-control" placeholder="密碼">
+                                    <button id="login-submit" class="btn btn-dark btn-block">登入</button>
+                                    <!-- FB sign in -->
+                                    <div class="row mb-3 pt-3">
+                                        <div class="col-12">
+                                            <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with"
+                                                data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email"
+                                                onlogin="checkLoginState();">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Google sign in -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-width="" data-height="40"
+                                                onclick="(function(){gSuccessCount+=1}())">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="//apis.google.com/js/platform.js" async defer></script>
+
+    <!-- FB sign in -->
     <script>
         // This is called with the results from from FB.getLoginStatus().
         function statusChangeCallback(response) {
@@ -126,7 +134,10 @@
             js.src = "https://connect.facebook.net/zh-TW/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+    </script>
 
+    <!-- Google sign in -->
+    <script>
         var gSuccessCount = 0;
         function onSignIn(googleUser) {
             if (gSuccessCount > 0) {
@@ -146,8 +157,8 @@
             }
         }
     </script>
+
     <script src="//malsup.github.io/min/jquery.blockUI.min.js"></script>
     <script src="{% static 'login.js' %}"></script>
 </body>
-
 </html>
