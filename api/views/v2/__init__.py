@@ -1,4 +1,4 @@
-from .user import User
+from .user import UserViewSet
 from .book import GetAllBook
 from .cart import ShopCarManager
 from .fav_book import FavBook

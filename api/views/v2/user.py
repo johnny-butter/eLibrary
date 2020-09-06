@@ -27,8 +27,8 @@ class UserPermission(permissions.BasePermission):
         return False
 
 
-class User(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
-           mixins.DestroyModelMixin, GenericViewSet):
+class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin, GenericViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
