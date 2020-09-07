@@ -17,11 +17,13 @@ class PayOrderSerializer(serializers.ModelSerializer):
             **data
         )
 
-        for item_data in items_data:
-            PayOrderDetail.objects.create(
+        PayOrderDetail.objects.bulk_create([
+            PayOrderDetail(
                 pay_order=instance,
                 **item_data
             )
+            for item_data in items_data
+        ])
 
         return instance
 
