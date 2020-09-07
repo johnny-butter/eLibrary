@@ -10,3 +10,7 @@ class OauthRecord(models.Model):
 
     class Meta:
         db_table = 'api_oauth_record'
+
+        indexes = [
+            models.Index(fields=['user']),
+        ]

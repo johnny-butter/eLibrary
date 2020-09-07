@@ -12,3 +12,7 @@ class PayOrderDetail(models.Model):
 
     class Meta:
         db_table = 'pay_order_detail'
+
+        indexes = [
+            models.Index(fields=['pay_order']),
+        ]
