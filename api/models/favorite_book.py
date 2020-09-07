@@ -31,3 +31,7 @@ class FavoriteBook(models.Model):
     class Meta:
         db_table = 'favorite_book'
         unique_together = (("book", "user"),)
+
+        indexes = [
+            models.Index(fields=['book', 'user']),
+        ]

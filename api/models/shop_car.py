@@ -13,3 +13,7 @@ class ShopCar(models.Model):
     class Meta:
         db_table = 'shop_car'
         unique_together = (("user", "book"),)
+
+        indexes = [
+            models.Index(fields=['user', 'book']),
+        ]

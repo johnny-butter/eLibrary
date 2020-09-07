@@ -13,3 +13,7 @@ class ShopHistory(models.Model):
 
     class Meta:
         db_table = 'shop_history'
+
+        indexes = [
+            models.Index(fields=['pay_order']),
+        ]
