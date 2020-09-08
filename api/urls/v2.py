@@ -24,7 +24,7 @@ urlpatterns = [
     path('cart/', views.ShopCarManager.as_view(
         {'get': 'list', 'post': 'create', 'delete': 'destroy'}), name='shop_car'),
 
-    path('chat_check/', views.chatCheck.as_view({'get': 'check'}), name='chat_check'),
+    path('chat_check/', views.ChatCheck.as_view({'get': 'check'}), name='chat_check'),
 
     path('book_top3/', views.GetBookTop3.as_view({'get': 'list'}), name='book_top3'),
 ]

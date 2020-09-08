@@ -7,7 +7,7 @@ from django.http import HttpResponseBadRequest
 from api.models import User
 
 
-class chatRoom(View):
+class ChatRoom(View):
 
     def get(self, request, *args, **kwargs):
         url = f'{settings.API_END_POINT}{reverse("api_v2:chat_check")}'
@@ -35,7 +35,7 @@ class chatRoom(View):
             return HttpResponseBadRequest(f'Error: {str(chat_check_resp.json())}')
 
 
-class adminChatRoom(View):
+class AdminChatRoom(View):
 
     def get(self, request, *args, **kwargs):
         chat_target = kwargs['target']
@@ -53,7 +53,7 @@ class adminChatRoom(View):
             return HttpResponseBadRequest('Missing chat target')
 
 
-def adminChatList(request, *args, **kwargs):
+def admin_chat_list(request, *args, **kwargs):
     users = User.objects.filter(is_active=True, is_staff=False)
 
     context = {
