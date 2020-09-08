@@ -18,21 +18,20 @@ class ChatRoom(View):
 
         chat_check_resp = requests.get(url, headers=headers, verify=False)
 
-        if chat_check_resp.status_code >= 200 and chat_check_resp.status_code < 400:
-            result = chat_check_resp.json()
-            if result['can_chat']:
-                group = f'{result["chat_from"]}_{result["chat_target"]}'
-
-                context = {
-                    'chat_target': result['chat_target'],
-                    'group': group,
-                }
-
-                return render(request, 'chat.html', context=context)
-            else:
-                return HttpResponseBadRequest('Be friend first')
-        else:
+        if chat_check_resp.status_code >= 400:
             return HttpResponseBadRequest(f'Error: {str(chat_check_resp.json())}')
+
+        result = chat_check_resp.json()
+
+        if not result['can_chat']:
+            return HttpResponseBadRequest('Be friend first')
+
+        context = {
+            'chat_target': result['chat_target'],
+            'group': f'{result["chat_from"]}_{result["chat_target"]}',
+        }
+
+        return render(request, 'chat.html', context=context)
 
 
 class AdminChatRoom(View):
@@ -40,17 +39,15 @@ class AdminChatRoom(View):
     def get(self, request, *args, **kwargs):
         chat_target = kwargs['target']
 
-        if chat_target:
-            group = f'{chat_target}_admin'
-
-            context = {
-                'chat_target': chat_target,
-                'group': group,
-            }
-
-            return render(request, 'chat.html', context=context)
-        else:
+        if not chat_target:
             return HttpResponseBadRequest('Missing chat target')
+
+        context = {
+            'chat_target': chat_target,
+            'group': f'{chat_target}_admin',
+        }
+
+        return render(request, 'chat.html', context=context)
 
 
 def admin_chat_list(request, *args, **kwargs):
