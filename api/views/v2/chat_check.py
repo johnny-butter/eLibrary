@@ -4,7 +4,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated
 
 
-class chatCheck(GenericViewSet):
+class ChatCheck(GenericViewSet):
 
     permission_classes = [IsAuthenticated]
 

@@ -1,29 +1,29 @@
 from django.contrib import admin
 from django.urls import path
 from django.db import models
-from .views import adminChatList, adminChatRoom
+from .views import admin_chat_list, AdminChatRoom
 
 
-class chatRoom(models.Model):
+class ChatRoom(models.Model):
 
     class Meta:
         app_label = 'chat'
         managed = False
 
 
-class chatAdmin(admin.ModelAdmin):
-    model = chatRoom
+class ChatAdmin(admin.ModelAdmin):
+    model = ChatRoom
 
     def get_urls(self):
         view_name = '{}_{}_changelist'.format(
             self.model._meta.app_label, self.model._meta.model_name)
 
         urlpatterns = [
-            path('', adminChatList, name=view_name),
-            path('<str:target>/', adminChatRoom.as_view()),
+            path('', admin_chat_list, name=view_name),
+            path('<str:target>/', AdminChatRoom.as_view()),
         ]
 
         return urlpatterns
 
 
-admin.site.register(chatRoom, chatAdmin)
+admin.site.register(ChatRoom, ChatAdmin)

@@ -5,5 +5,5 @@ from .fav_book import FavBook
 from .login import Login
 from .payment import Payment
 from .braintree_client_token import BraintreeClientToken
-from .chat_check import chatCheck
+from .chat_check import ChatCheck
 from .book_top3 import GetBookTop3
