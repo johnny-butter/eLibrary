@@ -11,6 +11,11 @@ $.ajaxSetup({
 
 var pay_order_id = null;
 $("#order-create-button").click(function () {
+    $.blockUI({
+        message: "<img src='/static/loading.gif'/>",
+        css: { borderWidth: '0px', backgroundColor: 'transparent' }
+    });
+
     var books_info = [];
     var pay_type = $("#order-type-select").val();
     create_books_info(books_info);
@@ -31,15 +36,20 @@ $("#order-create-button").click(function () {
                     $.get("/api/v2/braintree_client_token/", function (msg) {
                         var pay_token = msg.token;
                         create_braintree_pay(pay_token);
+
+                        $.unblockUI();
                     });
                     break;
                 case "manual":
                     alert("訂單已建立(id: " + pay_order_id + ")，付款完成後，請通知客服人員");
+                    $.unblockUI();
                     break;
             };
         },
         error: function (error) {
             console.warn(error);
+
+            $.unblockUI();
         }
     });
 });
@@ -70,13 +80,14 @@ function create_books_info(books_info) {
     });
 }
 
-var button = document.querySelector('#submit-button');
 function create_braintree_pay(pay_token) {
     braintree.dropin.create({
         authorization: pay_token,
         container: '#dropin-container'
     }, function (createErr, instance) {
         $("#submit-button").show();
+
+        let button = document.querySelector('#submit-button');
         button.addEventListener('click', function () {
             instance.requestPaymentMethod(function (err, payload) {
                 // Submit payload.nonce to your server
