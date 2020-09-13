@@ -9,7 +9,6 @@ server.key
 
 # [django]
 staticFile
-*.mo
 
 # [log files]
 log/
