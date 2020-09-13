@@ -8,10 +8,13 @@ class EmailOrUsernameModelBackend(ModelBackend):
         if username is None:
             username = kwargs.get(UserModel.USERNAME_FIELD)
 
-        identityKey = 'email' if '@' in username else 'username'
+        if username is None:
+            return
+
+        identity_key = 'email' if '@' in username else 'username'
 
         try:
-            user = UserModel._default_manager.get(**{identityKey: username})
+            user = UserModel._default_manager.get(**{identity_key: username})
         except UserModel.DoesNotExist:
             # Run the default password hasher once to reduce the timing
             # difference between an existing and a nonexistent user (#20760).

@@ -51,7 +51,7 @@ function appRegister(username, pwd, email,
         error: function (error) {
             $.unblockUI();
 
-            $('#status-msg-r').text("Fail:" + error.responseText);
+            $('#status-msg-r').text(error.responseJSON.detail.message);
             $('#status-msg-r').slideDown();
             $('#status-msg-r').delay(3000).slideUp();
         }
@@ -97,7 +97,7 @@ function appLogin(username, pwd, oauth_type = null, oauth_response = null) {
             } else {
                 $.unblockUI();
 
-                $('#status-msg-r').text("Fail:" + error.responseText);
+                $('#status-msg-r').text(error.responseJSON.detail.message);
                 $('#status-msg-r').slideDown();
                 $('#status-msg-r').delay(3000).slideUp();
             };
@@ -118,7 +118,7 @@ function fbOauthLogin(fb_response) {
         error: function (error) {
             $.unblockUI();
 
-            $('#status-msg-r').text("Fail:" + error.responseText);
+            $('#status-msg-r').text(error.responseJSON);
             $('#status-msg-r').slideDown();
             $('#status-msg-r').delay(3000).slideUp();
         }
