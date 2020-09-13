@@ -3,7 +3,7 @@ FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
-    apt-get install -y python3-dev default-libmysqlclient-dev
+    apt-get install -y python3-dev default-libmysqlclient-dev gettext
 
 WORKDIR /app
 
