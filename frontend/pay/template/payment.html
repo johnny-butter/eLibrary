@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-購物車
+{% trans "Shop Cart" %}
 {% endblock %}
 
 {% block head %}
@@ -16,7 +17,7 @@
 <div class="container" style="max-width: 60%;">
     <div class="row mb-3 pt-3">
         <div class="col-12">
-            <h1 style="text-align: center;">購物車</h1>
+            <h1 style="text-align: center;">{% trans "Shop Cart" %}</h1>
         </div>
     </div>
     <div class="row mb-3">
@@ -24,9 +25,9 @@
             <table id="cart-table" class="table table-borderless" style="background-color: #FCFCFC;">
                 <thead>
                     <tr>
-                        <th>書名</th>
-                        <th>數量</th>
-                        <th>金額</th>
+                        <th>{% trans "Book" %}</th>
+                        <th>{% trans "Quantity" %}</th>
+                        <th>{% trans "Price" %}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -47,7 +48,7 @@
     {% if amount > 0 %}
     <div class="row mb-3">
         <div class="col-6">
-            總金額:
+            {% trans "Total Price" %}:
             <span id="cart_total_amount">{{ amount }}</span>
         </div>
         <div class="col-6">
@@ -55,16 +56,16 @@
                 <div class="col-12">
                     <select id="order-type-select" class="browser-default custom-select">
                         <option selected value="braintree">Braintree</option>
-                        <option value="manual">手動轉帳/現場支付</option>
+                        <option value="manual">{% trans "Manual transfer / On-site payment" %}</option>
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button id="order-create-button" class="btn btn-primary float-right">確認付款</button>
+                    <button id="order-create-button" class="btn btn-primary float-right">{% trans "Confirm" %}</button>
                     <br>
                     <div id="dropin-container"></div>
-                    <button id="submit-button" class="btn btn-primary float-right" style="display:none;">付款</button>
+                    <button id="submit-button" class="btn btn-primary float-right" style="display:none;">{% trans "Pay" %}</button>
                 </div>
             </div>
 
@@ -89,7 +90,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">交易成功</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">{% trans "Successful Transaction" %}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -99,13 +100,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        onclick="location.reload()">確定</button>
+                        onclick="location.reload()">{% trans "Ok" %}</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
 <script type="text/javascript" src="{% static 'payment.js' %}"></script>
 {% endblock %}

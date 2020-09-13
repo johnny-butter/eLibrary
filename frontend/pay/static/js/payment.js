@@ -1,3 +1,14 @@
+$.ajaxSetup({
+    headers: {
+        'Authorization': "JWT " + $.cookie("token")
+    },
+    beforeSend: function(xhr, settings) {
+        let lang = $.cookie("django_language") || "zh-tw";
+
+        settings.url = "/" + lang + settings.url;
+    }
+});
+
 var pay_order_id = null;
 $("#order-create-button").click(function () {
     var books_info = [];
@@ -7,9 +18,6 @@ $("#order-create-button").click(function () {
     $.ajax({
         type: "POST",
         url: '/api/v2/pay_order/',
-        headers: {
-            'Authorization': "JWT " + $.cookie("token")
-        },
         contentType: 'application/json; charset=UTF-8',
         data: JSON.stringify({
             'total_price': $("#cart_total_amount").text(),
@@ -40,9 +48,6 @@ function clear_cart() {
     $.ajax({
         type: "DELETE",
         url: '/api/v2/cart/?del=all',
-        headers: {
-            'Authorization': "JWT " + $.cookie("token")
-        },
         success: function (msg) {
             console.log("Success");
             console.log(msg.data.delete_count);
@@ -78,9 +83,6 @@ function create_braintree_pay(pay_token) {
                 $.ajax({
                     type: "POST",
                     url: '/api/v2/pay/',
-                    headers: {
-                        'Authorization': "JWT " + $.cookie("token")
-                    },
                     contentType: 'application/json; charset=UTF-8',
                     data: JSON.stringify({
                         'pay_order_id': pay_order_id,
@@ -121,9 +123,6 @@ $(".shopminus").click(function () {
     $.ajax({
         type: "POST",
         url: "/api/v2/cart/?action=cut",
-        headers: {
-            'Authorization': "JWT " + $.cookie("token")
-        },
         data: {'book': book_id},
         success: function (msg) {
             $("#status-msg-r").html(

@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,10 +10,12 @@
     {% load staticfiles %}
 
     <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel=stylesheet type="text/css" href="{% static 'base.css' %}">
 
     <script src="{% static 'base.js' %}"></script>
     <script src="{% static 'pop_login.js' %}"></script>
@@ -19,48 +23,76 @@
     {% block head %}{% endblock %}
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-md bg-light">
-        <a class="navbar-brand btn btn-md px-3 btn-primary-outline" href="/books/list/" role="button">
-            <img src="{% static 'library.png' %}" class="d-inline-block">
-            eLibrary
-        </a>
+<body class="d-flex flex-column">
+    <div id="page-content">
+        <nav class="navbar navbar-expand-md bg-light">
+            <a class="navbar-brand btn btn-md px-3 btn-primary-outline" href="/books/list/" role="button">
+                <img src="{% static 'library.png' %}" class="d-inline-block">
+                eLibrary
+            </a>
 
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div id="navb" class="navbar-collapse collapse hide">
-            <ul class="navbar-nav ml-auto navbar-fixed-top">
-                <li class="nav-item navbar-right">
-                    <a class="btn btn-md px-3 btn-primary-outline el-navbar-item" href="/books/favlist/" role="button">
-                        <img src="{% static 'book_fav.png' %}" class="d-inline-block">
-                        收藏
-                    </a>
-                </li>
-                <li class="nav-item navbar-right">
-                    <a class="btn btn-md px-3 btn-primary-outline el-navbar-item" href="/payment/purchase/" role="button">
-                        <img src="{% static 'shopcar.png' %}" class="d-inline-block">
-                        購物車
-                    </a>
-                </li>
-                <li class="nav-item dropdown navbar-right">
-                    <a class="nav-link dropdown-toggle el-navbar-item" href="#" data-toggle="dropdown" style="color:black;">
-                        <img src="{% static 'profile.png' %}" class="d-inline-block">
-                        帳號
-                    </a>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item account-item" type="button" value="/books/userinfo/">編輯</button>
-                        <button class="dropdown-item account-item" type="button" value="/login/">登出</button>
+            <div id="navb" class="navbar-collapse collapse hide">
+                <ul class="navbar-nav ml-auto navbar-fixed-top">
+                    <li class="nav-item navbar-right">
+                        <a class="btn btn-md px-3 btn-primary-outline el-navbar-item" href="/books/favlist/" role="button">
+                            <img src="{% static 'book_fav.png' %}" class="d-inline-block">
+                            {% trans "Collection" %}
+                        </a>
+                    </li>
+                    <li class="nav-item navbar-right">
+                        <a class="btn btn-md px-3 btn-primary-outline el-navbar-item" href="/payment/purchase/" role="button">
+                            <img src="{% static 'shopcar.png' %}" class="d-inline-block">
+                            {% trans "Cart" %}
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown navbar-right">
+                        <a class="nav-link dropdown-toggle el-navbar-item" href="#" data-toggle="dropdown" style="color:black;">
+                            <img src="{% static 'profile.png' %}" class="d-inline-block">
+                            {% trans "Account" %}
+                        </a>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item account-item" type="button" value="/books/userinfo/">{% trans "Edit" %}</button>
+                            <button class="dropdown-item account-item" type="button" value="/login/">{% trans "Log Out" %}</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        {% include 'pop_login.html' %}
+
+        {% block body %}{% endblock %}
+    </div>
+
+    <footer id="sticky-footer" class="py-4 bg-light text-black-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 offset-md-4 text-center align-self-center">
+                    &copy; Johnny
+                </div>
+                <div class="col-md-4 text-right align-self-center">
+                    <div class="dropdown show">
+                        <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="languageMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{% static 'global.png' %}" class="d-inline-block">
+                            {% trans "Language" %}
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="languageMenu">
+                            {% csrf_token %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% for CODE, NAME in LANGUAGES %}
+                            <a class="dropdown-item lang-item" name="{{ CODE }}" href="#">{{ NAME }}</a>
+                            {% endfor %}
+                        </div>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-    </nav>
-
-    {% include 'pop_login.html' %}
-
-    {% block body %}{% endblock %}
+    </footer>
 </body>
 
 </html>

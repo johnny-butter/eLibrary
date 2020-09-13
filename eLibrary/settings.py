@@ -206,9 +206,9 @@ USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = [
-    ('en', _('English')),
-    ('zh-tw', _('中文繁體')),
-    ('zh-hant', _('中文繁體')),
+    ('en', 'English'),
+    ('zh-tw', '繁體中文'),
+    ('ja', 'にほんぶん'),
 ]
 
 LOCALE_PATHS = [
@@ -225,6 +225,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'eLibrary/static/img/'),
     os.path.join(BASE_DIR, 'eLibrary/static/js/'),
+    os.path.join(BASE_DIR, 'eLibrary/static/css/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/js/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/css/'),
     os.path.join(FRONTEND_BASE_DIR, 'book_list/static/img/'),

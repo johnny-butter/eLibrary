@@ -22,6 +22,8 @@ from django.conf import settings
 from frontend.book_list.views import book_list
 
 urlpatterns = i18n_patterns(
+    path('i18n/', include('django.conf.urls.i18n')),
+
     path('', book_list),
 
     path('admin/', admin.site.urls),
@@ -40,7 +42,7 @@ urlpatterns = i18n_patterns(
 
     path('chat/', include('chat.urls')),
 
-    prefix_default_language=False,
+    prefix_default_language=True,
 )
 
 if settings.DEBUG:

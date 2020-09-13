@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-書籍清單
+{% trans "Book List" %}
 {% endblock %}
 
 {% block head %}
@@ -29,12 +30,12 @@
             <table class="table table-borderless card-1 p-4">
                 <thead>
                     <tr class="border-bottom">
-                        <th><span class="ml-2">書名</span></th>
-                        <th><span class="ml-2">分類</span></th>
-                        <th><span class="ml-2">作者</span></th>
-                        <th><span class="ml-2">原價</span></th>
+                        <th><span class="ml-2">{% trans "Book" %}</span></th>
+                        <th><span class="ml-2">{% trans "Type" %}</span></th>
+                        <th><span class="ml-2">{% trans "Author" %}</span></th>
+                        <th><span class="ml-2">{% trans "Origin Price" %}</span></th>
                         <th>
-                            <span class="ml-2">特價</span>
+                            <span class="ml-2">{% trans "Price" %}</span>
                             <a href="{% url 'book_list' %}?page=1&order=price_discount">
                                 <input id="up" type="image" src="{% static 'up.png' %}">
                             </a>
@@ -42,8 +43,8 @@
                                 <input id="down" type="image" src="{% static 'down.png' %}">
                             </a>
                         </th>
-                        <th><span class="ml-2">庫存</span></th>
-                        <th><span class="ml-4">動作</span></th>
+                        <th><span class="ml-2">{% trans "Stock" %}</span></th>
+                        <th><span class="ml-4">{% trans "Action" %}</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,7 +133,6 @@
     </a>
 </div>
 
-<script src="//apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.js"></script>
 <script src="//malsup.github.io/min/jquery.blockUI.min.js"></script>
 <script src="{% static 'book.js' %}"></script>
 {% endblock %}
