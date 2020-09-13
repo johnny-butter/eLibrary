@@ -1,3 +1,11 @@
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        let lang = $.cookie("django_language") || "zh-tw";
+
+        settings.url = "/" + lang + settings.url;
+    }
+});
+
 function appRegister(username, pwd, email,
     oauth_type = null, oauth_response = null) {
     if (oauth_type != null && oauth_response != null) {
@@ -79,7 +87,8 @@ function appLogin(username, pwd, oauth_type = null, oauth_response = null) {
             $('#status-msg-g').text("Login Success");
             $('#status-msg-g').slideDown();
             $('#status-msg-g').delay(1500).slideUp("slow", "swing", function () {
-                window.location.href = "/books/list/?page=1";
+                let lang = $.cookie("django_language") || "zh-tw";
+                window.location.href = "/" + lang + "/books/list/?page=1";
             });
         },
         error: function (error) {
