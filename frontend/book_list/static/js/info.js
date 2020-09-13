@@ -38,7 +38,7 @@ $(document).ready(function () {
                 });
             },
             error: function (error) {
-                $('#status-msg-r').text("Fail:" + error.responseText);
+                $('#status-msg-r').text(error.responseJSON.detail.message);
                 $('#status-msg-r').slideDown();
                 $('#status-msg-r').delay(1500).slideUp();
             }

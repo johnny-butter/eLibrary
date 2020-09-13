@@ -64,7 +64,7 @@ function clear_cart() {
         },
         error: function (error) {
             console.log("Fail");
-            console.log(error.responseText);
+            console.log(error.responseJSON.detail.message);
         }
     });
 }
@@ -119,7 +119,7 @@ function create_braintree_pay(pay_token) {
                     },
                     error: function (error) {
                         $(".modal-title").text("Fail");
-                        $(".modal-body").text(error.responseText);
+                        $(".modal-body").text(error.responseJSON.detail.message);
 
                         $("#success-btn").click();
                     }
@@ -145,7 +145,7 @@ $(".shopminus").click(function () {
             });
         },
         error: function (error) {
-            alert("Fail:" + error.responseText);
+            alert(error.responseJSON.detail.message);
         }
     });
 })

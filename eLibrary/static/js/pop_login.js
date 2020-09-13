@@ -43,7 +43,7 @@ function appPopLogin(username, pwd, oauth_type = null, oauth_response = null) {
         error: function (error) {
             $.unblockUI();
 
-            $("#modal-msg-r").html(error.responseText);
+            $("#modal-msg-r").html(error.responseJSON.detail.message);
             $("#modal-msg-r").slideDown();
             $("#modal-msg-r").delay(3000).slideUp();
         }

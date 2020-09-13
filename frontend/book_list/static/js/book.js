@@ -33,7 +33,7 @@ $(document).ready(function () {
             error: function (error) {
                 that.parent().unblock();
 
-                $("#status-msg-r").html(error.responseText);
+                $("#status-msg-r").html(error.responseJSON.detail.message);
                 $("#status-msg-r").slideDown();
                 $("#status-msg-r").delay(3000).slideUp();
             }
@@ -78,7 +78,7 @@ $(document).ready(function () {
                 $("#status-msg-g").delay(3000).slideUp();
             },
             error: function (error) {
-                alert("Fail:" + error.responseText);
+                alert(error.responseJSON.detail.message);
             }
         });
     })
