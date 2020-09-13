@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-使用者資訊
+{% trans "Profile" %}
 {% endblock %}
 
 {% block head %}
@@ -16,32 +17,32 @@
 <div class="container">
     <div class="row justify-content-center mb-3 pt-3">
         <div class="col-6">
-            <h1 style="text-align: center;">使用者資訊</h1>
+            <h1 style="text-align: center;">{% trans "Profile" %}</h1>
         </div>
     </div>
     <div class="row justify-content-center mb-3">
         <div class="col-6">
             <form role="form">
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">使用者名稱</label>
+                    <label class="col-lg-3 col-form-label form-control-label">{% trans "Username" %}</label>
                     <div class="col-lg-9">
                         <input class="form-control" id="username" name="{{ user.id }}" type="text" value="{{ user.username }}">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">密碼</label>
+                    <label class="col-lg-3 col-form-label form-control-label">{% trans "Password" %}</label>
                     <div class="col-lg-9">
-                        <input class="form-control" id=pass1 type="password" placeholder="請輸入新密碼">
+                        <input class="form-control" id=pass1 type="password" placeholder='{% trans "Enter New Password" %}'>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
-                        <input class="form-control" id=pass2 type="password" placeholder="請再輸入新密碼">
+                        <input class="form-control" id=pass2 type="password" placeholder='{% trans "Enter New Password Again" %}'>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">電子信箱</label>
+                    <label class="col-lg-3 col-form-label form-control-label">{% trans "E-Mail" %}</label>
                     <div class="col-lg-9">
                         <input class="form-control" id="useremail" type="email" value="{{ user.email }}">
                     </div>
@@ -50,8 +51,8 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
-                        <input class="btn btn-secondary" type="reset"  value="取消">
-                        <input class="btn btn-primary" id="updateinfo" type="button" value="更新">
+                        <input class="btn btn-secondary" type="reset"  value='{% trans "Cancel" %}'>
+                        <input class="btn btn-primary" id="updateinfo" type="button" value='{% trans "Update" %}'>
                     </div>
                 </div>
             </form>

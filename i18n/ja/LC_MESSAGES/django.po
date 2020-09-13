@@ -15,60 +15,61 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: .\api\views\v2\login.py:21 .\shared\validations\channel_jwt_validate.py:32
 #: .\shared\validations\jwt_validate.py:100
 msgid "User not found"
-msgstr "找不到使用者"
+msgstr "ユーザーが見つかりません"
 
 #: .\eLibrary\template\base.html:43
 msgid "Collection"
-msgstr "收藏"
+msgstr "コレクション"
 
 #: .\eLibrary\template\base.html:49
 msgid "Cart"
-msgstr "購物車"
+msgstr "ショッピングカート"
 
 #: .\eLibrary\template\base.html:55
 msgid "Account"
-msgstr "帳號"
+msgstr "アカウント"
 
 #: .\eLibrary\template\base.html:58
 msgid "Edit"
-msgstr "編輯"
+msgstr "編集する"
 
 #: .\eLibrary\template\base.html:59
 msgid "Log Out"
-msgstr "登出"
+msgstr "ログアウト"
 
 #: .\eLibrary\template\base.html:81
 msgid "Language"
-msgstr "語言"
+msgstr "言語"
 
 #: .\eLibrary\template\pop_login.html:27
 msgid "Username / E-MAIL"
-msgstr "使用者名稱 / E-MAIL"
+msgstr "ユーザー名 / E-MAIL"
 
 #: .\eLibrary\template\pop_login.html:32
 #: .\frontend\book_list\template\user_info.html:33
 msgid "Password"
-msgstr "密碼"
+msgstr "パスワード"
 
 #: .\eLibrary\template\pop_login.html:36
 msgid "Login"
-msgstr "登入"
+msgstr "ログインする"
 
 #: .\eLibrary\template\pop_login.html:42
 msgid "Not Join Yet?"
-msgstr "尚未加入?"
+msgstr "まだ参加していませんか？"
 
 #: .\eLibrary\template\pop_login.html:43
 msgid "Register"
-msgstr "註冊"
+msgstr "登録"
 
 #: .\frontend\book_list\template\book_list.html:6
 msgid "Book List"
-msgstr "書籍清單"
+msgstr "ブックリスト"
 
 #: .\frontend\book_list\template\book_list.html:33
 #: .\frontend\book_list\template\fav_book_list.html:26
@@ -79,53 +80,53 @@ msgstr "書名"
 #: .\frontend\book_list\template\book_list.html:34
 #: .\frontend\book_list\template\fav_book_list.html:27
 msgid "Type"
-msgstr "類別"
+msgstr "タイプ"
 
 #: .\frontend\book_list\template\book_list.html:35
 #: .\frontend\book_list\template\fav_book_list.html:28
 msgid "Author"
-msgstr "作者"
+msgstr "著者"
 
 #: .\frontend\book_list\template\book_list.html:36
 #: .\frontend\book_list\template\fav_book_list.html:29
 msgid "Origin Price"
-msgstr "原價"
+msgstr "元の価格"
 
 #: .\frontend\book_list\template\book_list.html:38
 #: .\frontend\book_list\template\fav_book_list.html:30
 #: .\frontend\pay\template\payment.html:30
 msgid "Price"
-msgstr "特價"
+msgstr "価格"
 
 #: .\frontend\book_list\template\book_list.html:46
 #: .\frontend\book_list\template\fav_book_list.html:31
 msgid "Stock"
-msgstr "庫存"
+msgstr "在庫"
 
 #: .\frontend\book_list\template\book_list.html:47
 msgid "Action"
-msgstr "動作"
+msgstr "アクション"
 
 #: .\frontend\book_list\template\fav_book_list.html:6
 msgid "Collected Book"
-msgstr "收藏書籍"
+msgstr "収集した本"
 
 #: .\frontend\book_list\template\user_info.html:6
 #: .\frontend\book_list\template\user_info.html:20
 msgid "Profile"
-msgstr "個人資料"
+msgstr "プロフィール"
 
 #: .\frontend\book_list\template\user_info.html:27
 msgid "Username"
-msgstr "使用者名稱"
+msgstr "ユーザー名"
 
 #: .\frontend\book_list\template\user_info.html:35
 msgid "Enter New Password"
-msgstr "請輸入新密碼"
+msgstr "新しいパスワードを入力してください"
 
 #: .\frontend\book_list\template\user_info.html:41
 msgid "Enter New Password Again"
-msgstr "請再次輸入新密碼"
+msgstr "もう一度新しいパスワードを入力してください"
 
 #: .\frontend\book_list\template\user_info.html:45
 msgid "E-Mail"
@@ -133,7 +134,7 @@ msgstr "E-Mail"
 
 #: .\frontend\book_list\template\user_info.html:54
 msgid "Cancel"
-msgstr "取消"
+msgstr "キャンセル"
 
 #: .\frontend\book_list\template\user_info.html:55
 msgid "Update"
@@ -142,19 +143,19 @@ msgstr "更新"
 #: .\frontend\pay\template\payment.html:6
 #: .\frontend\pay\template\payment.html:20
 msgid "Shop Cart"
-msgstr "購物車"
+msgstr "ショッピングカート"
 
 #: .\frontend\pay\template\payment.html:29
 msgid "Quantity"
-msgstr "數量"
+msgstr "量"
 
 #: .\frontend\pay\template\payment.html:51
 msgid "Total Price"
-msgstr "總價"
+msgstr "合計金額"
 
 #: .\frontend\pay\template\payment.html:59
 msgid "Manual transfer / On-site payment"
-msgstr "手動轉帳/現場支付"
+msgstr "手動送金/現地払い"
 
 #: .\frontend\pay\template\payment.html:65
 msgid "Confirm"
@@ -162,46 +163,46 @@ msgstr "確認"
 
 #: .\frontend\pay\template\payment.html:68
 msgid "Pay"
-msgstr "付款"
+msgstr "お金を払う"
 
 #: .\frontend\pay\template\payment.html:93
 msgid "Successful Transaction"
-msgstr "交易成功"
+msgstr "成功したトランザクション"
 
 #: .\frontend\pay\template\payment.html:103
 msgid "Ok"
-msgstr "確定"
+msgstr "OK"
 
 #: .\shared\errors\error_code.py:15
 msgid "Stock not enough"
-msgstr "庫存不足"
+msgstr "在庫不足"
 
 #: .\shared\errors\error_code.py:21
 msgid "Pay fail"
-msgstr "付款失敗"
+msgstr "支払い失敗"
 
 #: .\shared\errors\error_code.py:27
 msgid "Invalid token"
-msgstr "無效的憑證"
+msgstr "無効なトークン"
 
 #: .\shared\errors\error_code.py:33
 msgid "Auth fail"
-msgstr "認證失敗"
+msgstr "認証失敗"
 
 #: .\shared\validations\channel_jwt_validate.py:25
 #: .\shared\validations\jwt_validate.py:93
 msgid "Token contained no recognizable user identification"
-msgstr "令牌不包含可識別的用戶資料"
+msgstr "トークンに認識可能なユーザーIDが含まれていません"
 
 #: .\shared\validations\channel_jwt_validate.py:36
 #: .\shared\validations\jwt_validate.py:104
 msgid "User is inactive"
-msgstr "使用者已暫停活動"
+msgstr "ユーザーは非アクティブです"
 
 #: .\shared\validations\jwt_validate.py:68
 msgid "Authorization header must contain two space-delimited values"
-msgstr "驗證HEADER必須包含空格分隔的值"
+msgstr "ヘッダーには、スペースで区切られた2つの値が含まれている必要があります"
 
 #: .\shared\validations\jwt_validate.py:83
 msgid "Given token not valid for any token type"
-msgstr "請確認TOKEN型別"
+msgstr "指定されたトークンはどのトークンタイプにも無効です"

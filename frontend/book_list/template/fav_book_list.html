@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-收藏書籍
+{% trans "Collected Book" %}
 {% endblock %}
 
 {% block head %}
@@ -22,12 +23,12 @@
             <table class="table table-borderless card-1 p-4">
                 <thead>
                     <tr class="border-bottom">
-                        <th><span class="ml-2">書名</span></th>
-                        <th><span class="ml-2">分類</span></th>
-                        <th><span class="ml-2">作者</span></th>
-                        <th><span class="ml-2">原價</span></th>
-                        <th><span class="ml-2">特價</span></th>
-                        <th><span class="ml-2">庫存</span></th>
+                        <th><span class="ml-2">{% trans "Book" %}</span></th>
+                        <th><span class="ml-2">{% trans "Type" %}</span></th>
+                        <th><span class="ml-2">{% trans "Author" %}</span></th>
+                        <th><span class="ml-2">{% trans "Origin Price" %}</span></th>
+                        <th><span class="ml-2">{% trans "Price" %}</span></th>
+                        <th><span class="ml-2">{% trans "Stock" %}</span></th>
                     </tr>
                 </thead>
                 <tbody>
