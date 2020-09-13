@@ -1,8 +1,14 @@
 $.ajaxSetup({
     headers: {
         'Authorization': "JWT " + $.cookie("token")
+    },
+    beforeSend: function(xhr, settings) {
+        let lang = $.cookie("django_language") || "zh-tw";
+
+        settings.url = "/" + lang + settings.url;
     }
 });
+
 $(document).ready(function () {
     $(".fav").click(function () {
         $(this).parent().block({
