@@ -1,0 +1,16 @@
+html, body {
+    height: 100%;
+}
+
+#page-content {
+    flex: 10 auto;
+}
+
+#sticky-footer {
+    flex-shrink: none;
+}
+
+.center-vertical {
+    display: flex;
+    align-items: center;
+}
