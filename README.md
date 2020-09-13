@@ -12,6 +12,7 @@ Online book store project. Visit it [eLibrary](https://elibrary-2019.herokuapp.c
 - Add books to cart
 - Buy books by credit card (`Braintree sandbox`)
 - Send shopping record email
+- Support i18n (`en` / `ja` / `zh-tw`)
 
 ## Tools
 
