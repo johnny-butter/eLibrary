@@ -38,7 +38,15 @@ $(document).ready(function () {
                 });
             },
             error: function (error) {
-                $('#status-msg-r').text(error.responseJSON.detail.message);
+                let errMsg = "";
+                if (error.responseJSON.detail == null) {
+                    for (var k in error.responseJSON) {
+                        errMsg += k + ": " + error.responseJSON[k][0].message;
+                    }
+                } else {
+                    errMsg = error.responseJSON.detail.message;
+                }
+                $('#status-msg-r').text(errMsg);
                 $('#status-msg-r').slideDown();
                 $('#status-msg-r').delay(1500).slideUp();
             }
