@@ -3,8 +3,11 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet
 
 from api.models import PayOrder
+from api.models.pay_order import PayError
 from api.serializers import PayOrderSerializer, ShopHistorySerializer
 from api.tasks import sent_shopping_record_mail
+
+from shared.errors import PayFail
 
 
 class Payment(ViewSet):
@@ -31,7 +34,12 @@ class Payment(ViewSet):
         extra_data = request.data.get('extra_data', None)
 
         pay_order = PayOrder.objects.get(id=pay_order_id)
-        pay_order.pay(**extra_data)
+
+        try:
+            pay_order.pay(**extra_data)
+        except PayError as e:
+            raise PayFail(detail=e.error_detail)
+
         pay_order.save()
 
         shop_history = pay_order.shophistory_set.last()

@@ -110,18 +110,24 @@ function create_braintree_pay(pay_token) {
                         ]
 
                         var obj = $(".modal-body").text(messageBody.join("\n"));
-
                         obj.html(obj.html().replace(/\n/g, '<br/>'));
 
-                        $("#success-btn").click();
+                        $("#modal-trigger-btn").click();
 
                         clear_cart();
                     },
                     error: function (error) {
                         $(".modal-title").text("Fail");
-                        $(".modal-body").text(error.responseJSON.detail.message);
 
-                        $("#success-btn").click();
+                        messageBody = [
+                            "error code: ".concat(error.responseJSON.detail.message[0].cade.message),
+                            "error message: ".concat(error.responseJSON.detail.message[0].message.message)
+                        ]
+
+                        var obj = $(".modal-body").text(messageBody.join("\n"));
+                        obj.html(obj.html().replace(/\n/g, '<br/>'));
+
+                        $("#modal-trigger-btn").click();
                     }
                 });
             });
