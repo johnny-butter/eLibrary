@@ -2,9 +2,15 @@ from django.db import models
 from django.utils import timezone
 from django_fsm import FSMIntegerField, transition
 
-from shared.errors import PayFail
 from api.services.pay_strategy import PayStrategy
 from .shop_history import ShopHistory
+
+
+class PayError(Exception):
+
+    def __init__(self, error_detail=[], *args):
+        super(PayError, self).__init__(*args)
+        self.error_detail = {'detail': {'message': error_detail}}
 
 
 class PayOrderStateEnum:
@@ -46,4 +52,4 @@ class PayOrder(models.Model):
         if pay_strategy.success:
             pay_strategy.create_shop_history()
         else:
-            raise PayFail(detail={'detail': pay_strategy.error})
+            raise PayError(error_detail=pay_strategy.error)
