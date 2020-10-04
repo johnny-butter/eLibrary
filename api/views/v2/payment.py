@@ -7,14 +7,18 @@ from api.models.pay_order import PayError
 from api.serializers import PayOrderSerializer, ShopHistorySerializer
 from api.tasks import sent_shopping_record_mail
 
-from shared.errors import PayFail
+from shared.errors import ApiCheckFail, PayFail
 
 
 class Payment(ViewSet):
 
     def get_pay_order_list(self, request):
-        query_set = request.user.payorder_set.filter(state=0)
-        serializer = PayOrderSerializer(query_set, many=True)
+        query_set = request.user.payorder_set.filter(state=0).first()
+
+        if not query_set:
+            raise ApiCheckFail()
+
+        serializer = PayOrderSerializer(query_set)
         resp = {
             'data': serializer.data,
         }

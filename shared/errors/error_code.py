@@ -3,11 +3,18 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import APIException
 
 __all__ = [
+    'ApiCheckFail',
     'PayFail',
     'InvalidToken',
     'AuthenticationFailed',
     'StockNotEnough',
 ]
+
+
+class ApiCheckFail(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_detail = 'Check fail'
+    default_code = 'general_001'
 
 
 class StockNotEnough(APIException):
