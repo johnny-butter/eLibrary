@@ -7,6 +7,8 @@ from api.models.pay_order import PayError
 from api.serializers import PayOrderSerializer, ShopHistorySerializer
 from api.tasks import sent_shopping_record_mail
 
+from django_fsm import can_proceed
+
 from shared.errors import ApiCheckFail, PayFail
 
 
@@ -52,3 +54,14 @@ class Payment(ViewSet):
         sent_shopping_record_mail.delay(pay_order.id)
 
         return Response(serializer.data)
+
+    def cancel_pay_order(self, request):
+        pay_order = PayOrder.objects.get(id=request.data['pay_order_id'])
+
+        if not can_proceed(pay_order.cancel):
+            raise ApiCheckFail("The state can't be canceled")
+
+        pay_order.cancel()
+        pay_order.save()
+
+        return Response({'data': {'status': 'success'}})
