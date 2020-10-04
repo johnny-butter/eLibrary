@@ -9,18 +9,20 @@ def pay_page(request):
     if request.method == 'GET':
         headers = {'Authorization': f"JWT {request.COOKIES.get('token', '')}"}
 
-        result = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:shop_car")}', headers=headers)
+        ret = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:pay_order")}', headers=headers)
 
-        if not result.ok:
-            return HttpResponseBadRequest(f'Error: {result.json()}')
+        if ret.ok:
+            books = ret.json().get('data', {}).get('item_list', [])
+            total_amount = sum([float(b.get('quantity', '0')) * float(b.get('price', '0')) for b in books])
+        else:
+            ret = requests.get(f'{settings.API_END_POINT}{reverse("api_v2:shop_car")}', headers=headers)
 
-        books = result.json().get('results', [])
-        amount = 0
-        for book in books:
-            quantity = book.get('quantity', 0)
-            price = book.get('book_price', 0)
-            amount += int(price) * int(quantity)
+            if not ret.ok:
+                HttpResponseBadRequest(f'Error: {ret.json()}')
 
-        context = {'books': books, 'amount': amount}
+            books = ret.json().get('results', [])
+            total_amount = sum([float(b.get('quantity', '0')) * float(b.get('book_price', '0')) for b in books])
+
+        context = {'books': books, 'amount': total_amount}
 
         return render(request, 'payment.html', context=context)

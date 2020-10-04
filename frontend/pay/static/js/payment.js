@@ -9,7 +9,6 @@ $.ajaxSetup({
     }
 });
 
-var pay_order_id = null;
 $("#order-create-button").click(function () {
     $.blockUI({
         message: "<img src='/static/loading.gif'/>",
@@ -30,12 +29,12 @@ $("#order-create-button").click(function () {
             'item_list': books_info,
         }),
         success: function (msg) {
-            pay_order_id = msg.id
+            let pay_order_id = msg.id
             switch (pay_type) {
                 case "braintree":
                     $.get("/api/v2/braintree_client_token/", function (msg) {
-                        var pay_token = msg.token;
-                        create_braintree_pay(pay_token);
+                        let pay_token = msg.token;
+                        create_braintree_pay(pay_token, pay_order_id);
 
                         $.unblockUI();
                     });
@@ -80,7 +79,7 @@ function create_books_info(books_info) {
     });
 }
 
-function create_braintree_pay(pay_token) {
+function create_braintree_pay(pay_token, pay_order_id) {
     braintree.dropin.create({
         authorization: pay_token,
         container: '#dropin-container'
@@ -155,3 +154,26 @@ $(".shopminus").click(function () {
         }
     });
 })
+
+$(document).ready(function () {
+    $.get("/api/v2/pay_order/", function (msg) {
+        $.blockUI({
+            message: "<img src='/static/loading.gif'/>",
+            css: { borderWidth: '0px', backgroundColor: 'transparent' }
+        });
+
+        let pay_order_id = msg.data.id
+        $("#order-type-select").val(msg.data.pay_type);
+
+        switch (msg.data.pay_type) {
+            case "braintree":
+                $.get("/api/v2/braintree_client_token/", function (msg) {
+                    let pay_token = msg.token;
+                    create_braintree_pay(pay_token, pay_order_id);
+
+                    $.unblockUI();
+                });
+                break;
+        };
+    });
+});
