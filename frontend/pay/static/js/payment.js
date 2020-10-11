@@ -84,10 +84,11 @@ function create_braintree_pay(pay_token, pay_order_id) {
         authorization: pay_token,
         container: '#dropin-container'
     }, function (createErr, instance) {
-        $("#submit-button").show();
+        $("#order-pay-btn").show();
+        $("#order-cancel-btn").show();
 
-        let button = document.querySelector('#submit-button');
-        button.addEventListener('click', function () {
+        let pay_btn = document.querySelector('#order-pay-btn');
+        pay_btn.addEventListener('click', function () {
             instance.requestPaymentMethod(function (err, payload) {
                 // Submit payload.nonce to your server
                 $.ajax({
@@ -131,6 +132,27 @@ function create_braintree_pay(pay_token, pay_order_id) {
                 });
             });
         });
+
+        let cancel_btn = document.querySelector('#order-cancel-btn');
+        cancel_btn.addEventListener('click', function () {
+            $.ajax({
+                type: "DELETE",
+                url: '/api/v2/pay_order/',
+                data: {'pay_order_id': pay_order_id},
+                success: function (msg) {
+                    $("#status-msg-g").html(
+                        "訂單已成功取消"
+                    );
+                    $("#status-msg-g").slideDown();
+                    $("#status-msg-g").delay(3000).slideUp("slow", "swing", function() {
+                        window.location.reload();
+                    });
+                },
+                error: function (error) {
+                    alert(error.responseJSON.detail.message);
+                }
+            });
+        })
     });
 }
 
