@@ -9,50 +9,6 @@ $.ajaxSetup({
     }
 });
 
-$("#order-create-button").click(function () {
-    $.blockUI({
-        message: "<img src='/static/loading.gif'/>",
-        css: { borderWidth: '0px', backgroundColor: 'transparent' }
-    });
-
-    var books_info = [];
-    var pay_type = $("#order-type-select").val();
-    create_books_info(books_info);
-
-    $.ajax({
-        type: "POST",
-        url: '/api/v2/pay_order/',
-        contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify({
-            'total_price': $("#cart_total_amount").text(),
-            'pay_type': pay_type,
-            'item_list': books_info,
-        }),
-        success: function (msg) {
-            let pay_order_id = msg.id
-            switch (pay_type) {
-                case "braintree":
-                    $.get("/api/v2/braintree_client_token/", function (msg) {
-                        let pay_token = msg.token;
-                        create_braintree_pay(pay_token, pay_order_id);
-
-                        $.unblockUI();
-                    });
-                    break;
-                case "manual":
-                    alert("訂單已建立(id: " + pay_order_id + ")，付款完成後，請通知客服人員");
-                    $.unblockUI();
-                    break;
-            };
-        },
-        error: function (error) {
-            console.warn(error);
-
-            $.unblockUI();
-        }
-    });
-});
-
 function clear_cart() {
     $.ajax({
         type: "DELETE",
@@ -68,7 +24,8 @@ function clear_cart() {
     });
 }
 
-function create_books_info(books_info) {
+function get_books_info() {
+    let books_info = []
     $('#cart-table tbody tr').each(function () {
         var book_info = {};
         book_info["book"] = $(this).find('td.cart_book_name').data('value');
@@ -77,20 +34,47 @@ function create_books_info(books_info) {
 
         if (book_info["book"] != null) books_info.push(book_info);
     });
+
+    return books_info
 }
 
-function create_braintree_pay(pay_token, pay_order_id) {
+function cancel_pay_order(pay_order_id) {
+    $.ajax({
+        type: "DELETE",
+        url: '/api/v2/pay_order/',
+        data: {'pay_order_id': pay_order_id},
+        success: function (msg) {
+            $("#status-msg-g").html(
+                "訂單已成功取消"
+            );
+            $("#status-msg-g").slideDown();
+            $("#status-msg-g").delay(3000).slideUp("slow", "swing", function() {
+                window.location.reload();
+            });
+        },
+        error: function (error) {
+            alert(error.responseJSON.detail.message);
+        }
+    });
+}
+
+function create_braintree_pay_ui(pay_token, pay_order_id) {
     braintree.dropin.create({
         authorization: pay_token,
         container: '#dropin-container'
     }, function (createErr, instance) {
         $("#order-pay-btn").show();
-        $("#order-cancel-btn").show();
-
         let pay_btn = document.querySelector('#order-pay-btn');
         pay_btn.addEventListener('click', function () {
-            instance.requestPaymentMethod(function (err, payload) {
+            instance.requestPaymentMethod(function (requestPaymentMethodError, payload) {
+                // handle errors
+                if (requestPaymentMethodError) {
+                    console.warn(requestPaymentMethodError);
+                    return;
+                }
+
                 // Submit payload.nonce to your server
+                let messageBody = []
                 $.ajax({
                     type: "POST",
                     url: '/api/v2/pay/',
@@ -102,29 +86,19 @@ function create_braintree_pay(pay_token, pay_order_id) {
                         },
                     }),
                     success: function (msg) {
-                        messageBody = [
-                            "交易代碼: ".concat(msg.transaction_id),
-                            "金額: ".concat(msg.transaction_total_price, " ", msg.transaction_currency),
-                            "日期: ".concat(msg.create_date),
-                            "付款方式: ".concat(msg.transaction_pay_type)
-                        ]
-
-                        var obj = $(".modal-body").text(messageBody.join("\n"));
-                        obj.html(obj.html().replace(/\n/g, '<br/>'));
-
-                        $("#modal-trigger-btn").click();
-
-                        clear_cart();
+                        messageBody.push("交易代碼: " + msg.transaction_id);
+                        messageBody.push("金額: " + msg.transaction_total_price + " " + msg.transaction_currency);
+                        messageBody.push("日期: " + msg.create_date);
+                        messageBody.push("付款方式: " + msg.transaction_pay_type);
                     },
                     error: function (error) {
                         $(".modal-title").text("Fail");
 
-                        messageBody = [
-                            "error code: ".concat(error.responseJSON.detail.message[0].cade.message),
-                            "error message: ".concat(error.responseJSON.detail.message[0].message.message)
-                        ]
-
-                        var obj = $(".modal-body").text(messageBody.join("\n"));
+                        messageBody.push("error code: " + error.responseJSON.detail.message[0].cade.message);
+                        messageBody.push("error message: " + error.responseJSON.detail.message[0].message.message);
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        let obj = $(".modal-body").text(messageBody.join("\n"));
                         obj.html(obj.html().replace(/\n/g, '<br/>'));
 
                         $("#modal-trigger-btn").click();
@@ -133,49 +107,39 @@ function create_braintree_pay(pay_token, pay_order_id) {
             });
         });
 
+        $("#order-cancel-btn").show();
         let cancel_btn = document.querySelector('#order-cancel-btn');
         cancel_btn.addEventListener('click', function () {
-            $.ajax({
-                type: "DELETE",
-                url: '/api/v2/pay_order/',
-                data: {'pay_order_id': pay_order_id},
-                success: function (msg) {
-                    $("#status-msg-g").html(
-                        "訂單已成功取消"
-                    );
-                    $("#status-msg-g").slideDown();
-                    $("#status-msg-g").delay(3000).slideUp("slow", "swing", function() {
-                        window.location.reload();
-                    });
-                },
-                error: function (error) {
-                    alert(error.responseJSON.detail.message);
-                }
-            });
-        })
+            cancel_pay_order(pay_order_id);
+        });
     });
 }
 
-$(".shopminus").click(function () {
-    var book_id = $(this).val()
-    $.ajax({
-        type: "POST",
-        url: "/api/v2/cart/?action=cut",
-        data: {'book': book_id},
-        success: function (msg) {
-            $("#status-msg-r").html(
-                "商品成功移出購物車"
-            );
-            $("#status-msg-r").slideDown();
-            $("#status-msg-r").delay(3000).slideUp("slow", "swing", function() {
-                window.location.reload();
-            });
-        },
-        error: function (error) {
-            alert(error.responseJSON.detail.message);
-        }
+function create_manual_pay_ui(pay_order_id) {
+    $("#order-cancel-btn").show();
+    let cancel_btn = document.querySelector('#order-cancel-btn');
+    cancel_btn.addEventListener('click', function () {
+        cancel_pay_order(pay_order_id);
     });
-})
+
+    $(".modal-title").text("訂單已建立");
+    $(".modal-body").html("訂單ID: " + pay_order_id + "，付款完成後，請通知客服人員");
+    $("#modal-trigger-btn").click();
+}
+
+function create_pay_order_ui(pay_type, pay_order_id) {
+    switch (pay_type) {
+        case "braintree":
+            $.get("/api/v2/braintree_client_token/", function (msg) {
+                let pay_token = msg.token;
+                create_braintree_pay_ui(pay_token, pay_order_id);
+            });
+            break;
+        case "manual":
+            create_manual_pay_ui(pay_order_id);
+            break;
+    };
+}
 
 $(document).ready(function () {
     $.get("/api/v2/pay_order/", function (msg) {
@@ -184,18 +148,63 @@ $(document).ready(function () {
             css: { borderWidth: '0px', backgroundColor: 'transparent' }
         });
 
-        let pay_order_id = msg.data.id
         $("#order-type-select").val(msg.data.pay_type);
 
-        switch (msg.data.pay_type) {
-            case "braintree":
-                $.get("/api/v2/braintree_client_token/", function (msg) {
-                    let pay_token = msg.token;
-                    create_braintree_pay(pay_token, pay_order_id);
+        let pay_order_id = msg.data.id
+        create_pay_order_ui(msg.data.pay_type, pay_order_id);
 
-                    $.unblockUI();
-                });
-                break;
-        };
+        $.unblockUI();
     });
+
+    $("#order-create-button").click(function () {
+        $.blockUI({
+            message: "<img src='/static/loading.gif'/>",
+            css: { borderWidth: '0px', backgroundColor: 'transparent' }
+        });
+
+        let pay_type = $("#order-type-select").val();
+        let books_info = get_books_info();
+
+        $.ajax({
+            type: "POST",
+            url: '/api/v2/pay_order/',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({
+                'total_price': $("#cart_total_amount").text(),
+                'pay_type': pay_type,
+                'item_list': books_info,
+            }),
+            success: function (msg) {
+                let pay_order_id = msg.id
+                create_pay_order_ui(pay_type, pay_order_id);
+                clear_cart();
+                $.unblockUI();
+            },
+            error: function (error) {
+                console.warn(error);
+                $.unblockUI();
+            }
+        });
+    });
+
+    $(".shopminus").click(function () {
+        var book_id = $(this).val()
+        $.ajax({
+            type: "POST",
+            url: "/api/v2/cart/?action=cut",
+            data: {'book': book_id},
+            success: function (msg) {
+                $("#status-msg-r").html(
+                    "商品成功移出購物車"
+                );
+                $("#status-msg-r").slideDown();
+                $("#status-msg-r").delay(3000).slideUp("slow", "swing", function() {
+                    window.location.reload();
+                });
+            },
+            error: function (error) {
+                alert(error.responseJSON.detail.message);
+            }
+        });
+    })
 });
