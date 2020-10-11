@@ -16,8 +16,11 @@ urlpatterns = [
     path('braintree_client_token/', views.BraintreeClientToken.as_view(
         {'get': 'get_client_token'}), name='braintree_client_token'),
 
-    path('pay_order/', views.Payment.as_view(
-        {'get': 'get_pay_order_list', 'post': 'create_pay_order'}), name='pay_order'),
+    path('pay_order/', views.Payment.as_view({
+        'get': 'get_pay_order_list',
+        'post': 'create_pay_order',
+        'delete': 'cancel_pay_order',
+    }), name='pay_order'),
 
     path('pay/', views.Payment.as_view({'post': 'create_payment'}), name='pay'),
 

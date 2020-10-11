@@ -20,6 +20,7 @@ class PayOrderStateEnum:
     ARRIVED = 3
     RETURNED = 4
     REFUNDED = 5
+    CANCEL = 6
 
 
 class PayOrder(models.Model):
@@ -53,3 +54,7 @@ class PayOrder(models.Model):
             pay_strategy.create_shop_history()
         else:
             raise PayError(error_detail=pay_strategy.error)
+
+    @transition(field=state, source=PayOrderStateEnum.PENDING, target=PayOrderStateEnum.CANCEL)
+    def cancel(self, **kwargs):
+        pass
