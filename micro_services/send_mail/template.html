@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+    Dear, {{ .Username }},
+    <br/>
+    <br/>
+    Your transaction id: {{ .TransactionId }}
+    <br/>
+    <br/>
+    <table>
+        <thead>
+            <tr>
+                <td>編號</td>
+                <td>書名</td>
+                <td>數量</td>
+                <td>價格</td>
+            </tr>
+        </thead>
+        {{ range $i, $o :=  .OrderDetails }}
+        <tr>
+            <td>{{ $i }}</td>
+            <td>{{ $o.Book.Name }}</td>
+            <td>{{ $o.Quantity }}</td>
+            <td>{{ $o.Price }}</td>
+        </tr>
+        {{ end }}
+    </table>
+    Total amount: {{ .TransactionTotalPrice }} {{ .TransactionCurrency }}
+    <br/>
+    <br/>
+    Thank you for visiting!
+    <br/>
+    <br/>
+    Best Regards,
+    <br/>
+    eLibrary
+</body>
+</html>
