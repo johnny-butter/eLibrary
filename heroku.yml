@@ -5,7 +5,8 @@ setup:
 build:
   docker:
     web: Dockerfile
-    worker: Dockerfile
+    # worker: Dockerfile
+    worker: micro_services/Dockerfile
     # beat: Dockerfile
 release:
   command:
@@ -13,5 +14,6 @@ release:
   image: web
 run:
   web: gunicorn --timeout=30 --workers=4 --bind :$PORT eLibrary.wsgi:application
-  worker: celery -A eLibrary -B -l info worker
+  # worker: celery -A eLibrary -B -l info worker
+  worker: sh execute.sh
   # beat: celery -A eLibrary beat
