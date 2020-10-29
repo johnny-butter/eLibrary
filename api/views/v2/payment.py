@@ -1,3 +1,4 @@
+import json
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
@@ -5,7 +6,9 @@ from rest_framework.viewsets import ViewSet
 from api.models import PayOrder
 from api.models.pay_order import PayError
 from api.serializers import PayOrderSerializer, ShopHistorySerializer
-from api.tasks import sent_shopping_record_mail
+
+# from api.tasks import sent_shopping_record_mail
+from api.kafka_tasks import order_paid_notify
 
 from django_fsm import can_proceed
 
@@ -51,7 +54,10 @@ class Payment(ViewSet):
         shop_history = pay_order.shophistory_set.last()
         serializer = ShopHistorySerializer(shop_history)
 
-        sent_shopping_record_mail.delay(pay_order.id)
+        # sent_shopping_record_mail.delay(pay_order.id)
+        order_paid_notify(json.dumps({
+            'pay_order_id': pay_order.id
+        }))
 
         return Response(serializer.data)
 

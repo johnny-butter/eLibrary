@@ -53,6 +53,11 @@ env = environ.Env(
 
     ROLLBAR_ACCESS_TOKEN=(str, ''),
     ROLLBAR_ENV=(str, ''),
+
+    KAFKA_BROKER=(str, ''),
+    KAFKA_USERNAME=(str, ''),
+    KAFKA_PASSWORD=(str, ''),
+    KAFKA_PAID_TOPIC=(str, ''),
 )
 
 # reading .env file
@@ -274,6 +279,11 @@ EMAIL_USE_TLS = True
 CELERY_BROKER_URL = env('REDIS_URL')
 CELERY_RESULT_BACKEND = env('REDIS_URL')
 CELERY_RESULT_SERIALIZER = 'json'
+
+KAFKA_BROKER = env('KAFKA_BROKER')
+KAFKA_USERNAME = env('KAFKA_USERNAME')
+KAFKA_PASSWORD = env('KAFKA_PASSWORD')
+KAFKA_PAID_TOPIC = env('KAFKA_PAID_TOPIC')
 
 if not DEBUG:
     ROLLBAR = {
