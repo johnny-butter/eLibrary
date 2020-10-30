@@ -124,6 +124,7 @@ function create_manual_pay_ui(pay_order_id) {
 
     $(".modal-title").text("訂單已建立");
     $(".modal-body").html("訂單ID: " + pay_order_id + "，付款完成後，請通知客服人員");
+    $("#modal-close-btn").hide();
     $("#modal-trigger-btn").click();
 }
 
@@ -153,6 +154,8 @@ $(document).ready(function () {
         let pay_order_id = msg.data.id
         create_pay_order_ui(msg.data.pay_type, pay_order_id);
 
+        $("#order-create-button").attr('disabled', true);
+
         $.unblockUI();
     });
 
@@ -178,6 +181,9 @@ $(document).ready(function () {
                 let pay_order_id = msg.id
                 create_pay_order_ui(pay_type, pay_order_id);
                 clear_cart();
+
+                $("#order-create-button").attr('disabled', true);
+
                 $.unblockUI();
             },
             error: function (error) {
