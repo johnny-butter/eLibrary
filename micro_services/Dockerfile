@@ -14,7 +14,6 @@ RUN pip3 install -r requirements.txt --use-feature=2020-resolver
 WORKDIR /mail_app
 COPY --from=builder /app/send_mail_app .
 COPY --from=builder /app/template.html .
-COPY --from=builder /app/.env .
 
 COPY execute.sh .
 CMD ["sh", "execute.sh"]
