@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
@@ -16,7 +15,7 @@ import (
 )
 
 type KafkaMessage struct {
-	OrderId string `json:"pay_order_id"`
+	OrderId int `json:"pay_order_id"`
 }
 
 func main() {
@@ -73,12 +72,9 @@ func main() {
 
 				var msg KafkaMessage
 				json.Unmarshal(e.Value, &msg)
-				if oid, err := strconv.Atoi(msg.OrderId); err != nil {
-					fmt.Printf("Error: \"pay_order_id\" not in message")
-				} else {
-					// fmt.Println(db, oid)
-					sendMail(db, oid)
-				}
+
+				// fmt.Println(db, msg.OrderId)
+				sendMail(db, msg.OrderId)
 
 				counter++
 				if counter > commitAfter {
