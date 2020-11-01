@@ -24,6 +24,15 @@ class Book(models.Model):
     class Meta:
         db_table = 'book'
 
+    def add_stock(self, amount=1):
+        self.stock += amount
+
+    def cut_stock(self, amount=1):
+        self.stock -= amount
+
+        if self.stock < 0:
+            self.stock = 0
+
     @staticmethod
     def check_stock(func):
 
@@ -31,7 +40,7 @@ class Book(models.Model):
         def executor(view_set_instance, request, *args, **kwargs):
             if request.GET.get('action') == 'add':
                 book = Book.objects.get(id=request.POST['book'])
-                if book.stock < 1:
+                if book.stock < int(request.GET.get('amount', '1')):
                     raise StockNotEnough()
 
             return func(view_set_instance, request, *args, **kwargs)
