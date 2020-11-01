@@ -20,15 +20,17 @@ class ShopCarManager(mixins.ListModelMixin, GenericViewSet):
         cart = serializer.save()
 
         action = self.request.query_params.get('action', 'add')
+        amount = int(self.request.query_params.get('amount', '1'))
         if action == 'add':
-            cart.quantity += 1
-            cart.book.stock -= 1
+            cart.add_quantity(amount=amount)
+            cart.book.cut_stock(amount=amount)
         elif action == 'cut':
-            if cart.quantity > 0:
-                cart.quantity -= 1
-                cart.book.stock += 1
-            else:
+            if cart.quantity < amount:
+                cart.book.add_stock(amount=cart.quantity)
                 cart.quantity = 0
+            else:
+                cart.book.add_stock(amount=amount)
+                cart.cut_quantity(amount=amount)
 
         cart.save()
         cart.book.save()
