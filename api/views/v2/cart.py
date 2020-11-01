@@ -42,14 +42,9 @@ class ShopCarManager(mixins.ListModelMixin, GenericViewSet):
         return super(ShopCarManager, self).list(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        action = self.request.query_params.get('del', 'one')
-        if action == 'one':
-            instance = self.request.user.shopcar_set.filter(
-                book=request.data.get('book'))
-        elif action == 'all':
-            instance = self.request.user.shopcar_set.all()
+        cart_items = self.request.user.shopcar_set.all()
 
-        result = instance.delete()
+        result = cart_items.delete()
 
         resp = {
             'data': {'delete_count': result[0]}

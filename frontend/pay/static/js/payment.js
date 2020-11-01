@@ -12,7 +12,7 @@ $.ajaxSetup({
 function clear_cart() {
     $.ajax({
         type: "DELETE",
-        url: '/api/v2/cart/?del=all',
+        url: '/api/v2/cart/',
         success: function (msg) {
             console.log("Success");
             console.log(msg.data.delete_count);
