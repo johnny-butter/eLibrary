@@ -57,4 +57,8 @@ class PayOrder(models.Model):
 
     @transition(field=state, source=PayOrderStateEnum.PENDING, target=PayOrderStateEnum.CANCEL)
     def cancel(self, **kwargs):
-        pass
+        pay_order_detail = self.payorderdetail_set.all()
+
+        for obj in pay_order_detail:
+            obj.book.add_stock(amount=obj.quantity)
+            obj.book.save()
