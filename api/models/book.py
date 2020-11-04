@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.core.cache import cache
 from functools import wraps
 from shared.errors import StockNotEnough
 
@@ -24,6 +25,10 @@ class Book(models.Model):
     class Meta:
         db_table = 'book'
 
+    @property
+    def stock_calculate_key(self):
+        return f'book_{self.id}_stock_calculate'
+
     def add_stock(self, amount=1):
         self.stock += amount
 
@@ -34,16 +39,18 @@ class Book(models.Model):
             self.stock = 0
 
     @staticmethod
-    def check_stock(func):
+    def stock_opt(func):
 
         @wraps(func)
         def executor(view_set_instance, request, *args, **kwargs):
             if request.GET.get('action') == 'add':
                 book = Book.objects.get(id=request.POST['book'])
-                if book.stock < int(request.GET.get('amount', '1')):
-                    raise StockNotEnough()
 
-            return func(view_set_instance, request, *args, **kwargs)
+                with cache.lock(book.stock_calculate_key):
+                    if book.stock < int(request.GET.get('amount', '1')):
+                        raise StockNotEnough()
+
+                    return func(view_set_instance, request, *args, **kwargs)
 
         return executor
 

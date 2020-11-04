@@ -1,5 +1,9 @@
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APITransactionTestCase
+
+from django.test import override_settings
+
 from api import factory
+from multiprocessing.pool import ThreadPool as Pool
 
 
 class ApiTests(APITestCase):
@@ -73,3 +77,34 @@ class ApiTests(APITestCase):
         self.assertEqual(response.data['data'][0]['name'], 'test_book')
         self.assertEqual(response.data['data'][0]['type_name'], 'test')
         self.assertEqual(response.data['data'][0]['price_discount'], 50)
+
+
+@override_settings(CACHES={'default': {
+    'BACKEND': 'django_redis.cache.RedisCache',
+    'LOCATION': 'redis://172.30.137.182:6379/3'
+}})
+class BookStockTest(APITransactionTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super(BookStockTest, cls).setUpClass()
+        cls.user = factory.UserFactory.create()
+
+    def test_concurrent_add_cart(self):
+        CONCURRENT = 5
+        book = factory.BookFactory.create(stock=CONCURRENT)
+
+        def add_book_to_cart(book_id):
+            self.client.force_authenticate(user=self.user)
+            resp = self.client.post('/en/api/v2/cart/?action=add', data={'book': book_id})
+            return resp
+
+        pool = Pool(CONCURRENT)
+        for _ in range(CONCURRENT):
+            pool.apply_async(add_book_to_cart, args=(book.id,))
+
+        pool.close()
+        pool.join()
+        book.refresh_from_db()
+
+        self.assertEqual(book.stock, 0)

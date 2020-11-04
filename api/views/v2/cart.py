@@ -13,7 +13,7 @@ class ShopCarManager(mixins.ListModelMixin, GenericViewSet):
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
-    @Book.check_stock
+    @Book.stock_opt
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
