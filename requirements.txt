@@ -29,7 +29,7 @@ drf_extensions == 0.4.0
 
 factory_boy == 2.12.0
 
-requests2 == 2.16.0
+requests == 2.24.0
 
 django_extensions == 2.1.6
 
