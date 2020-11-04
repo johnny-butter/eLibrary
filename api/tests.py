@@ -16,7 +16,7 @@ class ApiTests(APITestCase):
             'email': 'test2@test.com',
         }
 
-        response = self.client.post('/api/v2/user/', data=user_data)
+        response = self.client.post('/en/api/v2/user/', data=user_data)
 
         self.assertEqual(response.status_code, 201, response.data)
         self.assertEqual(response.data.get(
@@ -30,14 +30,14 @@ class ApiTests(APITestCase):
             'is_superuser', None), response.data)
 
     def test_get_user_without_jwt(self):
-        response = self.client.get('/api/v2/user/')
+        response = self.client.get('/en/api/v2/user/')
 
         self.assertEqual(
             response.data['detail']['code'], 'not_authenticated', response.data)
 
     def test_get_user_with_jwt(self):
         self.client.force_authenticate(user=self.user)
-        response = self.client.get('/api/v2/user/')
+        response = self.client.get('/en/api/v2/user/')
 
         self.assertEqual(response.data.get('id', None), 1, response.data)
         self.assertEqual(response.data.get('username', None), 'test_user')
@@ -51,7 +51,7 @@ class ApiTests(APITestCase):
         }
 
         self.client.force_authenticate(user=self.user)
-        response = self.client.put('/api/v2/user/', data=data, format='json')
+        response = self.client.put('/en/api/v2/user/', data=data, format='json')
 
         self.assertEqual(response.status_code, 200, response.data)
         self.assertEqual(response.data.get(
@@ -66,7 +66,7 @@ class ApiTests(APITestCase):
 
     def test_get_book_list(self):
         self.client.force_authenticate(user=self.user)
-        response = self.client.get('/api/v2/get_all_book/')
+        response = self.client.get('/en/api/v2/get_all_book/')
 
         self.assertEqual(response.data['total_page'], 1, response.data)
         self.assertEqual(len(response.data['data']), 1)
