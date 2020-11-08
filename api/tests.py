@@ -81,7 +81,7 @@ class ApiTests(APITestCase):
 
 @override_settings(CACHES={'default': {
     'BACKEND': 'django_redis.cache.RedisCache',
-    'LOCATION': 'redis://172.30.137.182:6379/3'
+    'LOCATION': 'redis://127.0.0.1:6379/3'
 }})
 class BookStockTest(APITransactionTestCase):
 

@@ -36,12 +36,12 @@ env = environ.Env(
 
     REDIS_URL=(str, 'redis://127.0.0.1:6379'),
 
-    DB_ENGINE=(str, ''),
-    DB_NAME=(str, ''),
+    DB_ENGINE=(str, 'django.db.backends.mysql'),
+    DB_NAME=(str, 'elibrary'),
     DB_USER=(str, ''),
     DB_PASSWORD=(str, ''),
-    DB_HOST=(str, ''),
-    DB_PORT=(str, ''),
+    DB_HOST=(str, '127.0.0.1'),
+    DB_PORT=(str, '3306'),
 
     CACHE_BACKEND=(str, 'django_redis.cache.RedisCache'),
     CACHE_LOCATION=(str, 'redis://127.0.0.1:6379'),
