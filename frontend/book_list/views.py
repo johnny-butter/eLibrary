@@ -14,10 +14,6 @@ async def get_response(url, params=None, headers=None):
 
 
 def book_list(request):
-    q_string = {}
-    for k in request.GET:
-        q_string[k] = request.GET[k]
-
     headers = {}
     if request.COOKIES.get('token', ''):
         headers = {
@@ -29,7 +25,7 @@ def book_list(request):
     loop = asyncio.get_event_loop()
 
     tasks = (
-        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:get_all_book_cbv")}', params=q_string, headers=headers)),
+        asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:get_all_book_cbv")}', params=request.GET, headers=headers)),
         asyncio.ensure_future(get_response(f'{settings.API_END_POINT}{reverse("api_v2:book_top3")}', headers=headers)),
     )
 
