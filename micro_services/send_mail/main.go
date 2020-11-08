@@ -48,7 +48,7 @@ func main() {
 	}
 	fmt.Printf("Created Consumer %v\n", c)
 
-	kafkaTopic := "qgibvd2o-default"
+	kafkaTopic := os.Getenv("KAFKA_TOPIC")
 	err = c.Subscribe(kafkaTopic, nil)
 
 	sigchan := make(chan os.Signal, 1)
