@@ -6,22 +6,6 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_extensions.cache.decorators import cache_response
-
-
-def BookListRedisKeys(view_instance, view_method, request, args, kwargs):
-    total = Book.objects.all().count()
-
-    page = request.query_params.get(
-        'page') if request.query_params.get('page', None) else '1'
-
-    search = request.query_params.get(
-        'search') if request.query_params.get('search', None) else 'none'
-
-    order = request.query_params.get(
-        'order') if request.query_params.get('order', None) else 'none'
-
-    return 'books_{}_p{}_s{}_o{}'.format(total, page, search, order)
 
 
 class BookPaging(PageNumberPagination):
@@ -54,7 +38,6 @@ class GetAllBook(mixins.ListModelMixin, GenericViewSet):
 
         return context
 
-    # @cache_response(timeout=60 * 5, key_func=BookListRedisKeys)
     def list(self, request, *args, **kwargs):
         # print(GetAllBook.__mro__)
         self.queryset = Book.objects. \
