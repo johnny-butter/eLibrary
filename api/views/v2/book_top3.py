@@ -1,11 +1,12 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from datetime import datetime, timedelta
-from api.models import BookTop3
+from rest_framework_extensions.cache.decorators import cache_response
 
 
 class GetBookTop3(ViewSet):
 
+    @cache_response(timeout=60 * 60 * 1, key_func=BookTop3.top3_cache_key)
     def list(self, request, *args, **kwargs):
         current_time = (datetime.now() + timedelta(hours=-1)).strftime('%Y%m%d%H')
 
