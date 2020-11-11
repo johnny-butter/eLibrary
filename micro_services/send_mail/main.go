@@ -74,7 +74,11 @@ func main() {
 				json.Unmarshal(e.Value, &msg)
 
 				// fmt.Println(db, msg.OrderId)
-				sendMail(db, msg.OrderId)
+				if os.Getenv("TRUSTIFI_ENABLE") == "true" {
+					sendMailTrustifi(db, msg.OrderId)
+				} else {
+					sendMail(db, msg.OrderId)
+				}
 
 				counter++
 				if counter > commitAfter {
