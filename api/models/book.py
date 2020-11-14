@@ -18,6 +18,7 @@ class Book(models.Model):
     price_discount = models.IntegerField(blank=True, null=True)
     stock = models.IntegerField(default=0)
     update_at = models.DateTimeField(null=True)
+    is_vip_only = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
