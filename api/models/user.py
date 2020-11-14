@@ -18,3 +18,6 @@ class User(AbstractUser):
         letters = string.ascii_letters
 
         return ''.join([random.choice(letters) for i in range(8)])
+
+    def is_in_group(self, name):
+        return self.groups.filter(name=name).exists()
