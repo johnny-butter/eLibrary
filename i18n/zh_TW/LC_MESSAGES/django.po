@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-13 23:33+0800\n"
+"POT-Creation-Date: 2020-11-15 01:41+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,33 +160,37 @@ msgstr "手動轉帳/現場支付"
 msgid "Confirm"
 msgstr "確認"
 
-#: .\frontend\pay\template\payment.html:68
+#: .\frontend\pay\template\payment.html:69
 msgid "Pay"
 msgstr "付款"
 
-#: .\frontend\pay\template\payment.html:93
+#: .\frontend\pay\template\payment.html:95
 msgid "Successful Transaction"
 msgstr "交易成功"
 
-#: .\frontend\pay\template\payment.html:103
+#: .\frontend\pay\template\payment.html:105
 msgid "Ok"
 msgstr "確定"
 
-#: .\shared\errors\error_code.py:15
+#: .\shared\errors\error_code.py:23
 msgid "Stock not enough"
 msgstr "庫存不足"
 
-#: .\shared\errors\error_code.py:21
+#: .\shared\errors\error_code.py:29
 msgid "Pay fail"
 msgstr "付款失敗"
 
-#: .\shared\errors\error_code.py:27
+#: .\shared\errors\error_code.py:35
 msgid "Invalid token"
 msgstr "無效的憑證"
 
-#: .\shared\errors\error_code.py:33
+#: .\shared\errors\error_code.py:41
 msgid "Auth fail"
 msgstr "認證失敗"
+
+#: .\shared\errors\error_code.py:47
+msgid "The item is only for VIP"
+msgstr "此項目僅適用於VIP"
 
 #: .\shared\validations\channel_jwt_validate.py:25
 #: .\shared\validations\jwt_validate.py:93

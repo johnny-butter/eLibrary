@@ -13,7 +13,7 @@ class BookSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'type_name', 'author_name',
             'price_origin', 'price_discount', 'is_fav',
-            'stock',
+            'stock', 'is_vip_only',
         )
 
     def get_is_fav(self, obj):

@@ -8,6 +8,7 @@ __all__ = [
     'InvalidToken',
     'AuthenticationFailed',
     'StockNotEnough',
+    'VipOnly',
 ]
 
 
@@ -39,3 +40,9 @@ class AuthenticationFailed(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
     default_detail = _('Auth fail')
     default_code = 'auth_002'
+
+
+class VipOnly(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_detail = _('The item is only for VIP')
+    default_code = 'auth_003'

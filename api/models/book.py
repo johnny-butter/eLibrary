@@ -4,7 +4,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.core.cache import cache
 from functools import wraps
-from shared.errors import StockNotEnough
+from shared.errors import StockNotEnough, VipOnly
 
 
 class Book(models.Model):
@@ -18,6 +18,7 @@ class Book(models.Model):
     price_discount = models.IntegerField(blank=True, null=True)
     stock = models.IntegerField(default=0)
     update_at = models.DateTimeField(null=True)
+    is_vip_only = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -43,9 +44,12 @@ class Book(models.Model):
 
         @wraps(func)
         def executor(view_set_instance, request, *args, **kwargs):
-            if request.GET.get('action') == 'add':
-                book = Book.objects.get(id=request.POST['book'])
+            book = Book.objects.get(id=request.POST['book'])
 
+            if not book.is_can_buy(request.user):
+                raise VipOnly()
+
+            if request.GET.get('action') == 'add':
                 with cache.lock(book.stock_calculate_key):
                     if book.stock < int(request.GET.get('amount', '1')):
                         raise StockNotEnough()
@@ -53,6 +57,12 @@ class Book(models.Model):
                     return func(view_set_instance, request, *args, **kwargs)
 
         return executor
+
+    def is_can_buy(self, user):
+        if self.is_vip_only:
+            return user.is_in_group('vip')
+
+        return True
 
 
 @receiver(pre_save, sender=Book)
