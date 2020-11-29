@@ -12,10 +12,10 @@ filebeat.config.modules:
 filebeat.inputs:
     - type: log
       paths:
-        - log\app.log
+        - log/app.log
 
 output.elasticsearch:
-    hosts: ${ELASTICSEARCH_HOST}
+    hosts: ["\"${ELASTICSEARCH_HOST}\""]
     protocol: "https"
     username: ${ELASTICSEARCH_USER}
     password: ${ELASTICSEARCH_PWD}
