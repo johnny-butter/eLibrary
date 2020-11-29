@@ -1,0 +1,14 @@
+filebeat.config.modules:
+    # Glob pattern for configuration loading
+    path: ${path.config}/modules.d/*.yml
+
+filebeat.inputs:
+    - type: log
+      paths:
+        - log\app.log
+
+output.elasticsearch:
+    hosts: ${ELASTICSEARCH_HOST}
+    protocol: "https"
+    username: ${ELASTICSEARCH_USER}
+    password: ${ELASTICSEARCH_PWD}
