@@ -1,6 +1,6 @@
 FROM python:3.6
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 ENV FILEBEAT_VERSION=7.2.0
 
 RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-${FILEBEAT_VERSION}-linux-x86_64.tar.gz && \
@@ -15,6 +15,6 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install -r requirements.txt --use-feature=2020-resolver
+RUN pip --no-cache-dir install -r requirements.txt --use-feature=2020-resolver
 
 RUN python3 manage.py collectstatic --clear --no-input
