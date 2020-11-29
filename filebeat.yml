@@ -1,3 +1,5 @@
+# Reference: https://docs.bonsai.io/article/334-using-filebeat-with-bonsai
+# Reference: https://docs.bonsai.io/article/96-creating-your-first-index
 filebeat.config.modules:
     # Glob pattern for configuration loading
     path: ${path.config}/modules.d/*.yml
@@ -12,3 +14,4 @@ output.elasticsearch:
     protocol: "https"
     username: ${ELASTICSEARCH_USER}
     password: ${ELASTICSEARCH_PWD}
+    index: "filebeat-%{[agent.version]}-elibrary"
