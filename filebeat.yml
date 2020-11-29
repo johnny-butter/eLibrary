@@ -1,3 +1,8 @@
+# Reference: https://iminto.github.io/post/filebeat修改index的一个坑/
+setup.template.name: "filebeat"
+setup.template.pattern: "filebeat-*"
+setup.ilm.enabled: false
+
 # Reference: https://docs.bonsai.io/article/334-using-filebeat-with-bonsai
 # Reference: https://docs.bonsai.io/article/96-creating-your-first-index
 filebeat.config.modules:
