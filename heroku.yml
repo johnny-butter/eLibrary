@@ -9,11 +9,14 @@ build:
     worker: micro_services/Dockerfile
     # beat: Dockerfile
 release:
-  command:
-    - bash deploy.sh
   image: web
+  command:
+    - sh heroku-release.sh
 run:
-  web: gunicorn --timeout=30 --workers=4 --bind :$PORT eLibrary.wsgi:application
+  web:
+    command:
+      - filebeat --path.config=$(pwd) --path.logs=log &
+      - gunicorn --timeout=30 --workers=4 --bind :$PORT eLibrary.wsgi:application
   # worker: celery -A eLibrary -B -l info worker
   worker: sh execute.sh
   # beat: celery -A eLibrary beat
