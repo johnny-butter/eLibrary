@@ -13,10 +13,7 @@ release:
   command:
     - sh heroku-release.sh
 run:
-  web:
-    command:
-      - filebeat --path.config=$(pwd) --path.logs=log &
-      - gunicorn --timeout=30 --workers=4 --bind :$PORT eLibrary.wsgi:application
+  web: sh heroku-web.sh
   # worker: celery -A eLibrary -B -l info worker
   worker: sh execute.sh
   # beat: celery -A eLibrary beat
