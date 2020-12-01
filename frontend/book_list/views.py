@@ -46,7 +46,7 @@ def book_list(request):
         'current_page': books_resp['current_page'],
         'has_previous': books_resp['has_previous'],
         'has_next': books_resp['has_next'],
-        'book_top3': book_top3_resp,
+        'book_top3': book_top3_resp['books_names'],
     }
 
     return render(request, 'book_list.html', context=context)

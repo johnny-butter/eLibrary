@@ -19,6 +19,6 @@ class GetBookTop3(ViewSet):
         if not query_result:
             query_result = Book.objects.all().order_by('?').values_list('name', flat=True)[:5]
 
-        resp = [book_name for book_name in query_result]
+        resp = {'books_names': [book_name for book_name in query_result]}
 
         return Response(resp)
