@@ -1,8 +1,6 @@
+from rest_framework import status, mixins, permissions
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
-from rest_framework import mixins
-from rest_framework.permissions import IsAuthenticated
 
 from api.serializers import CartSerializer
 from api.models import Book
@@ -11,7 +9,7 @@ from api.models import Book
 class ShopCarManager(mixins.ListModelMixin, GenericViewSet):
 
     serializer_class = CartSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     @Book.stock_opt
     def create(self, request, *args, **kwargs):

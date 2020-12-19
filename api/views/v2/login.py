@@ -1,10 +1,12 @@
 import jwt
+
 from django.conf import settings
-from rest_framework import status
-from rest_framework import views
-from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
+
+from rest_framework import status, views
+from rest_framework.response import Response
+
 from shared.errors import AuthenticationFailed
 
 

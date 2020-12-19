@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.core.cache import cache
 from functools import wraps
@@ -65,6 +64,6 @@ class Book(models.Model):
         return True
 
 
-@receiver(pre_save, sender=Book)
+@receiver(models.signals.pre_save, sender=Book)
 def record_update_time(sender, instance, **kwargs):
     instance.update_at = timezone.now()
