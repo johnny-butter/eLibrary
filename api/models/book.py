@@ -43,17 +43,19 @@ class Book(models.Model):
 
         @wraps(func)
         def executor(view_set_instance, request, *args, **kwargs):
+            if request.GET.get('action') == 'cut':
+                return func(view_set_instance, request, *args, **kwargs)
+
             book = Book.objects.get(id=request.POST['book'])
 
             if not book.is_can_buy(request.user):
                 raise VipOnly()
 
-            if request.GET.get('action') == 'add':
-                with cache.lock(book.stock_calculate_key):
-                    if book.stock < int(request.GET.get('amount', '1')):
-                        raise StockNotEnough()
+            with cache.lock(book.stock_calculate_key):
+                if book.stock < int(request.GET.get('amount', '1')):
+                    raise StockNotEnough()
 
-                    return func(view_set_instance, request, *args, **kwargs)
+                return func(view_set_instance, request, *args, **kwargs)
 
         return executor
 
