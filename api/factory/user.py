@@ -2,6 +2,12 @@ import factory
 from api import models
 
 
+__all__ = [
+    'UserFactory',
+    'AdminUserFactory',
+]
+
+
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.User

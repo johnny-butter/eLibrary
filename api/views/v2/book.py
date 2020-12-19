@@ -1,11 +1,11 @@
 from api.models import Book
 from api.serializers import BookSerializer
-from rest_framework.filters import SearchFilter, OrderingFilter
+
 from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
 
 
 class BookPaging(PageNumberPagination):
@@ -24,7 +24,6 @@ class BookPaging(PageNumberPagination):
 class GetAllBook(mixins.ListModelMixin, GenericViewSet):
     serializer_class = BookSerializer
     pagination_class = BookPaging
-    # permission_classes = (IsAuthenticated,)
     filter_backends = (OrderingFilter, SearchFilter)
     search_fields = ('name', 'type__name')
     ordering = 'pk'

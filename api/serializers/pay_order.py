@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from api.models import PayOrder, PayOrderDetail
-from .pay_order_detail import PayOrderDetailSerializer
+from api.serializers import PayOrderDetailSerializer
 
 
 class PayOrderSerializer(serializers.ModelSerializer):

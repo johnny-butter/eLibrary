@@ -1,7 +1,6 @@
 import factory
 from api import models
-from api.factory import BookTypeFactory, AuthorFactory
-from api.factory.publish_company import PublishCompanyFactory
+from api.factory import BookTypeFactory, AuthorFactory, PublishCompanyFactory
 
 
 class BookFactory(factory.django.DjangoModelFactory):

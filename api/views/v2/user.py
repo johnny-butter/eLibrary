@@ -1,10 +1,9 @@
 from api.models import User
 from api.serializers import UserSerializer
-from rest_framework import status
-from rest_framework import mixins
+
+from rest_framework import status, mixins, permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from rest_framework import permissions
 
 
 class UserPermission(permissions.BasePermission):

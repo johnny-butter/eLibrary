@@ -1,8 +1,10 @@
-from rest_framework.viewsets import ViewSet
-from rest_framework.response import Response
 from datetime import datetime, timedelta
-from api.models import BookTop3, Book
+
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 from rest_framework_extensions.cache.decorators import cache_response
+
+from api.models import BookTop3, Book
 
 
 class GetBookTop3(ViewSet):

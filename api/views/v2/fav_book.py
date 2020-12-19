@@ -1,14 +1,13 @@
-from rest_framework import status
+from rest_framework import status, mixins, permissions
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
+
 from api.models import Book
 from api.serializers import BookFavSerializer, BookSerializer, BookFavGetSerializer
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
-from rest_framework.permissions import IsAuthenticated
 
 
 class FavBook(mixins.CreateModelMixin, GenericViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         if self.request.method == 'GET':

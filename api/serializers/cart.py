@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from api.models import ShopCar
 from rest_framework.validators import UniqueTogetherValidator
+from api.models import ShopCar
 
 
 class CartSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from api.models import User, OauthRecord
-from .oauth_record import OauthRecordSerializer
+from api.serializers import OauthRecordSerializer
 
 
 class UserSerializer(serializers.Serializer):
