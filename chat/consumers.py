@@ -3,7 +3,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
 
 
-class chatConsumer(JsonWebsocketConsumer):
+class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
         user = self.scope['user']
         self.group = self.scope['url_route']['kwargs'].get('group', None)
