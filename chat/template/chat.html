@@ -60,8 +60,9 @@
         var group = '{{ group }}';
 
         // create new websocket url with name params
+        var socketProtocol = location.protocol == 'http:' ? 'ws' : 'wss'
         var chatSocket = new WebSocket(
-            'ws://' + window.location.host + '/ws/chat/' + group + '/'
+            socketProtocol + '://' + window.location.host + '/ws/chat/' + group + '/'
         );
 
         // while get message append to chat box
