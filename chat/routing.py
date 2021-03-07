@@ -3,5 +3,5 @@ from chat import consumers
 
 
 websocket_urlpatterns = [
-    path('ws/chat/<str:group>/', consumers.chatConsumer),
+    path('ws/chat/<str:group>/', consumers.ChatConsumer),
 ]
