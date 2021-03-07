@@ -12,7 +12,7 @@ celery==4.3.0
 confluent-kafka==1.5.0
 
 # frontend
-aiohttp==3.5.4
+aiohttp==3.7.4
 requests==2.24.0
 
 # websocket
