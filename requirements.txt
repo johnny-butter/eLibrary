@@ -1,5 +1,5 @@
 Django==2.2
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 PyJWT==1.7.1
 django_fsm==2.6.1
 django_environ==0.4.5
