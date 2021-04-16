@@ -22,7 +22,7 @@ channels_redis==2.4.0
 
 # development
 factory_boy==2.12.0
-django_debug_toolbar==1.11
+django_debug_toolbar==1.11.1
 drf_extensions==0.4.0
 django_extensions==2.1.6
 django-werkzeug-debugger-runserver==0.3.1
