@@ -8,7 +8,7 @@ django-redis==4.10.0
 gunicorn==19.9.0
 whitenoise==5.0.1
 braintree==3.55.0
-celery==4.3.0
+celery==5.2.2
 confluent-kafka==1.5.0
 
 # frontend
