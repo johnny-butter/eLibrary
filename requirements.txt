@@ -1,6 +1,6 @@
 Django==2.2
 djangorestframework==3.9.0
-PyJWT==1.7.1
+PyJWT==2.4.0
 django_fsm==2.6.1
 django_environ==0.4.5
 mysqlclient==1.4.2
